@@ -1,0 +1,232 @@
+{
+  "projects": [
+    {
+      "id": "p1",
+      "name": "Rediseno app conductor",
+      "owner": "Manuel",
+      "priority": "alta",
+      "notes": "",
+      "milestones": [
+        {
+          "id": "m1",
+          "phase": "Intake",
+          "date": "2026-07-01",
+          "completed": true,
+          "completedAt": "2026-07-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m2",
+          "phase": "Definicion y planeacion",
+          "date": "2026-07-15",
+          "completed": true,
+          "completedAt": "2026-07-15",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m3",
+          "phase": "Ejecucion",
+          "date": "2026-07-29",
+          "completed": true,
+          "completedAt": "2026-07-29",
+          "subtasks": [],
+          "comment": "Se completo con unos dias de retraso"
+        },
+        {
+          "id": "m4",
+          "phase": "Seguimiento",
+          "date": "2026-08-12",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m5",
+          "phase": "Cierre",
+          "date": "2026-08-26",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        }
+      ],
+      "subprojects": [
+        {
+          "id": "sp1",
+          "name": "App iOS",
+          "dueDate": "2026-07-01",
+          "completed": true,
+          "subtasks": []
+        },
+        {
+          "id": "sp2",
+          "name": "App Android",
+          "dueDate": "2026-07-25",
+          "completed": false,
+          "subtasks": []
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "name": "Campana de verano",
+      "owner": "Marketing",
+      "priority": "baja",
+      "notes": "",
+      "milestones": [
+        {
+          "id": "m6",
+          "phase": "Intake",
+          "date": "2026-07-15",
+          "completed": true,
+          "completedAt": "2026-07-15",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m7",
+          "phase": "Definicion y planeacion",
+          "date": "2026-07-29",
+          "completed": true,
+          "completedAt": "2026-07-29",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m8",
+          "phase": "Ejecucion",
+          "date": "2026-08-12",
+          "completed": true,
+          "completedAt": "2026-08-12",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m9",
+          "phase": "Seguimiento",
+          "date": "2026-08-26",
+          "completed": true,
+          "completedAt": "2026-08-26",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m10",
+          "phase": "Cierre",
+          "date": "2026-09-09",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p3",
+      "name": "Migracion CRM",
+      "owner": "Operaciones",
+      "priority": "alta",
+      "notes": "",
+      "milestones": [
+        {
+          "id": "m11",
+          "phase": "Intake",
+          "date": "2026-08-01",
+          "completed": true,
+          "completedAt": "2026-08-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m12",
+          "phase": "Definicion y planeacion",
+          "date": "2026-08-15",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m13",
+          "phase": "Ejecucion",
+          "date": "2026-08-29",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m14",
+          "phase": "Seguimiento",
+          "date": "2026-09-12",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m15",
+          "phase": "Cierre",
+          "date": "2026-09-26",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        }
+      ],
+      "subprojects": [
+        {
+          "id": "sp3",
+          "name": "Modulo de contactos",
+          "dueDate": "2026-07-05",
+          "completed": false,
+          "subtasks": []
+        },
+        {
+          "id": "sp4",
+          "name": "Modulo de facturacion",
+          "dueDate": "2026-09-15",
+          "completed": false,
+          "subtasks": []
+        },
+        {
+          "id": "sp5",
+          "name": "Modulo de reportes",
+          "dueDate": "2026-07-10",
+          "completed": true,
+          "subtasks": []
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "fromProjectId": "p3",
+      "fromMilestoneId": "m13",
+      "toProjectId": "p1",
+      "toMilestoneId": "m5"
+    }
+  ],
+  "goals": [
+    {
+      "id": "g1",
+      "name": "95% viajes completados",
+      "date": "2026-09-30",
+      "completed": false,
+      "completedAt": null,
+      "note": "Meta operativa trimestral, independiente de los proyectos activos."
+    },
+    {
+      "id": "g2",
+      "name": "Cierre de campana con 500 leads",
+      "date": "2026-08-20",
+      "completed": false,
+      "completedAt": null,
+      "note": ""
+    }
+  ]
+}

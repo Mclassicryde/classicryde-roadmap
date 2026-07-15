@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap de Proyectos</title>
+<style>
+  :root {
+    color-scheme: light;
+    --navy: #16213E;
+    --ink: #10172A;
+    --verde: #16C784;
+    --amarillo: #FFB020;
+    --rojo: #FF4D5E;
+    --naranja: #F97316;
+    --azul: #2563EB;
+    --gray: #6B7280;
+    --border: #E7E9F0;
+    --bg: #F4F6FB;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Calibri, Arial, sans-serif;
+    background: #fff;
+    color: var(--ink);
+  }
+  .app { padding: 22px clamp(10px, 3vw, 26px) 60px; max-width: 100%; }
+  h1 { font-size: clamp(18px, 3vw, 23px); color: var(--navy); margin: 0 0 4px; font-weight: 800; letter-spacing: -.01em; }
+  .subtitle { color: var(--gray); font-size: 13px; margin: 0 0 18px; }
+
+  .summary-bar {
+    display: flex; align-items: center; gap: clamp(10px, 2vw, 20px);
+    background: linear-gradient(135deg, var(--navy), #24345c);
+    border-radius: 14px; padding: 16px 22px; margin-bottom: 20px; flex-wrap: wrap;
+    box-shadow: 0 8px 24px rgba(22,33,62,0.25);
+  }
+  .summary-bar .metric { display: flex; flex-direction: column; }
+  .summary-bar .metric .num { font-size: 25px; font-weight: 800; color: #fff; }
+  .summary-bar .metric .lbl { font-size: 11px; color: #B9C2DC; text-transform: uppercase; letter-spacing: .05em; }
+  .progress-track {
+    flex: 1; min-width: 160px; height: 12px; background: rgba(255,255,255,0.16); border-radius: 7px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--verde), #58e0ac); border-radius: 7px; transition: width .3s; }
+
+  .kpi-detail { display: none; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 4px 4px; margin: -10px 0 20px; overflow-x: auto; }
+  .kpi-detail.show { display: block; }
+  .kpi-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 560px; }
+  .kpi-table th { text-align: left; padding: 9px 12px; color: var(--gray); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; border-bottom: 2px solid var(--border); }
+  .kpi-table th.sortable { cursor: pointer; user-select: none; }
+  .kpi-table th.sortable:hover { color: var(--navy); }
+  .kpi-table th .sort-ind { font-size: 9px; }
+  .filter-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; padding: 10px 12px 4px; font-size: 12px; color: var(--gray); }
+  .filter-row label { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+  .filter-row select { font-size: 12.5px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 7px; font-family: inherit; }
+  .kpi-table td { padding: 8px 12px; border-bottom: 1px solid #f2f2f2; }
+  .kpi-table tr:last-child td { border-bottom: none; }
+  .kpi-table tr.kpi-row { cursor: pointer; }
+  .kpi-table tr.kpi-row:hover { background: var(--bg); }
+  .kpi-table .kpi-pill { display: inline-block; font-size: 10.5px; font-weight: 800; color: #fff; padding: 2px 9px; border-radius: 14px; }
+  .kpi-table .kpi-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .kpi-table .kpi-bar-track { flex: 1; height: 7px; background: #eee; border-radius: 4px; overflow: hidden; min-width: 60px; }
+  .kpi-table .kpi-bar-fill { height: 100%; background: var(--verde); }
+  .kpi-table .kpi-atraso { color: var(--naranja); font-weight: 700; }
+  .kpi-table .kpi-ok { color: var(--gray); }
+
+  .toolbar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
+  .toolbar .edit-only-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  .toolbar-sep { width: 1px; align-self: stretch; background: var(--border); margin: 0 2px; }
+  body.view-only .edit-only { display: none !important; }
+  .view-only-banner { display: none; background: #EEF2FF; border: 1.5px solid #C7D2FE; color: #3730A3; border-radius: 10px; padding: 8px 14px; margin-bottom: 14px; font-size: 12.5px; font-weight: 600; }
+  body.view-only .view-only-banner { display: block; }
+  button {
+    font-family: inherit; font-size: 13px; cursor: pointer; border-radius: 9px; border: none;
+    background: var(--navy); color: #fff; padding: 9px 16px; font-weight: 700;
+  }
+  button.secondary { background: #fff; color: var(--navy); border: 2px solid var(--navy); }
+  button.link { background: none; border: none; color: var(--navy); padding: 4px 6px; font-weight: 700; text-decoration: underline; }
+  button.danger { background: #fff; color: var(--rojo); border: 2px solid var(--rojo); }
+  button.small { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
+  button:hover { filter: brightness(1.08); }
+
+  .legend-toggle-row { margin-bottom: 12px; }
+  .upcoming-toggle-row { margin-bottom: 12px; }
+  .upcoming-panel { display: none; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 6px 4px; margin-bottom: 14px; }
+  .upcoming-panel.show { display: block; }
+  .upcoming-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-bottom: 1px solid #f2f2f2; cursor: pointer; font-size: 12.5px; }
+  .upcoming-row:last-child { border-bottom: none; }
+  .upcoming-row:hover { background: var(--bg); }
+  .upcoming-row .up-date { font-weight: 800; color: var(--navy); min-width: 78px; }
+  .upcoming-row .up-proj { font-weight: 700; flex: 1; }
+  .upcoming-row .up-phase { color: var(--gray); }
+  .upcoming-row .up-tag { font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 14px; color: #fff; }
+  .legend {
+    display: none; font-size: 12px; color: var(--gray); background: #fff; border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 14px;
+  }
+  .legend.show { display: block; }
+  .legend-group { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; padding: 6px 0; }
+  .legend-group + .legend-group { border-top: 1px solid #f2f2f2; }
+  .legend-group-title { font-size: 10.5px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: .04em; min-width: 108px; }
+  .legend span.item { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .diamond { width: 10px; height: 10px; display: inline-block; transform: rotate(45deg); background: var(--navy); }
+  .flag { font-size: 13px; display: inline-block; line-height: 1; }
+  .legend-note { padding-top: 8px; border-top: 1px solid #f2f2f2; margin-top: 2px; font-size: 12px; }
+
+  .roadmap-toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .roadmap-toolbar .zoom-group { display: flex; align-items: center; gap: 4px; background: #fff; border: 2px solid var(--border); border-radius: 9px; padding: 3px; }
+  .roadmap-toolbar .zoom-group button { padding: 5px 12px; }
+  #zoom-label { font-size: 12px; font-weight: 800; color: var(--navy); min-width: 42px; text-align: center; }
+  #project-search { font-size: 13px; padding: 8px 10px; border: 2px solid var(--border); border-radius: 9px; font-family: inherit; min-width: 180px; }
+  .roadmap-viewport {
+    position: relative; overflow: hidden; border-radius: 16px; background: var(--bg);
+    height: 72vh; min-height: 460px; max-height: 760px; cursor: grab; touch-action: none;
+  }
+  .roadmap-viewport.dragging { cursor: grabbing; }
+  .diagram-pan { position: absolute; left: 0; top: 0; }
+  .diagram-scale { transform-origin: 0 0; }
+  .diagram { position: relative; }
+
+  .month-band {
+    position: absolute; top: 0; bottom: 0; border-left: 2px dashed #DCE1F0;
+  }
+  .month-lbl {
+    position: absolute; font-size: 12px; font-weight: 800; color: #9AA4C0; letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .spine { position: absolute; height: 32px; border-radius: 16px; background: linear-gradient(90deg,#c9d0e6,#aab4d6); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
+
+  @keyframes pop-in {
+    from { opacity: 0; transform: translate(-50%,-50%) scale(.55); }
+    to { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  }
+
+  .deadline-node {
+    position: absolute; width: 22px; height: 22px; transform: translate(-50%,-50%) rotate(45deg);
+    border-radius: 5px; box-shadow: 0 5px 12px rgba(0,0,0,0.35); cursor: pointer; border: 3px solid #fff; z-index: 3;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .deadline-node:hover { box-shadow: 0 0 0 6px rgba(0,0,0,0.14); transform: translate(-50%,-50%) rotate(45deg) scale(1.15); }
+  .deadline-tag {
+    position: absolute; font-size: 10.5px; font-weight: 700; color: #fff; padding: 2px 8px; border-radius: 6px;
+    transform: translate(-50%, 0); white-space: nowrap; z-index: 3; box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  }
+  .milestone-node {
+    position: absolute; width: 15px; height: 15px; border-radius: 50%; transform: translate(-50%,-50%);
+    cursor: pointer; border: 2.5px solid #fff; box-shadow: 0 3px 7px rgba(0,0,0,0.32); z-index: 3;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .milestone-node:hover { box-shadow: 0 0 0 6px rgba(0,0,0,0.14); transform: translate(-50%,-50%) scale(1.3); }
+  .milestone-badge {
+    position: absolute; width: 14px; height: 14px; border-radius: 50%; background: var(--navy); color: #fff;
+    font-size: 8.5px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+    transform: translate(-50%,-50%); pointer-events: none; z-index: 4;
+  }
+
+  /* Company-wide goals: independent of any single project, sit right on the spine */
+  .goal-node {
+    position: absolute; width: 30px; height: 30px; transform: translate(-50%,-50%);
+    background: #7C3AED; border: 3px solid #fff; border-radius: 50%; cursor: pointer;
+    box-shadow: 0 6px 16px rgba(124,58,237,0.5); z-index: 5; transition: transform .15s ease;
+    display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px;
+    animation: pop-in .4s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .goal-node:hover { transform: translate(-50%,-50%) scale(1.15); }
+  .goal-node.done { background: var(--azul); box-shadow: 0 4px 10px rgba(37,99,235,0.4); }
+  .goal-node.overdue { background: var(--naranja); box-shadow: 0 4px 10px rgba(249,115,22,0.4); }
+  .goal-tag {
+    position: absolute; font-size: 11px; font-weight: 800; color: #fff; background: #7C3AED;
+    padding: 4px 10px; border-radius: 7px; transform: translate(-50%,0); white-space: nowrap; z-index: 5;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+  }
+  .goal-tag.done { background: var(--azul); }
+  .goal-tag.overdue { background: var(--naranja); }
+  .goal-stem { position: absolute; width: 2px; background: #7C3AED; z-index: 4; }
+
+  .bubble {
+    position: absolute; transform: translate(-50%,-50%); width: 200px; border-radius: 20px;
+    padding: 15px 17px; cursor: pointer; color: #fff; box-shadow: 0 14px 34px rgba(0,0,0,0.32);
+    transition: transform .15s ease, box-shadow .15s ease; animation: pop-in .4s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .bubble:hover { transform: translate(-50%,-50%) scale(1.06); box-shadow: 0 18px 40px rgba(0,0,0,0.4); }
+  .bubble .bname { font-size: 15px; font-weight: 800; line-height: 1.2; text-align: center; }
+  .bubble .bmeta { font-size: 11px; opacity: .92; margin-top: 3px; font-weight: 600; text-align: center; }
+  .bubble .bphases { display: flex; gap: 4px; margin-top: 9px; justify-content: center; }
+  .bubble .bphases i { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.28); display: block; }
+  .bubble .bphases i.done { background: #fff; }
+  .bubble .btasks {
+    position: absolute; top: -10px; right: -10px; background: #fff; color: var(--navy); font-size: 10.5px;
+    font-weight: 800; border-radius: 20px; padding: 3px 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  .bubble .bbadges { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+  .bubble .bpriority, .bubble .bstatus {
+    display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: .03em;
+    padding: 2px 8px; border-radius: 20px; color: #fff; text-transform: uppercase;
+  }
+  .bubble .bstatus { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  @keyframes pulse-overdue {
+    0% { box-shadow: 0 0 0 0 rgba(249,115,22,0.55); }
+    70% { box-shadow: 0 0 0 9px rgba(249,115,22,0); }
+    100% { box-shadow: 0 0 0 0 rgba(249,115,22,0); }
+  }
+  .bubble .boverdue {
+    position: absolute; top: -10px; left: -10px; background: var(--naranja); color: #fff; font-size: 10.5px;
+    font-weight: 800; border-radius: 20px; padding: 3px 9px; animation: pulse-overdue 1.8s infinite;
+  }
+
+  .today-marker { position: absolute; top: 0; width: 2px; z-index: 2;
+    background: repeating-linear-gradient(180deg, #16213E, #16213E 6px, transparent 6px, transparent 11px); }
+  .today-lbl { position: absolute; font-size: 10.5px; font-weight: 800; color: var(--navy); background: #fff;
+    padding: 2px 7px; border-radius: 5px; border: 1.5px solid var(--navy); transform: translate(-50%,0); white-space: nowrap; }
+
+  .overdue-banner {
+    display: none; background: #FFF7ED; border: 1.5px solid #FDBA74; color: #9A3412; border-radius: 10px;
+    padding: 10px 16px; margin-bottom: 14px; font-size: 13px; line-height: 1.5;
+  }
+  .overdue-banner.show { display: block; }
+  .overdue-banner .ov-link { cursor: pointer; text-decoration: underline; font-weight: 700; }
+
+  .empty-note { padding: 30px; text-align: center; color: var(--gray); font-size: 13px; }
+
+  /* Modal */
+  .overlay {
+    display: none; position: fixed; inset: 0; background: rgba(16,23,42,0.55); z-index: 50;
+    align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 16px; width: 100%; max-width: 580px; padding: 22px 24px 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal h2 { font-size: 17px; color: var(--navy); margin: 0 0 14px; font-weight: 800; }
+  .modal .close-x { float: right; background: none; border: none; color: var(--gray); font-size: 18px; font-weight: 400; padding: 0 4px; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; color: #444; margin-bottom: 4px; }
+  .field input[type=text], .field input[type=date], .field select, .field textarea {
+    width: 100%; padding: 8px 10px; border: 2px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit;
+  }
+  .field textarea { resize: vertical; min-height: 44px; }
+  .row2 { display: flex; gap: 10px; }
+  .row2 > div { flex: 1; }
+  .phase-block { padding: 9px 0; border-bottom: 1px solid #f0f0f0; }
+  .phase-item { display: flex; align-items: center; gap: 8px; }
+  .phase-item input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; }
+  .phase-item .pinfo { flex: 1; }
+  .phase-item .pinfo input.ms-name { font-size: 13px; font-weight: 700; border: 1px solid transparent; background: transparent; padding: 3px 4px; border-radius: 5px; width: 100%; font-family: inherit; }
+  .phase-item .pinfo input.ms-name:hover, .phase-item .pinfo input.ms-name:focus { border-color: var(--border); background: #fff; outline: none; }
+  .phase-item input[type=date] { width: 132px; }
+  .phase-item .ms-remove { background: none; border: none; color: #c62828; font-size: 15px; padding: 2px 5px; cursor: pointer; font-weight: 700; }
+  .add-milestone-row { margin-top: 10px; }
+  .subproj-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
+  .subproj-row input[type=text] { flex: 1; font-size: 13px; font-weight: 600; border: 1px solid transparent; background: transparent; padding: 5px 6px; border-radius: 5px; font-family: inherit; }
+  .subproj-row input[type=text]:hover, .subproj-row input[type=text]:focus { border-color: var(--border); background: #fff; outline: none; }
+  .subproj-row select { font-size: 12px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; }
+  .subproj-row input[type=date] { font-size: 12px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; width: 138px; flex: none; }
+  .subproj-row .dot { flex-shrink: 0; }
+  .subproj-row label.chk { display: flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--gray); white-space: nowrap; }
+
+  /* sub-projects: round bubbles (name + status inside, like a mini version of the parent
+     bubble) connected back to it by a line */
+  .subproj-circle {
+    position: absolute; width: 104px; height: 104px; cursor: pointer;
+    transform: translate(-50%,-50%); z-index: 6; transition: transform .15s ease;
+    animation: pop-in .4s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .subproj-circle:hover { transform: translate(-50%,-50%) scale(1.09); }
+  .subproj-face {
+    width: 100%; height: 100%; border-radius: 50%; border: 3px solid #fff;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.38); display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 8px; color: #fff; overflow: hidden;
+  }
+  .subproj-circle .spn-name { font-size: 12px; font-weight: 800; line-height: 1.2; text-align: center; }
+  .subproj-circle .sp-tasks {
+    position: absolute; top: -8px; right: -8px; background: #fff; color: var(--navy); font-size: 9.5px;
+    font-weight: 800; border-radius: 20px; padding: 2px 7px; box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  .subtask-wrap { margin: 6px 0 0 28px; }
+  .subtask-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 12px; }
+  .subtask-row input[type=checkbox] { width: 14px; height: 14px; }
+  .subtask-row .stxt { flex: 1; }
+  .subtask-row .stxt.done { text-decoration: line-through; color: #999; }
+  .subtask-add { display: flex; gap: 6px; margin-top: 5px; }
+  .subtask-add input { flex: 1; font-size: 12px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 6px; font-family: inherit; }
+
+  .dep-list { font-size: 12px; margin: 6px 0 10px; }
+  .dep-list .dep-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px dashed #eee; }
+  .modal-actions { display: flex; justify-content: space-between; margin-top: 18px; }
+  small.hint { color: var(--gray); font-size: 11px; display:block; margin-top:2px; }
+
+  /* Read-only info modal */
+  .info-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .info-pill { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; color: #fff; }
+  .info-meta { color: var(--gray); font-size: 12.5px; margin-bottom: 14px; }
+  .info-phase-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f2f2f2; }
+  .info-phase-row .ic { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; font-weight: 800; }
+  .info-phase-row .ic.pending { background: #E7E9F0; color: #9AA4C0; }
+  .info-phase-row .txt { flex: 1; font-size: 13px; font-weight: 600; }
+  .info-phase-row .dt { font-size: 11.5px; color: var(--gray); }
+  .info-sub-list { margin: 2px 0 0 30px; }
+  .info-sub-row { font-size: 12px; color: #555; padding: 2px 0; }
+  .info-sub-row.done { text-decoration: line-through; color: #aaa; }
+  .info-empty { color: #999; font-size: 12px; }
+
+  /* Impresion / Guardar como PDF: se despliega el diagrama completo, sin recorte de zoom,
+     y se esconde todo lo que no aporta a un reporte impreso (botones, modales, controles). */
+  @media print {
+    .toolbar, .roadmap-toolbar, .legend-toggle-row, .legend, .view-only-banner,
+    #btn-toggle-kpi-detail, .overlay, .upcoming-toggle-row { display: none !important; }
+    .kpi-detail { display: block !important; overflow: visible !important; }
+    .roadmap-viewport { height: auto !important; max-height: none !important; overflow: visible !important; border: none; }
+    .diagram-pan { position: static !important; transform: none !important; }
+    .diagram-scale { transform: none !important; }
+    body { background: #fff; }
+    .app { padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Roadmap de Proyectos</h1>
+  <p class="subtitle">Cada proyecto es una burbuja conectada a su fecha de entrega en la linea de tiempo, con flechas que muestran de que depende cada uno.</p>
+
+  <div class="summary-bar">
+    <div class="metric"><span class="num" id="sum-pct">0%</span><span class="lbl">Avance empresa</span></div>
+    <div class="metric"><span class="num" id="sum-done">0/0</span><span class="lbl">Hitos completados</span></div>
+    <div class="metric"><span class="num" id="sum-projects">0</span><span class="lbl">Proyectos activos</span></div>
+    <div class="metric"><span class="num" id="sum-ontime">—</span><span class="lbl">Entregas a tiempo</span></div>
+    <div class="metric"><span class="num" id="sum-goals">0/0</span><span class="lbl">Metas de empresa</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <button class="secondary small" id="btn-toggle-kpi-detail" style="background:transparent;border-color:rgba(255,255,255,0.5);color:#fff;">Ver detalle por proyecto ▾</button>
+  </div>
+
+  <div class="kpi-detail" id="kpi-detail">
+    <div class="filter-row">
+      <label>Owner <select id="filter-owner"><option value="">Todos</option></select></label>
+      <label>Estatus <select id="filter-status">
+        <option value="">Todos</option>
+        <option value="verde">Verde</option>
+        <option value="amarillo">Amarillo</option>
+        <option value="rojo">Rojo</option>
+      </select></label>
+      <label>Prioridad <select id="filter-priority">
+        <option value="">Todas</option>
+        <option value="alta">Alta</option>
+        <option value="media">Media</option>
+        <option value="baja">Baja</option>
+      </select></label>
+      <button class="secondary small" id="btn-clear-filters">Limpiar filtros</button>
+    </div>
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th class="sortable" data-col="name">Proyecto <span class="sort-ind"></span></th>
+          <th class="sortable" data-col="status">Estatus <span class="sort-ind"></span></th>
+          <th class="sortable" data-col="priority">Prioridad <span class="sort-ind"></span></th>
+          <th class="sortable" data-col="pct">Avance <span class="sort-ind"></span></th>
+          <th class="sortable" data-col="deadline">Entrega <span class="sort-ind"></span></th>
+          <th class="sortable" data-col="overdue">Atrasos <span class="sort-ind"></span></th>
+        </tr>
+      </thead>
+      <tbody id="kpi-detail-body"></tbody>
+    </table>
+  </div>
+
+  <div class="toolbar">
+    <span class="edit-only-group">
+      <button id="btn-new-project" class="edit-only">+ Nuevo proyecto</button>
+      <button id="btn-new-goal" class="edit-only" style="background:#7C3AED;">+ Agregar milestone de empresa</button>
+    </span>
+    <span class="toolbar-sep"></span>
+    <button class="secondary small" id="btn-export-csv">Exportar CSV</button>
+    <button class="secondary small" id="btn-print">Imprimir / PDF</button>
+    <button class="secondary small edit-only" id="btn-export-backup">Descargar respaldo (.json)</button>
+    <button class="secondary small edit-only" id="btn-import-backup">Importar respaldo</button>
+    <input type="file" id="import-backup-input" accept=".json" style="display:none;">
+    <button class="secondary small" id="btn-view-only">Modo solo lectura</button>
+  </div>
+
+  <div class="view-only-banner">👁 Modo solo lectura activo — los botones de edicion estan ocultos. Pulsa "Salir de modo lectura" para volver a editar.</div>
+
+  <div class="overdue-banner" id="overdue-banner"></div>
+
+  <div class="legend-toggle-row" style="display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="secondary small" id="btn-toggle-legend">Ver leyenda de colores ▾</button>
+  </div>
+  <div class="upcoming-toggle-row">
+    <button class="secondary small" id="btn-toggle-upcoming">Ver proximos pasos ▾</button>
+  </div>
+
+  <div class="upcoming-panel" id="upcoming-panel">
+    <div id="upcoming-list"></div>
+  </div>
+
+  <div class="legend" id="legend-box">
+    <div class="legend-group">
+      <span class="legend-group-title">Estatus del proyecto</span>
+      <span class="item"><span class="dot" style="background:var(--verde)"></span> Verde: en tiempo</span>
+      <span class="item"><span class="dot" style="background:var(--amarillo)"></span> Amarillo: hito por vencer en 14 dias</span>
+      <span class="item"><span class="dot" style="background:var(--rojo)"></span> Rojo: tiene un hito vencido</span>
+    </div>
+    <div class="legend-group">
+      <span class="legend-group-title">Marcadores</span>
+      <span class="item"><span class="dot" style="background:var(--naranja)"></span> Naranja: este hito o meta puntual esta atrasado</span>
+      <span class="item"><span class="dot" style="background:var(--azul)"></span> Azul: este hito o meta se cumplio a tiempo</span>
+    </div>
+    <div style="font-size:11px;color:var(--gray);padding:4px 0 2px;">Todo el estatus se calcula solo, segun las fechas. Nadie lo elige a mano.</div>
+    <div class="legend-group">
+      <span class="legend-group-title">Prioridad</span>
+      <span class="item"><span class="flag" style="color:#1F2937">⚑</span> Alta</span>
+      <span class="item"><span class="flag" style="color:#64748B">⚑</span> Media</span>
+      <span class="item"><span class="flag" style="color:#CBD5E1">⚑</span> Baja</span>
+    </div>
+    <div class="legend-note">
+      <div class="item" style="display:flex;margin-bottom:5px;"><span class="diamond"></span>&nbsp;Diamante = fecha de entrega del proyecto en la linea de tiempo</div>
+      <div style="margin-bottom:5px;">Linea punteada vertical = fecha de hoy</div>
+      <div style="margin-bottom:5px;">Flecha = este proyecto depende de otro</div>
+      <div>Clic en cualquier burbuja, hito o meta = ver su detalle (no lo edita)</div>
+    </div>
+  </div>
+
+  <div class="roadmap-toolbar">
+    <div class="zoom-group">
+      <button class="secondary small" id="btn-zoom-out" title="Alejar">−</button>
+      <span id="zoom-label">100%</span>
+      <button class="secondary small" id="btn-zoom-in" title="Acercar">+</button>
+    </div>
+    <button class="secondary small" id="btn-zoom-fit">Ver todo</button>
+    <button class="secondary small" id="btn-goto-today">Ir a hoy</button>
+    <input type="text" id="project-search" placeholder="Buscar proyecto y Enter...">
+  </div>
+
+  <div class="roadmap-viewport" id="roadmap-viewport">
+    <div class="diagram-pan" id="diagram-pan">
+      <div class="diagram-scale" id="diagram-scale">
+        <div id="diagram" class="diagram"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: company-wide goal info (read-only) -->
+<div class="overlay" id="overlay-goal-info">
+  <div class="modal">
+    <button class="close-x" data-close="overlay-goal-info">✕</button>
+    <div class="info-header">
+      <h2 id="goal-info-title" style="margin:0;">Meta</h2>
+      <span class="info-pill" id="goal-info-pill" style="background:#7C3AED;">Pendiente</span>
+    </div>
+    <div class="info-meta" id="goal-info-meta"></div>
+    <div id="goal-info-note" style="font-size:13px;color:#444;line-height:1.5;"></div>
+    <div class="modal-actions">
+      <span></span>
+      <button id="btn-edit-goal" class="edit-only" style="background:#7C3AED;">Editar meta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: company-wide goal (independent of any project) -->
+<div class="overlay" id="overlay-goal">
+  <div class="modal">
+    <button class="close-x" data-close="overlay-goal">✕</button>
+    <h2 id="goal-modal-title">Milestone de empresa</h2>
+    <div class="field"><label>Nombre de la meta</label><input type="text" id="g-name" placeholder='Ej. 95% viajes completados'></div>
+    <div class="row2">
+      <div class="field"><label>Fecha</label><input type="date" id="g-date"></div>
+      <div class="field" style="display:flex;align-items:flex-end;gap:8px;padding-bottom:9px;">
+        <input type="checkbox" id="g-completed" style="width:18px;height:18px;">
+        <label style="margin:0;">Cumplida</label>
+      </div>
+    </div>
+    <div class="field"><label>Nota (opcional)</label><textarea id="g-note" placeholder="Detalle o como se mide"></textarea></div>
+    <div class="modal-actions">
+      <button class="danger" id="btn-delete-goal">Eliminar</button>
+      <button id="btn-save-goal">Guardar meta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: project info (read-only) -->
+<div class="overlay" id="overlay-info">
+  <div class="modal">
+    <button class="close-x" data-close="overlay-info">✕</button>
+    <div class="info-header">
+      <h2 id="info-title" style="margin:0;">Proyecto</h2>
+      <span style="display:flex;gap:6px;">
+        <span class="info-pill" id="info-priority-pill">Media</span>
+        <span class="info-pill" id="info-status-pill">Verde</span>
+      </span>
+    </div>
+    <div class="info-meta" id="info-meta"></div>
+    <div id="info-notes" style="display:none;background:#F4F6FB;border-radius:10px;padding:10px 12px;font-size:12.5px;color:#444;line-height:1.5;margin-bottom:12px;white-space:pre-wrap;"></div>
+
+    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Fases e hitos</h3>
+    <div id="info-phase-list"></div>
+
+    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Sub-proyectos</h3>
+    <div id="info-subproj-list" style="font-size:12.5px;"></div>
+
+    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Dependencias</h3>
+    <div id="info-dep-list" style="font-size:12.5px;"></div>
+
+    <div class="modal-actions">
+      <span></span>
+      <button id="btn-edit-project" class="edit-only">Editar proyecto</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: project detail / edit -->
+<div class="overlay" id="overlay-detail">
+  <div class="modal">
+    <button class="close-x" data-close="overlay-detail">✕</button>
+    <h2 id="detail-title">Proyecto</h2>
+    <div class="row2">
+      <div class="field"><label>Nombre</label><input type="text" id="d-name"></div>
+      <div class="field"><label>Responsable / solicitante</label><input type="text" id="d-owner"></div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Estatus (automatico)</label>
+        <div><span class="info-pill" id="d-status-readout" style="display:inline-block;">Verde</span></div>
+        <small class="hint">Se calcula solo segun las fechas de los hitos. Cambia las fechas o marca hitos como completados para moverlo.</small>
+      </div>
+      <div class="field">
+        <label>Prioridad</label>
+        <select id="d-priority">
+          <option value="alta">Alta</option>
+          <option value="media">Media</option>
+          <option value="baja">Baja</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field"><label>Notas del proyecto</label><textarea id="d-notes" placeholder="Bloqueos, decisiones, contexto para el equipo..."></textarea></div>
+
+    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Hitos / milestones y tareas</h3>
+    <div id="phase-list"></div>
+    <div class="add-milestone-row"><button class="secondary small" id="btn-add-milestone">+ Agregar hito</button></div>
+
+    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Sub-proyectos</h3>
+    <div id="subproj-list"></div>
+    <div class="add-milestone-row"><button class="secondary small" id="btn-add-subproject">+ Agregar sub-proyecto</button></div>
+
+    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Dependencias (este proyecto depende de)</h3>
+    <div class="dep-list" id="dep-list"></div>
+    <div class="row2">
+      <div class="field" style="flex:2"><label>Agregar dependencia</label><select id="dep-select"></select></div>
+      <div class="field" style="flex:0 0 auto; align-self:flex-end;"><button class="secondary" id="btn-add-dep" style="margin-bottom:12px;">Agregar</button></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="danger" id="btn-delete-project">Eliminar proyecto</button>
+      <button id="btn-save-project">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: new project -->
+<div class="overlay" id="overlay-new">
+  <div class="modal">
+    <button class="close-x" data-close="overlay-new">✕</button>
+    <h2>Nuevo proyecto</h2>
+    <div class="field"><label>Nombre del proyecto</label><input type="text" id="n-name" placeholder="Ej. Rediseno app conductor"></div>
+    <div class="field"><label>Responsable / solicitante</label><input type="text" id="n-owner" placeholder="Ej. Manuel"></div>
+    <div class="row2">
+      <div class="field"><label>Fecha de inicio (Intake)</label><input type="date" id="n-start"></div>
+    </div>
+    <small class="hint">El estatus (Verde/Amarillo/Rojo) no se elige: se calcula solo segun las fechas de los hitos que se crean abajo.</small>
+    <div class="field"><label>Prioridad</label>
+      <select id="n-priority"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select>
+    </div>
+    <small class="hint">Se crean automaticamente 5 hitos de partida (Intake, Definicion y planeacion, Ejecucion, Seguimiento, Cierre), espaciados cada 2 semanas desde la fecha de inicio. El hito con la fecha mas lejana se toma como fecha de entrega. Puedes renombrar, borrar o agregar los hitos que necesites despues, desde el detalle del proyecto.</small>
+    <div class="modal-actions">
+      <span></span>
+      <button id="btn-create-project">Crear proyecto</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PHASES = ["Intake", "Definicion y planeacion", "Ejecucion", "Seguimiento", "Cierre"];
+const STORAGE_KEY = "roadmapData_v2";
+let state = null;
+let editingProjectId = null;
+let editingGoalId = null;
+
+// ---- Filtros (owner / estatus / prioridad) y orden de la tabla de KPIs ----
+let filterOwner = "", filterStatus = "", filterPriority = "";
+let kpiSort = { col: null, dir: 1 };
+function getVisibleProjects() {
+  return state.projects.filter(proj => {
+    if (filterOwner && (proj.owner || "") !== filterOwner) return false;
+    if (filterStatus && getProjectStatus(proj) !== filterStatus) return false;
+    if (filterPriority && proj.priority !== filterPriority) return false;
+    return true;
+  });
+}
+
+// ---- Viewport zoom/pan state ----
+let zoomScale = 1;
+let panX = 0, panY = 0;
+let hasFitOnce = false;
+let userAdjustedView = false;
+let lastTotalW = 0, lastTotalH = 0, lastTodayX = 0, lastSpineY = 0;
+let lastPosOf = {};
+
+function uid(prefix) { return prefix + "_" + Math.random().toString(36).slice(2, 9); }
+
+function sampleData() {
+  const addWeeks = (dateStr, w) => {
+    const d = new Date(dateStr + "T00:00:00");
+    d.setDate(d.getDate() + w * 14);
+    return d.toISOString().slice(0, 10);
+  };
+  function st(text, done) { return { id: uid("s"), text, done: !!done }; }
+  function sp(name, dueDate, completed, subtasks) { return { id: uid("sp"), name, dueDate, completed: !!completed, subtasks: subtasks || [] }; }
+  function makeProject(name, owner, status, start, completedCount, subtaskMap, lateAt, subprojects, priority) {
+    const pid = uid("p");
+    const milestones = PHASES.map((ph, i) => {
+      const date = addWeeks(start, i);
+      const completed = i < completedCount;
+      let completedAt = null;
+      if (completed) completedAt = (lateAt && lateAt[i]) ? lateAt[i] : date;
+      return { id: uid("m"), phase: ph, date, completed, completedAt, subtasks: (subtaskMap && subtaskMap[i]) ? subtaskMap[i] : [] };
+    });
+    return { id: pid, name, owner, priority: priority || "media", milestones, subprojects: subprojects || [] };
+  }
+  const p1 = makeProject("Rediseno app conductor", "Manuel", "amarillo", "2026-07-01", 3, {
+    2: [st("Actualizar pantallas principales", true), st("Pruebas con choferes piloto", false)]
+  }, { 2: "2026-08-05" }, [
+    sp("App iOS", "2026-07-01", true, [st("Publicar en App Store", true), st("QA final", true)]),
+    sp("App Android", "2026-07-25", false, [st("Ajustar UI tablet", false), st("Pruebas de rendimiento", false)])
+  ], "alta"); // fase 3 se completo unos dias tarde, para ilustrar la metrica
+  const p2 = makeProject("Campana de verano", "Marketing", "verde", "2026-07-15", 4, {
+    2: [st("Grabar contenido", true), st("Programar publicaciones", true)]
+  }, null, null, "baja");
+  const p3 = makeProject("Migracion CRM", "Operaciones", "rojo", "2026-08-01", 1, {
+    2: [st("Exportar datos actuales", false), st("Mapear campos a nuevo CRM", false), st("Validar duplicados", false)],
+    3: [st("Contratar Account Manager", false)]
+  }, null, [
+    sp("Modulo de contactos", "2026-07-05", false, [st("Exportar de CRM viejo", true), st("Importar a nuevo CRM", false), st("Validar duplicados", false)]),
+    sp("Modulo de facturacion", "2026-09-15", false),
+    sp("Modulo de reportes", "2026-07-10", true)
+  ], "alta");
+  const deps = [
+    { fromProjectId: p3.id, fromMilestoneId: p3.milestones[2].id, toProjectId: p1.id, toMilestoneId: p1.milestones[4].id }
+  ];
+  const goals = [
+    { id: uid("g"), name: "95% viajes completados", date: "2026-09-30", completed: false, completedAt: null, note: "Meta operativa trimestral, independiente de los proyectos activos." },
+    { id: uid("g"), name: "Cierre de campana con 500 leads", date: "2026-08-20", completed: false, completedAt: null, note: "" }
+  ];
+  return { projects: [p1, p2, p3], dependencies: deps, goals };
+}
+
+function migrate(data) {
+  (data.projects || []).forEach(p => {
+    if (!p.priority) p.priority = "media";
+    delete p.status; // el estatus ya no se guarda manual, se calcula al vuelo
+    if (typeof p.notes !== "string") p.notes = "";
+    p.milestones.forEach(m => {
+      if (!Array.isArray(m.subtasks)) {
+        m.subtasks = (m.note ? [{ id: uid("s"), text: m.note, done: false }] : []);
+      }
+      delete m.note;
+      if (!("completedAt" in m)) m.completedAt = null;
+      if (typeof m.comment !== "string") m.comment = "";
+    });
+    if (!Array.isArray(p.subprojects)) p.subprojects = [];
+    const ord = sortedMs(p);
+    const fallbackDue = ord.length ? ord[ord.length - 1].date : null;
+    p.subprojects.forEach(sp => {
+      if (!Array.isArray(sp.subtasks)) sp.subtasks = [];
+      if (!("dueDate" in sp)) sp.dueDate = fallbackDue; // datos viejos traian "status" manual; ahora se calcula por fecha
+      delete sp.status;
+    });
+  });
+  if (!Array.isArray(data.goals)) data.goals = [];
+  return data;
+}
+
+// Al abrir la pagina siempre se intenta cargar primero "data.json" (el snapshot publicado
+// junto al HTML en GitHub/Drive) como version oficial. Si no existe o no se puede leer
+// (por ejemplo abriendo el archivo directamente desde el disco, sin servidor), se usa lo
+// que haya en este navegador (localStorage) y, si tampoco hay nada, los datos de ejemplo.
+// Los cambios que hagas en el navegador quedan solo en tu sesion hasta que exportas el
+// respaldo y reemplazas data.json en donde lo publiques.
+async function load() {
+  try {
+    const res = await fetch("data.json", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.projects)) {
+        state = migrate(data);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        return;
+      }
+    }
+  } catch (e) { /* sin data.json disponible (ej. archivo local sin servidor): seguimos con localStorage */ }
+
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) { try { state = migrate(JSON.parse(raw)); return; } catch (e) {} }
+  state = sampleData();
+  save();
+}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); render(); }
+
+function statusColor(status) {
+  return status === "verde" ? "#16C784" : status === "amarillo" ? "#FFB020" : "#FF4D5E";
+}
+function statusLabel(status) {
+  return status === "verde" ? "En tiempo" : status === "amarillo" ? "En riesgo" : "Critico";
+}
+function priorityColor(priority) {
+  return priority === "alta" ? "#1F2937" : priority === "baja" ? "#CBD5E1" : "#64748B";
+}
+function priorityLabel(priority) {
+  return priority === "alta" ? "Alta" : priority === "baja" ? "Baja" : "Media";
+}
+function priorityTextColor(priority) {
+  return priority === "baja" ? "#334155" : "#fff";
+}
+function statusGradient(status) {
+  return status === "verde" ? "linear-gradient(135deg,#16C784,#0EA36A)"
+    : status === "amarillo" ? "linear-gradient(135deg,#FFB020,#F08A00)"
+    : "linear-gradient(135deg,#FF4D5E,#E22B3D)";
+}
+
+// Estatus (verde/amarillo/rojo) ya no lo asigna el PM a mano: se calcula solo, segun
+// que tan cerca o vencidos esten los hitos/fechas. Ventana de "por vencer" = 14 dias,
+// el mismo ciclo que se usa entre hitos por defecto.
+const SOON_WINDOW_DAYS = 14;
+function daysBetween(fromISO, toISO) {
+  const a = new Date(fromISO + "T00:00:00").getTime();
+  const b = new Date(toISO + "T00:00:00").getTime();
+  return Math.round((b - a) / (1000 * 60 * 60 * 24));
+}
+const STATUS_RANK = { verde: 0, amarillo: 1, rojo: 2 };
+function getOwnDateStatus(proj) {
+  const today = todayISO();
+  let hasOverdue = false, hasSoon = false;
+  (proj.milestones || []).forEach(m => {
+    if (m.completed) return;
+    if (m.date < today) hasOverdue = true;
+    else if (daysBetween(today, m.date) <= SOON_WINDOW_DAYS) hasSoon = true;
+  });
+  return hasOverdue ? "rojo" : hasSoon ? "amarillo" : "verde";
+}
+function getProjectStatus(proj, _visited) {
+  const visited = _visited || new Set();
+  if (visited.has(proj.id)) return "verde"; // corta ciclos de dependencias
+  visited.add(proj.id);
+
+  let own = getOwnDateStatus(proj);
+  // Si el proyecto del que dependes esta en rojo, tu tambien quedas en riesgo (minimo amarillo),
+  // aunque tus propias fechas todavia luzcan bien. No baja de rango si ya estas peor que eso.
+  (state.dependencies || []).filter(d => d.fromProjectId === proj.id).forEach(d => {
+    const blocker = state.projects.find(p => p.id === d.toProjectId);
+    if (!blocker) return;
+    const blockerStatus = getProjectStatus(blocker, visited);
+    if (blockerStatus === "rojo" && STATUS_RANK[own] < STATUS_RANK.amarillo) own = "amarillo";
+  });
+  return own;
+}
+// Para ser transparentes con el PM: detecta si el estatus subio de nivel solo por una dependencia
+// (no por sus propias fechas), y de cual proyecto viene el riesgo.
+function getDependencyEscalation(proj) {
+  const rawOwn = getOwnDateStatus(proj);
+  const finalStatus = getProjectStatus(proj);
+  if (STATUS_RANK[finalStatus] <= STATUS_RANK[rawOwn]) return null;
+  const blockerNames = (state.dependencies || [])
+    .filter(d => d.fromProjectId === proj.id)
+    .map(d => state.projects.find(p => p.id === d.toProjectId))
+    .filter(b => b && getProjectStatus(b) === "rojo")
+    .map(b => b.name);
+  return blockerNames.length ? blockerNames : null;
+}
+function getSubprojStatus(sp) {
+  if (sp.completed) return "verde";
+  const today = todayISO();
+  if (!sp.dueDate) return "verde";
+  if (sp.dueDate < today) return "rojo";
+  return daysBetween(today, sp.dueDate) <= SOON_WINDOW_DAYS ? "amarillo" : "verde";
+}
+
+function allMilestones() {
+  const list = [];
+  state.projects.forEach(p => p.milestones.forEach(m => list.push({ ...m, projectId: p.id })));
+  return list;
+}
+
+// Milestones can now be added/removed freely (not just the original 5 fases), so always
+// read/draw them in chronological order regardless of the order they were created in.
+function sortedMs(proj) {
+  return [...proj.milestones].sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+}
+
+function todayISO() { return new Date().toISOString().slice(0, 10); }
+
+function renderSummary() {
+  const ms = allMilestones();
+  const done = ms.filter(m => m.completed).length;
+  const total = ms.length || 1;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById("sum-pct").textContent = pct + "%";
+  document.getElementById("sum-done").textContent = done + "/" + ms.length;
+  document.getElementById("sum-projects").textContent = state.projects.length;
+  document.getElementById("progress-fill").style.width = pct + "%";
+
+  const withTs = ms.filter(m => m.completed && m.completedAt);
+  const onTime = withTs.filter(m => m.completedAt <= m.date).length;
+  document.getElementById("sum-ontime").textContent = withTs.length ? Math.round((onTime / withTs.length) * 100) + "%" : "—";
+
+  const goals = state.goals || [];
+  const goalsDone = goals.filter(g => g.completed).length;
+  document.getElementById("sum-goals").textContent = goalsDone + "/" + goals.length;
+
+  renderOverdueBanner();
+  renderKpiDetailTable();
+  renderUpcoming();
+}
+
+function renderUpcoming() {
+  const box = document.getElementById("upcoming-list");
+  if (!box) return;
+  const today = todayISO();
+  const items = [];
+  getVisibleProjects().forEach(proj => {
+    sortedMs(proj).forEach(m => {
+      if (!m.completed) items.push({ proj, m });
+    });
+  });
+  items.sort((a, b) => (a.m.date < b.m.date ? -1 : a.m.date > b.m.date ? 1 : 0));
+  const top = items.slice(0, 15);
+  if (top.length === 0) {
+    box.innerHTML = '<div class="info-empty" style="padding:12px 14px;">No hay hitos pendientes en los proyectos visibles.</div>';
+    return;
+  }
+  box.innerHTML = "";
+  top.forEach(it => {
+    const overdue = it.m.date < today;
+    const days = daysBetween(today, it.m.date);
+    const tagLabel = overdue ? "Atrasado" : days === 0 ? "Hoy" : days <= 14 ? "En " + days + " dias" : "Programado";
+    const tagColor = overdue ? "#F97316" : days <= 14 ? "#FFB020" : "#94A3B8";
+    const row = document.createElement("div");
+    row.className = "upcoming-row";
+    row.innerHTML = `
+      <span class="up-date">${it.m.date}</span>
+      <span class="up-proj">${escapeHtml(it.proj.name)}</span>
+      <span class="up-phase">${escapeHtml(it.m.phase)}</span>
+      <span class="up-tag" style="background:${tagColor}">${tagLabel}</span>
+    `;
+    row.addEventListener("click", () => openInfo(it.proj.id));
+    box.appendChild(row);
+  });
+}
+
+document.getElementById("btn-toggle-upcoming").addEventListener("click", () => {
+  const box = document.getElementById("upcoming-panel");
+  const btn = document.getElementById("btn-toggle-upcoming");
+  const showing = box.classList.toggle("show");
+  btn.textContent = showing ? "Ocultar proximos pasos ▴" : "Ver proximos pasos ▾";
+});
+
+function renderKpiDetailTable() {
+  const body = document.getElementById("kpi-detail-body");
+  if (!body) return;
+  const today = todayISO();
+  body.innerHTML = "";
+
+  populateOwnerFilter();
+
+  if (state.projects.length === 0) {
+    body.innerHTML = '<tr><td colspan="6" class="info-empty">No hay proyectos todavia.</td></tr>';
+    return;
+  }
+  let rows = getVisibleProjects().map(proj => {
+    const ordered = sortedMs(proj);
+    const deadline = ordered[ordered.length - 1];
+    const doneCount = proj.milestones.filter(m => m.completed).length;
+    const pct = Math.round((doneCount / proj.milestones.length) * 100);
+    const overdueCount = proj.milestones.filter(m => !m.completed && m.date < today).length;
+    return { proj, deadline: deadline.date, doneCount, pct, overdueCount };
+  });
+  if (rows.length === 0) {
+    body.innerHTML = '<tr><td colspan="6" class="info-empty">Ningun proyecto coincide con el filtro.</td></tr>';
+    return;
+  }
+
+  const statusRank = { verde: 0, amarillo: 1, rojo: 2 };
+  const priorityRank = { alta: 0, media: 1, baja: 2 };
+  if (kpiSort.col) {
+    const col = kpiSort.col, dir = kpiSort.dir;
+    rows.sort((a, b) => {
+      let av, bv;
+      switch (col) {
+        case "name": av = a.proj.name.toLowerCase(); bv = b.proj.name.toLowerCase(); break;
+        case "status": av = statusRank[getProjectStatus(a.proj)]; bv = statusRank[getProjectStatus(b.proj)]; break;
+        case "priority": av = priorityRank[a.proj.priority]; bv = priorityRank[b.proj.priority]; break;
+        case "pct": av = a.pct; bv = b.pct; break;
+        case "deadline": av = a.deadline; bv = b.deadline; break;
+        case "overdue": av = a.overdueCount; bv = b.overdueCount; break;
+        default: av = 0; bv = 0;
+      }
+      if (av < bv) return -1 * dir;
+      if (av > bv) return 1 * dir;
+      return 0;
+    });
+  }
+
+  rows.forEach(r => {
+    const proj = r.proj;
+    const row = document.createElement("tr");
+    row.className = "kpi-row";
+    row.innerHTML = `
+      <td><strong>${escapeHtml(proj.name)}</strong><div style="color:var(--gray);font-size:11px;">${escapeHtml(proj.owner || "")}</div></td>
+      <td><span class="kpi-pill" style="background:${statusColor(getProjectStatus(proj))}">${statusLabel(getProjectStatus(proj))}</span>${getDependencyEscalation(proj) ? ' <span title="En riesgo por dependencia">🔗⚠</span>' : ""}</td>
+      <td><span class="kpi-pill" style="background:${priorityColor(proj.priority)};color:${priorityTextColor(proj.priority)}">${priorityLabel(proj.priority)}</span></td>
+      <td><div class="kpi-bar-wrap"><div class="kpi-bar-track"><div class="kpi-bar-fill" style="width:${r.pct}%;background:${statusColor(getProjectStatus(proj))}"></div></div><span>${r.pct}% (${r.doneCount}/${proj.milestones.length})</span></div></td>
+      <td>${r.deadline}</td>
+      <td>${r.overdueCount > 0 ? `<span class="kpi-atraso">⚠ ${r.overdueCount}</span>` : `<span class="kpi-ok">Al dia</span>`}</td>
+    `;
+    row.addEventListener("click", () => openInfo(proj.id));
+    body.appendChild(row);
+  });
+
+  document.querySelectorAll(".kpi-table th.sortable .sort-ind").forEach(ind => ind.textContent = "");
+  if (kpiSort.col) {
+    const th = document.querySelector('.kpi-table th[data-col="' + kpiSort.col + '"] .sort-ind');
+    if (th) th.textContent = kpiSort.dir === 1 ? "▲" : "▼";
+  }
+}
+
+function populateOwnerFilter() {
+  const sel = document.getElementById("filter-owner");
+  if (!sel) return;
+  const current = sel.value;
+  const owners = Array.from(new Set(state.projects.map(p => p.owner || "").filter(Boolean))).sort();
+  sel.innerHTML = '<option value="">Todos</option>' + owners.map(o => `<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join("");
+  sel.value = owners.includes(current) ? current : "";
+}
+
+document.querySelectorAll(".kpi-table th.sortable").forEach(th => {
+  th.addEventListener("click", () => {
+    const col = th.dataset.col;
+    if (kpiSort.col === col) kpiSort.dir *= -1;
+    else { kpiSort.col = col; kpiSort.dir = 1; }
+    renderKpiDetailTable();
+  });
+});
+
+document.getElementById("filter-owner").addEventListener("change", e => { filterOwner = e.target.value; render(); });
+document.getElementById("filter-status").addEventListener("change", e => { filterStatus = e.target.value; render(); });
+document.getElementById("filter-priority").addEventListener("change", e => { filterPriority = e.target.value; render(); });
+document.getElementById("btn-clear-filters").addEventListener("click", () => {
+  filterOwner = ""; filterStatus = ""; filterPriority = "";
+  document.getElementById("filter-owner").value = "";
+  document.getElementById("filter-status").value = "";
+  document.getElementById("filter-priority").value = "";
+  render();
+});
+
+document.getElementById("btn-toggle-legend").addEventListener("click", () => {
+  const box = document.getElementById("legend-box");
+  const btn = document.getElementById("btn-toggle-legend");
+  const showing = box.classList.toggle("show");
+  btn.textContent = showing ? "Ocultar leyenda de colores ▴" : "Ver leyenda de colores ▾";
+});
+
+document.getElementById("btn-toggle-kpi-detail").addEventListener("click", () => {
+  const box = document.getElementById("kpi-detail");
+  const btn = document.getElementById("btn-toggle-kpi-detail");
+  const showing = box.classList.toggle("show");
+  btn.textContent = showing ? "Ocultar detalle por proyecto ▴" : "Ver detalle por proyecto ▾";
+});
+
+function renderOverdueBanner() {
+  const banner = document.getElementById("overdue-banner");
+  const today = todayISO();
+  const items = [];
+  state.projects.forEach(p => {
+    const overdueMs = p.milestones.filter(m => !m.completed && m.date < today);
+    if (overdueMs.length) items.push({ type: "proj", id: p.id, label: p.name, count: overdueMs.length, phase: overdueMs[0].phase });
+  });
+  (state.goals || []).forEach(g => {
+    if (!g.completed && g.date < today) items.push({ type: "goal", id: g.id, label: g.name, count: 1, phase: null });
+  });
+  if (items.length === 0) {
+    banner.classList.remove("show");
+    banner.innerHTML = "";
+    return;
+  }
+  banner.classList.add("show");
+  banner.innerHTML = "⚠ <strong>" + items.length + " punto(s) atrasados hoy:</strong> " +
+    items.map(it => `<span class="ov-link" data-type="${it.type}" data-id="${it.id}">${escapeHtml(it.label)}${it.phase ? ` (${it.count} atrasado${it.count > 1 ? "s" : ""}, desde "${escapeHtml(it.phase)}")` : " (meta de empresa)"}</span>`).join(", ");
+  banner.querySelectorAll(".ov-link").forEach(el => {
+    el.addEventListener("click", () => {
+      if (el.dataset.type === "goal") openGoalInfo(el.dataset.id);
+      else openInfo(el.dataset.id);
+    });
+  });
+}
+
+function render() {
+  renderSummary();
+  const diagram = document.getElementById("diagram");
+  diagram.innerHTML = "";
+
+  const projects = getVisibleProjects();
+
+  if (state.projects.length === 0 && (!state.goals || state.goals.length === 0)) {
+    diagram.innerHTML = '<div class="empty-note">No hay proyectos ni metas todavia. Usa "+ Nuevo proyecto" o "+ Agregar milestone de empresa" para empezar.</div>';
+    return;
+  }
+  if (projects.length === 0 && (!state.goals || state.goals.length === 0)) {
+    diagram.innerHTML = '<div class="empty-note">Ningun proyecto coincide con el filtro actual. <button class="link" id="btn-clear-filters-inline">Limpiar filtros</button></div>';
+    const clearBtn = document.getElementById("btn-clear-filters-inline");
+    if (clearBtn) clearBtn.addEventListener("click", () => document.getElementById("btn-clear-filters").click());
+    return;
+  }
+
+  // More generous spacing than the original pass: wider day-to-pixel ratio so dates don't
+  // bunch up, and a bigger gap between the spine and the bubbles so the goal band (below)
+  // and future extra tiers (more projects/goals) have room without crowding anything.
+  const PX_PER_DAY = 9;
+  const H_PAD = 140;
+  const TIER_BASE = 165;
+  const TIER_STEP = 110;
+  const MIN_GAP = 220; // min horizontal distance between bubbles sharing a side+tier
+  const GOAL_TAG_DIST = 78; // how far a goal's name tag sits from the spine (inside the TIER_BASE buffer)
+
+  const ms = allMilestones();
+  const todayT = new Date(todayISO() + "T00:00:00").getTime();
+  const goalDates = (state.goals || []).map(g => new Date(g.date + "T00:00:00").getTime());
+  const dates = [...ms.map(m => new Date(m.date + "T00:00:00").getTime()), ...goalDates, todayT];
+  let minD = Math.min(...dates), maxD = Math.max(...dates);
+  minD -= 1000 * 60 * 60 * 24 * 6;
+  maxD += 1000 * 60 * 60 * 24 * 6;
+  const timelineW = Math.max(560, ((maxD - minD) / (1000 * 60 * 60 * 24)) * PX_PER_DAY);
+  const totalW = H_PAD * 2 + timelineW;
+
+  function dateToX(dateStr) {
+    const t = new Date(dateStr + "T00:00:00").getTime();
+    return H_PAD + ((t - minD) / (maxD - minD)) * timelineW;
+  }
+
+  // Pass 1: assign each project a side (above/below, alternating) and a tier
+  // (stacking outward whenever it would overlap another bubble already placed on that side/tier).
+  const placed = { above: [], below: [] };
+  const posOf = {}; // projectId -> {x, side, tier, deadlineX}
+  let maxTierAbove = 0, maxTierBelow = 0;
+
+  projects.forEach((proj, i) => {
+    const side = i % 2 === 0 ? "above" : "below";
+    const ordered = sortedMs(proj);
+    const deadline = ordered[ordered.length - 1];
+    const deadlineX = dateToX(deadline.date);
+    const startX = dateToX(ordered[0].date);
+    const bx = (deadlineX + startX) / 2;
+    let tier = 0;
+    while (placed[side].some(p => p.tier === tier && Math.abs(p.x - bx) < MIN_GAP)) tier++;
+    placed[side].push({ x: bx, tier });
+    if (side === "above") maxTierAbove = Math.max(maxTierAbove, tier); else maxTierBelow = Math.max(maxTierBelow, tier);
+    posOf[proj.id] = { x: bx, side, tier, deadlineX };
+  });
+
+  // Pass 2: now that we know how many tiers are needed, size the canvas and place the spine.
+  // The 90px base leaves room for the bubble's own height plus the task-count badge that pokes out above it.
+  // Sub-project chips extend further outward from whichever bubble has the most of them, so we
+  // pad both edges of the canvas enough to fit that regardless of which tier/side it lands on.
+  const maxSubprojCount = Math.max(0, ...projects.map(p => (p.subprojects || []).length));
+  const subprojReach = maxSubprojCount > 0 ? 135 + maxSubprojCount * 108 : 0;
+  const SPINE_Y = 90 + subprojReach + TIER_BASE + maxTierAbove * TIER_STEP;
+  const totalH = SPINE_Y + TIER_BASE + maxTierBelow * TIER_STEP + 130 + subprojReach;
+  projects.forEach(proj => {
+    const p = posOf[proj.id];
+    const dist = TIER_BASE + p.tier * TIER_STEP;
+    p.y = p.side === "above" ? SPINE_Y - dist : SPINE_Y + dist;
+    // each project's milestones ride a thin track hugging the spine (just outside its thick
+    // bar), offset a little more by tier so two concurrent projects don't draw dots on top of each other.
+    const trackDist = 22 + p.tier * 16;
+    p.trackY = p.side === "above" ? SPINE_Y - trackDist : SPINE_Y + trackDist;
+  });
+
+  diagram.style.width = totalW + "px";
+  diagram.style.height = totalH + "px";
+  lastTotalW = totalW; lastTotalH = totalH; lastSpineY = SPINE_Y; lastPosOf = posOf;
+
+  // spine
+  const spine = document.createElement("div");
+  spine.className = "spine";
+  spine.style.left = "20px";
+  spine.style.top = (SPINE_Y - 16) + "px";
+  spine.style.width = (totalW - 40) + "px";
+  diagram.appendChild(spine);
+
+  // month bands + labels
+  let cursor = new Date(minD);
+  cursor.setDate(1);
+  while (cursor.getTime() < maxD) {
+    const x = dateToX(cursor.toISOString().slice(0, 10));
+    // skip ticks that would fall before the canvas start (their label would get clipped on the left)
+    if (x >= 4) {
+      const band = document.createElement("div");
+      band.className = "month-band";
+      band.style.left = x + "px";
+      diagram.appendChild(band);
+      const lbl = document.createElement("div");
+      lbl.className = "month-lbl";
+      lbl.style.left = (x + 8) + "px";
+      lbl.style.top = (SPINE_Y + 14) + "px";
+      lbl.textContent = cursor.toLocaleDateString("es-MX", { month: "long", year: "2-digit" });
+      diagram.appendChild(lbl);
+    }
+    cursor.setMonth(cursor.getMonth() + 1);
+  }
+
+  // "hoy" marker
+  const todayX = dateToX(todayISO());
+  lastTodayX = todayX;
+  const todayLine = document.createElement("div");
+  todayLine.className = "today-marker";
+  todayLine.style.left = todayX + "px";
+  todayLine.style.height = totalH + "px";
+  diagram.appendChild(todayLine);
+  const todayLbl = document.createElement("div");
+  todayLbl.className = "today-lbl";
+  todayLbl.style.left = todayX + "px";
+  todayLbl.style.top = "2px";
+  todayLbl.textContent = "Hoy";
+  diagram.appendChild(todayLbl);
+
+  // SVG overlay: connector lines + dependency arrows (under bubbles)
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("width", totalW);
+  svg.setAttribute("height", totalH);
+  svg.style.position = "absolute";
+  svg.style.left = "0"; svg.style.top = "0";
+  svg.style.pointerEvents = "none";
+  const defs = document.createElementNS(svgNS, "defs");
+  defs.innerHTML = `<marker id="arrowhead" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#7C8AB5"></path>
+    </marker>`;
+  svg.appendChild(defs);
+  diagram.appendChild(svg);
+
+  // connector from the bubble to EVERY one of its milestones on the spine (not just the deadline)
+  projects.forEach(proj => {
+    const p = posOf[proj.id];
+    sortedMs(proj).forEach(m => {
+      const mx = dateToX(m.date);
+      const endY = p.trackY;
+      const line = document.createElementNS(svgNS, "path");
+      line.setAttribute("d", `M ${p.x} ${p.y} L ${mx} ${endY}`);
+      line.setAttribute("stroke", statusColor(getProjectStatus(proj)));
+      line.setAttribute("stroke-width", mx === p.deadlineX ? "2.5" : "1.4");
+      line.setAttribute("stroke-dasharray", "1,6");
+      line.setAttribute("stroke-linecap", "round");
+      line.setAttribute("fill", "none");
+      line.setAttribute("opacity", mx === p.deadlineX ? "0.85" : "0.5");
+      svg.appendChild(line);
+    });
+  });
+
+  // dependency arrows between bubbles
+  (state.dependencies || []).forEach(dep => {
+    const a = posOf[dep.fromProjectId], b = posOf[dep.toProjectId];
+    if (!a || !b) return;
+    const midX = (a.x + b.x) / 2, midY = (a.y + b.y) / 2 - 46;
+    const path = document.createElementNS(svgNS, "path");
+    path.setAttribute("d", `M ${a.x} ${a.y} Q ${midX} ${midY}, ${b.x} ${b.y}`);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "#7C8AB5");
+    path.setAttribute("stroke-width", "2.25");
+    path.setAttribute("stroke-dasharray", "7,5");
+    path.setAttribute("marker-end", "url(#arrowhead)");
+    svg.appendChild(path);
+  });
+
+  // every milestone gets its own marker directly on the spine (deadline = big diamond, rest = small dots)
+  const todayForMarkers = todayISO();
+  projects.forEach(proj => {
+    const p = posOf[proj.id];
+    const ordered = sortedMs(proj);
+    ordered.forEach((m, mi) => {
+      const isDeadline = mi === ordered.length - 1;
+      const mx = dateToX(m.date);
+      const overdue = !m.completed && m.date < todayForMarkers;
+
+      const node = document.createElement("div");
+      node.className = isDeadline ? "deadline-node" : "milestone-node";
+      node.style.left = mx + "px";
+      node.style.top = p.trackY + "px";
+      node.style.background = m.completed ? statusColor(getProjectStatus(proj)) : (overdue ? "#F97316" : "#fff");
+      if (!m.completed && !overdue) node.style.border = "2.5px solid " + statusColor(getProjectStatus(proj));
+      node.title = proj.name + " — " + m.phase + " (" + m.date + ")" + (m.completed ? " — completado" : overdue ? " — atrasado" : " — pendiente");
+      node.addEventListener("click", () => openInfo(proj.id));
+      diagram.appendChild(node);
+
+      // subtask counter only for the deadline (the one hito that already gets a permanent label);
+      // intermediate hitos keep their count in the hover tooltip instead of another floating box.
+      if ((m.subtasks || []).length > 0 && isDeadline) {
+        const badge = document.createElement("div");
+        badge.className = "milestone-badge";
+        badge.style.left = (mx + 12) + "px";
+        badge.style.top = (p.trackY - 12) + "px";
+        badge.textContent = m.subtasks.filter(s => s.done).length + "/" + m.subtasks.length;
+        diagram.appendChild(badge);
+      } else if ((m.subtasks || []).length > 0) {
+        const doneS = m.subtasks.filter(s => s.done).length;
+        node.title += " — " + doneS + "/" + m.subtasks.length + " tareas";
+      }
+
+      if (isDeadline) {
+        const tag = document.createElement("div");
+        tag.className = "deadline-tag";
+        tag.style.left = mx + "px";
+        // the tag must sit further AWAY from the spine than the dot itself, never toward it
+        // (toward it is where the month/date axis lives, which is what was overlapping before).
+        tag.style.top = (p.side === "above" ? p.trackY - 34 : p.trackY + 14) + "px";
+        tag.style.background = statusColor(getProjectStatus(proj));
+        tag.textContent = m.date;
+        tag.style.cursor = "pointer";
+        tag.addEventListener("click", () => openInfo(proj.id));
+        diagram.appendChild(tag);
+      }
+      // intermediate hitos show only the dot on the timeline; their name/date/tasks are in the
+      // hover tooltip (set above) and in the full detail, to keep the timeline readable.
+    });
+  });
+
+  // project bubbles (on top)
+  const today = todayISO();
+  projects.forEach(proj => {
+    const p = posOf[proj.id];
+    const doneCount = proj.milestones.filter(m => m.completed).length;
+    const totalSub = proj.milestones.reduce((a, m) => a + (m.subtasks || []).length, 0);
+    const doneSub = proj.milestones.reduce((a, m) => a + (m.subtasks || []).filter(s => s.done).length, 0);
+    const overdueCount = proj.milestones.filter(m => !m.completed && m.date < today).length;
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.style.left = p.x + "px";
+    bubble.style.top = p.y + "px";
+    bubble.style.background = statusGradient(getProjectStatus(proj));
+    bubble.innerHTML = `
+      <div class="bname">${escapeHtml(proj.name)}</div>
+      <div class="bmeta">${escapeHtml(proj.owner || "")} &middot; ${doneCount}/${proj.milestones.length} hitos</div>
+      <div class="bphases">${sortedMs(proj).map(m => `<i class="${m.completed ? "done" : ""}" title="${escapeHtml(m.phase)}"></i>`).join("")}</div>
+      <div class="bbadges">
+        <div class="bstatus" style="color:${statusColor(getProjectStatus(proj))}">${statusLabel(getProjectStatus(proj))}</div>
+        <div class="bpriority" style="background:${priorityColor(proj.priority)};color:${priorityTextColor(proj.priority)}">${priorityLabel(proj.priority)}</div>
+      </div>
+      ${totalSub > 0 ? `<div class="btasks">${doneSub}/${totalSub} tareas</div>` : ""}
+      ${overdueCount > 0 ? `<div class="boverdue">⚠ ${overdueCount} atrasado${overdueCount > 1 ? "s" : ""}</div>` : ""}
+    `;
+    bubble.addEventListener("click", () => openInfo(proj.id));
+    diagram.appendChild(bubble);
+
+    // sub-projects: round bubbles with their name and status inside, stacked outward from the
+    // parent (clear of its top-corner badges), each linked back to it by a line.
+    const subs = proj.subprojects || [];
+    subs.forEach((sp, si) => {
+      const dist = 135 + si * 108;
+      const cy = p.side === "above" ? p.y - dist : p.y + dist;
+      const cx = p.x;
+      const color = statusColor(getSubprojStatus(sp));
+
+      const line = document.createElementNS(svgNS, "line");
+      line.setAttribute("x1", p.x);
+      line.setAttribute("y1", p.y);
+      line.setAttribute("x2", cx);
+      line.setAttribute("y2", cy);
+      line.setAttribute("stroke", color);
+      line.setAttribute("stroke-width", "2.5");
+      line.setAttribute("stroke-dasharray", "5,5");
+      line.setAttribute("opacity", "0.75");
+      svg.appendChild(line);
+
+      const spTotal = (sp.subtasks || []).length;
+      const spDone = (sp.subtasks || []).filter(t => t.done).length;
+
+      const circle = document.createElement("div");
+      circle.className = "subproj-circle";
+      circle.style.left = cx + "px";
+      circle.style.top = cy + "px";
+      circle.innerHTML = `
+        <div class="subproj-face" style="background:${color}">
+          <div class="spn-name">${sp.completed ? "✓ " : ""}${escapeHtml(sp.name)}</div>
+        </div>
+        ${spTotal > 0 ? `<div class="sp-tasks">${spDone}/${spTotal}</div>` : ""}
+      `;
+      circle.title = sp.name + " — " + (sp.completed ? "completado" : statusLabel(getSubprojStatus(sp))) + (sp.dueDate ? " — vence " + sp.dueDate : "") + (spTotal > 0 ? " — " + spDone + "/" + spTotal + " tareas" : "");
+      circle.addEventListener("click", ev => { ev.stopPropagation(); openInfo(proj.id); });
+      diagram.appendChild(circle);
+    });
+  });
+
+  // company-wide goals: independent of any project. The star sits exactly on the spine;
+  // only its name tag floats off to the side, in the buffer band before bubbles start.
+  (state.goals || []).forEach((g, gi) => {
+    const gx = dateToX(g.date);
+    const overdue = !g.completed && g.date < today;
+    const stateClass = g.completed ? "done" : (overdue ? "overdue" : "");
+    const above = gi % 2 === 0;
+    const tagY = SPINE_Y + (above ? -1 : 1) * GOAL_TAG_DIST;
+
+    const stem = document.createElement("div");
+    stem.className = "goal-stem";
+    stem.style.left = (gx - 1) + "px";
+    stem.style.top = Math.min(SPINE_Y, tagY) + "px";
+    stem.style.height = Math.abs(tagY - SPINE_Y) + "px";
+    diagram.appendChild(stem);
+
+    const node = document.createElement("div");
+    node.className = "goal-node " + stateClass;
+    node.style.left = gx + "px";
+    node.style.top = SPINE_Y + "px";
+    node.textContent = "★";
+    node.title = g.name + " (" + g.date + ")" + (g.completed ? " — cumplida" : overdue ? " — atrasada" : " — pendiente");
+    node.addEventListener("click", () => openGoalInfo(g.id));
+    diagram.appendChild(node);
+
+    const tag = document.createElement("div");
+    tag.className = "goal-tag " + stateClass;
+    tag.style.left = gx + "px";
+    tag.style.top = (above ? tagY - 12 : tagY + 2) + "px";
+    tag.textContent = g.name;
+    tag.style.cursor = "pointer";
+    tag.addEventListener("click", () => openGoalInfo(g.id));
+    diagram.appendChild(tag);
+  });
+
+  if (!hasFitOnce) {
+    fitToView();
+    hasFitOnce = true;
+  } else {
+    applyTransform();
+  }
+}
+
+// ---- Zoom / pan ----
+function applyTransform() {
+  const scaleEl = document.getElementById("diagram-scale");
+  const panEl = document.getElementById("diagram-pan");
+  if (!scaleEl || !panEl) return;
+  scaleEl.style.transform = "scale(" + zoomScale + ")";
+  panEl.style.transform = "translate(" + panX + "px," + panY + "px)";
+  document.getElementById("zoom-label").textContent = Math.round(zoomScale * 100) + "%";
+}
+
+function fitToView() {
+  const vp = document.getElementById("roadmap-viewport");
+  if (!vp || !lastTotalW || !lastTotalH) return;
+  const vw = vp.clientWidth - 20;
+  const vh = vp.clientHeight - 20;
+  const scale = Math.max(0.45, Math.min(vw / lastTotalW, vh / lastTotalH, 1));
+  zoomScale = scale;
+  // center the scaled content in the viewport
+  panX = Math.max(0, (vp.clientWidth - lastTotalW * scale) / 2);
+  panY = Math.max(0, (vp.clientHeight - lastTotalH * scale) / 2);
+  applyTransform();
+}
+
+function zoomBy(factor) {
+  userAdjustedView = true;
+  const vp = document.getElementById("roadmap-viewport");
+  const cx = vp.clientWidth / 2, cy = vp.clientHeight / 2;
+  // keep the point currently at the viewport center fixed while zooming
+  const contentX = (cx - panX) / zoomScale;
+  const contentY = (cy - panY) / zoomScale;
+  zoomScale = Math.max(0.15, Math.min(zoomScale * factor, 3));
+  panX = cx - contentX * zoomScale;
+  panY = cy - contentY * zoomScale;
+  applyTransform();
+}
+
+function centerOn(x, y, scale) {
+  const vp = document.getElementById("roadmap-viewport");
+  if (scale) zoomScale = scale;
+  panX = vp.clientWidth / 2 - x * zoomScale;
+  panY = vp.clientHeight / 2 - y * zoomScale;
+  applyTransform();
+}
+
+function flashHighlight(el) {
+  el.style.transition = "box-shadow .2s";
+  const orig = el.style.boxShadow;
+  let n = 0;
+  const iv = setInterval(() => {
+    el.style.boxShadow = (n % 2 === 0) ? "0 0 0 8px rgba(37,99,235,0.45)" : orig;
+    n++;
+    if (n > 5) { clearInterval(iv); el.style.boxShadow = orig; }
+  }, 220);
+}
+
+document.getElementById("btn-zoom-in").addEventListener("click", () => zoomBy(1.25));
+document.getElementById("btn-zoom-out").addEventListener("click", () => zoomBy(0.8));
+document.getElementById("btn-zoom-fit").addEventListener("click", () => { userAdjustedView = true; fitToView(); });
+document.getElementById("btn-goto-today").addEventListener("click", () => {
+  userAdjustedView = true;
+  centerOn(lastTodayX, lastSpineY);
+});
+
+document.getElementById("project-search").addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) return;
+  const proj = state.projects.find(p => p.name.toLowerCase().includes(q));
+  if (!proj || !lastPosOf[proj.id]) { alert('No se encontro ningun proyecto que coincida con "' + e.target.value + '".'); return; }
+  userAdjustedView = true;
+  const p = lastPosOf[proj.id];
+  centerOn(p.x, p.y, 1);
+  const bubbles = document.querySelectorAll(".bubble");
+  bubbles.forEach(b => {
+    if (b.querySelector(".bname") && b.querySelector(".bname").textContent === proj.name) flashHighlight(b);
+  });
+});
+
+// drag-to-pan on the viewport (ignore drags starting on interactive elements)
+(function setupDragPan() {
+  const vp = document.getElementById("roadmap-viewport");
+  let dragging = false, startX = 0, startY = 0, startPanX = 0, startPanY = 0;
+  vp.addEventListener("mousedown", e => {
+    if (e.target.closest(".bubble, .subproj-circle, .goal-node, .goal-tag, .deadline-node, .milestone-node, .deadline-tag")) return;
+    dragging = true; userAdjustedView = true;
+    startX = e.clientX; startY = e.clientY; startPanX = panX; startPanY = panY;
+    vp.classList.add("dragging");
+  });
+  window.addEventListener("mousemove", e => {
+    if (!dragging) return;
+    panX = startPanX + (e.clientX - startX);
+    panY = startPanY + (e.clientY - startY);
+    applyTransform();
+  });
+  window.addEventListener("mouseup", () => { dragging = false; vp.classList.remove("dragging"); });
+
+  vp.addEventListener("touchstart", e => {
+    if (e.touches.length !== 1) return;
+    if (e.target.closest(".bubble, .subproj-circle, .goal-node, .goal-tag, .deadline-node, .milestone-node, .deadline-tag")) return;
+    dragging = true; userAdjustedView = true;
+    startX = e.touches[0].clientX; startY = e.touches[0].clientY; startPanX = panX; startPanY = panY;
+  }, { passive: true });
+  vp.addEventListener("touchmove", e => {
+    if (!dragging || e.touches.length !== 1) return;
+    panX = startPanX + (e.touches[0].clientX - startX);
+    panY = startPanY + (e.touches[0].clientY - startY);
+    applyTransform();
+  }, { passive: true });
+  vp.addEventListener("touchend", () => { dragging = false; });
+
+  vp.addEventListener("wheel", e => {
+    if (!e.ctrlKey) return; // plain scroll left alone; ctrl+wheel (or pinch on trackpad) zooms
+    e.preventDefault();
+    zoomBy(e.deltaY < 0 ? 1.1 : 0.9);
+  }, { passive: false });
+})();
+
+window.addEventListener("resize", () => {
+  if (!userAdjustedView) fitToView();
+});
+
+function escapeHtml(s) {
+  return (s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// ---- Read-only info modal ----
+function openInfo(projectId) {
+  editingProjectId = projectId;
+  const proj = state.projects.find(p => p.id === projectId);
+
+  document.getElementById("info-title").textContent = proj.name;
+  const pill = document.getElementById("info-status-pill");
+  pill.textContent = statusLabel(getProjectStatus(proj)).toUpperCase();
+  pill.style.background = statusColor(getProjectStatus(proj));
+  const ppill = document.getElementById("info-priority-pill");
+  ppill.textContent = priorityLabel(proj.priority).toUpperCase();
+  ppill.style.background = priorityColor(proj.priority);
+  ppill.style.color = priorityTextColor(proj.priority);
+
+  const doneCount = proj.milestones.filter(m => m.completed).length;
+  const ordered = sortedMs(proj);
+  const deadline = ordered[ordered.length - 1];
+  document.getElementById("info-meta").textContent =
+    (proj.owner ? proj.owner + " · " : "") + doneCount + "/" + proj.milestones.length + " hitos completados · Entrega: " + deadline.date;
+  const notesBox = document.getElementById("info-notes");
+  if (proj.notes && proj.notes.trim()) {
+    notesBox.style.display = "block";
+    notesBox.textContent = proj.notes;
+  } else {
+    notesBox.style.display = "none";
+  }
+  const escalation = getDependencyEscalation(proj);
+  if (escalation) {
+    notesBox.style.display = "block";
+    const escText = "⚠ En riesgo por dependencia: " + escalation.join(", ") + " esta en critico.";
+    notesBox.textContent = notesBox.textContent ? escText + "\n\n" + notesBox.textContent : escText;
+  }
+
+  const phaseList = document.getElementById("info-phase-list");
+  const today = todayISO();
+  phaseList.innerHTML = "";
+  ordered.forEach(m => {
+    const isOverdue = !m.completed && m.date < today;
+    let dtText = "Planeado: " + m.date;
+    if (m.completed && m.completedAt) {
+      const onTime = m.completedAt <= m.date;
+      dtText += " · Completado: " + m.completedAt + (onTime ? " (a tiempo)" : " (con retraso)");
+    } else if (isOverdue) {
+      dtText += " · atrasado";
+    }
+    const row = document.createElement("div");
+    row.className = "info-phase-row";
+    row.innerHTML = `<div class="ic ${m.completed ? "" : "pending"}" style="background:${m.completed ? statusColor(getProjectStatus(proj)) : (isOverdue ? "#F97316" : "#E7E9F0")};color:${m.completed || isOverdue ? "#fff" : "#9AA4C0"};">${m.completed ? "✓" : (isOverdue ? "!" : "")}</div>
+      <div class="txt">${escapeHtml(m.phase)}</div>
+      <div class="dt">${dtText}</div>`;
+    phaseList.appendChild(row);
+    if ((m.subtasks || []).length > 0) {
+      const subList = document.createElement("div");
+      subList.className = "info-sub-list";
+      m.subtasks.forEach(s => {
+        const srow = document.createElement("div");
+        srow.className = "info-sub-row" + (s.done ? " done" : "");
+        srow.textContent = (s.done ? "✓ " : "○ ") + s.text;
+        subList.appendChild(srow);
+      });
+      phaseList.appendChild(subList);
+    }
+    if (m.comment && m.comment.trim()) {
+      const cRow = document.createElement("div");
+      cRow.style.cssText = "margin:2px 0 6px 30px;font-size:11.5px;color:#666;font-style:italic;white-space:pre-wrap;";
+      cRow.textContent = "💬 " + m.comment;
+      phaseList.appendChild(cRow);
+    }
+  });
+
+  const spBox = document.getElementById("info-subproj-list");
+  const subprojects = proj.subprojects || [];
+  if (subprojects.length === 0) {
+    spBox.innerHTML = '<div class="info-empty">Sin sub-proyectos registrados.</div>';
+  } else {
+    spBox.innerHTML = "";
+    subprojects.forEach(sp => {
+      const spTotal = (sp.subtasks || []).length;
+      const spDone = (sp.subtasks || []).filter(t => t.done).length;
+      const row = document.createElement("div");
+      row.style.display = "flex";
+      row.style.alignItems = "center";
+      row.style.gap = "8px";
+      row.style.padding = "4px 0";
+      row.innerHTML = `<span class="dot" style="background:${statusColor(getSubprojStatus(sp))}"></span>
+        <span style="${sp.completed ? "text-decoration:line-through;color:#999;" : ""}">${escapeHtml(sp.name)}</span>
+        ${sp.dueDate ? `<span style="color:var(--gray);font-size:11px;">vence ${sp.dueDate}</span>` : ""}
+        ${spTotal > 0 ? `<span style="color:var(--gray);font-size:11px;">${spDone}/${spTotal} tareas</span>` : ""}
+        ${sp.completed ? '<span style="color:#16C784;font-weight:700;font-size:11px;">completado</span>' : ""}`;
+      spBox.appendChild(row);
+      if (spTotal > 0) {
+        const subList = document.createElement("div");
+        subList.className = "info-sub-list";
+        sp.subtasks.forEach(t => {
+          const srow = document.createElement("div");
+          srow.className = "info-sub-row" + (t.done ? " done" : "");
+          srow.textContent = (t.done ? "✓ " : "○ ") + t.text;
+          subList.appendChild(srow);
+        });
+        spBox.appendChild(subList);
+      }
+    });
+  }
+
+  const depBox = document.getElementById("info-dep-list");
+  const deps = (state.dependencies || []).filter(d => d.fromProjectId === proj.id);
+  if (deps.length === 0) {
+    depBox.innerHTML = '<div class="info-empty">Sin dependencias registradas.</div>';
+  } else {
+    depBox.innerHTML = "";
+    deps.forEach(d => {
+      const toProj = state.projects.find(p => p.id === d.toProjectId);
+      const toMs = toProj ? toProj.milestones.find(m => m.id === d.toMilestoneId) : null;
+      const row = document.createElement("div");
+      row.style.padding = "4px 0";
+      row.innerHTML = `Depende de: <strong>${escapeHtml(toProj ? toProj.name : "?")}</strong> — ${escapeHtml(toMs ? toMs.phase : "?")}`;
+      depBox.appendChild(row);
+    });
+  }
+
+  document.getElementById("overlay-info").classList.add("open");
+}
+
+document.getElementById("btn-edit-project").addEventListener("click", () => {
+  document.getElementById("overlay-info").classList.remove("open");
+  openDetail(editingProjectId);
+});
+
+// ---- Detail modal (edit) ----
+function openDetail(projectId) {
+  editingProjectId = projectId;
+  const proj = state.projects.find(p => p.id === projectId);
+  document.getElementById("detail-title").textContent = "Proyecto: " + proj.name;
+  document.getElementById("d-name").value = proj.name;
+  document.getElementById("d-owner").value = proj.owner || "";
+  const dStatus = getProjectStatus(proj);
+  const dReadout = document.getElementById("d-status-readout");
+  dReadout.textContent = statusLabel(dStatus).toUpperCase();
+  dReadout.style.background = statusColor(dStatus);
+  document.getElementById("d-priority").value = proj.priority || "media";
+  document.getElementById("d-notes").value = proj.notes || "";
+
+  renderPhaseList(proj);
+  renderSubprojList(proj);
+  renderDepList(proj);
+  renderDepSelect(proj);
+
+  document.getElementById("overlay-detail").classList.add("open");
+}
+
+function renderPhaseList(proj) {
+  const list = document.getElementById("phase-list");
+  list.innerHTML = "";
+  sortedMs(proj).forEach(m => {
+    const block = document.createElement("div");
+    block.className = "phase-block";
+
+    const row = document.createElement("div");
+    row.className = "phase-item";
+    row.innerHTML = `
+      <input type="checkbox" ${m.completed ? "checked" : ""} data-mid="${m.id}" class="ms-check">
+      <div class="pinfo"><input type="text" class="ms-name" data-mid="${m.id}" value="${escapeHtml(m.phase)}" placeholder="Nombre del hito"></div>
+      <input type="date" class="ms-date" data-mid="${m.id}" value="${m.date}">
+      <button type="button" class="ms-remove" data-mid="${m.id}" title="Eliminar hito">✕</button>
+    `;
+    row.querySelector(".ms-remove").addEventListener("click", () => {
+      if (proj.milestones.length <= 1) { alert("Un proyecto necesita al menos un hito."); return; }
+      if (!confirm('Eliminar el hito "' + m.phase + '"? Tambien se borran sus tareas.')) return;
+      proj.milestones = proj.milestones.filter(x => x.id !== m.id);
+      state.dependencies = (state.dependencies || []).filter(d => d.fromMilestoneId !== m.id && d.toMilestoneId !== m.id);
+      save();
+      const p2 = state.projects.find(p => p.id === editingProjectId);
+      renderPhaseList(p2);
+      renderDepList(p2);
+      renderDepSelect(p2);
+    });
+    block.appendChild(row);
+
+    const subWrap = document.createElement("div");
+    subWrap.className = "subtask-wrap";
+    (m.subtasks || []).forEach(s => {
+      const srow = document.createElement("div");
+      srow.className = "subtask-row";
+      srow.innerHTML = `<input type="checkbox" ${s.done ? "checked" : ""}>
+        <span class="stxt ${s.done ? "done" : ""}">${escapeHtml(s.text)}</span>
+        <button class="link" style="text-decoration:none;color:#c62828;">✕</button>`;
+      const cb = srow.querySelector("input");
+      cb.addEventListener("change", () => {
+        s.done = cb.checked;
+        save();
+        const p2 = state.projects.find(p => p.id === editingProjectId);
+        renderPhaseList(p2);
+      });
+      srow.querySelector("button").addEventListener("click", () => {
+        m.subtasks = m.subtasks.filter(x => x !== s);
+        save();
+        const p2 = state.projects.find(p => p.id === editingProjectId);
+        renderPhaseList(p2);
+      });
+      subWrap.appendChild(srow);
+    });
+
+    const addRow = document.createElement("div");
+    addRow.className = "subtask-add";
+    addRow.innerHTML = `<input type="text" placeholder="Agregar tarea de este hito...">
+      <button class="secondary small">Agregar</button>`;
+    const input = addRow.querySelector("input");
+    const addBtn = addRow.querySelector("button");
+    const doAdd = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      m.subtasks = m.subtasks || [];
+      m.subtasks.push({ id: uid("s"), text, done: false });
+      save();
+      const p2 = state.projects.find(p => p.id === editingProjectId);
+      renderPhaseList(p2);
+    };
+    addBtn.addEventListener("click", doAdd);
+    input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); doAdd(); } });
+    subWrap.appendChild(addRow);
+
+    const commentWrap = document.createElement("div");
+    commentWrap.style.margin = "6px 0 0 28px";
+    commentWrap.innerHTML = `<textarea class="ms-comment" placeholder="Comentario de este hito (bloqueos, contexto...)" style="width:100%;min-height:34px;font-size:12px;padding:6px 8px;border:2px solid var(--border);border-radius:6px;font-family:inherit;">${escapeHtml(m.comment || "")}</textarea>`;
+    const commentArea = commentWrap.querySelector("textarea");
+    commentArea.addEventListener("change", () => { m.comment = commentArea.value.trim(); save(); });
+    block.appendChild(commentWrap);
+
+    block.appendChild(subWrap);
+    list.appendChild(block);
+  });
+}
+
+function renderSubprojList(proj) {
+  const list = document.getElementById("subproj-list");
+  list.innerHTML = "";
+  proj.subprojects = proj.subprojects || [];
+  if (proj.subprojects.length === 0) {
+    list.innerHTML = '<div style="color:#999;font-size:12px;padding:4px 0;">Sin sub-proyectos todavia.</div>';
+  }
+  proj.subprojects.forEach(sp => {
+    sp.subtasks = sp.subtasks || [];
+    const row = document.createElement("div");
+    row.className = "subproj-row";
+    const spStatus = getSubprojStatus(sp);
+    row.innerHTML = `
+      <input type="text" class="sp-name" value="${escapeHtml(sp.name)}" placeholder="Nombre del sub-proyecto">
+      <input type="date" class="sp-duedate" value="${sp.dueDate || ""}" title="Fecha objetivo">
+      <span class="dot" style="background:${statusColor(spStatus)}" title="Estatus automatico: ${statusLabel(spStatus)}"></span>
+      <label class="chk"><input type="checkbox" class="sp-completed" ${sp.completed ? "checked" : ""}> Completado</label>
+      <button type="button" class="ms-remove" title="Eliminar sub-proyecto">✕</button>
+    `;
+    row.querySelector(".sp-name").addEventListener("change", e => { sp.name = e.target.value.trim() || sp.name; save(); });
+    row.querySelector(".sp-duedate").addEventListener("change", e => {
+      sp.dueDate = e.target.value || null;
+      save();
+      renderSubprojList(state.projects.find(p => p.id === editingProjectId));
+    });
+    row.querySelector(".sp-completed").addEventListener("change", e => {
+      sp.completed = e.target.checked;
+      save();
+      renderSubprojList(state.projects.find(p => p.id === editingProjectId));
+    });
+    row.querySelector(".ms-remove").addEventListener("click", () => {
+      if (!confirm('Eliminar el sub-proyecto "' + sp.name + '"?')) return;
+      proj.subprojects = proj.subprojects.filter(x => x.id !== sp.id);
+      save();
+      const p2 = state.projects.find(p => p.id === editingProjectId);
+      renderSubprojList(p2);
+    });
+    list.appendChild(row);
+
+    const subWrap = document.createElement("div");
+    subWrap.className = "subtask-wrap";
+    sp.subtasks.forEach(t => {
+      const srow = document.createElement("div");
+      srow.className = "subtask-row";
+      srow.innerHTML = `<input type="checkbox" ${t.done ? "checked" : ""}>
+        <span class="stxt ${t.done ? "done" : ""}">${escapeHtml(t.text)}</span>
+        <button class="link" style="text-decoration:none;color:#c62828;">✕</button>`;
+      const cb = srow.querySelector("input");
+      cb.addEventListener("change", () => {
+        t.done = cb.checked;
+        save();
+        const p2 = state.projects.find(p => p.id === editingProjectId);
+        renderSubprojList(p2);
+      });
+      srow.querySelector("button").addEventListener("click", () => {
+        sp.subtasks = sp.subtasks.filter(x => x !== t);
+        save();
+        const p2 = state.projects.find(p => p.id === editingProjectId);
+        renderSubprojList(p2);
+      });
+      subWrap.appendChild(srow);
+    });
+    const addRow = document.createElement("div");
+    addRow.className = "subtask-add";
+    addRow.innerHTML = `<input type="text" placeholder="Agregar tarea de este sub-proyecto...">
+      <button class="secondary small">Agregar</button>`;
+    const input = addRow.querySelector("input");
+    const addBtn = addRow.querySelector("button");
+    const doAdd = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      sp.subtasks.push({ id: uid("s"), text, done: false });
+      save();
+      const p2 = state.projects.find(p => p.id === editingProjectId);
+      renderSubprojList(p2);
+    };
+    addBtn.addEventListener("click", doAdd);
+    input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); doAdd(); } });
+    subWrap.appendChild(addRow);
+    list.appendChild(subWrap);
+  });
+}
+
+document.getElementById("btn-add-subproject").addEventListener("click", () => {
+  const proj = state.projects.find(p => p.id === editingProjectId);
+  if (!proj) return;
+  proj.subprojects = proj.subprojects || [];
+  const ord = sortedMs(proj);
+  const defaultDue = ord.length ? ord[ord.length - 1].date : null;
+  proj.subprojects.push({ id: uid("sp"), name: "Nuevo sub-proyecto", dueDate: defaultDue, completed: false, subtasks: [] });
+  save();
+  renderSubprojList(proj);
+});
+
+function renderDepList(proj) {
+  const depBox = document.getElementById("dep-list");
+  const deps = (state.dependencies || []).filter(d => d.fromProjectId === proj.id);
+  if (deps.length === 0) {
+    depBox.innerHTML = '<div style="color:#999;">Sin dependencias registradas.</div>';
+    return;
+  }
+  depBox.innerHTML = "";
+  deps.forEach(d => {
+    const toProj = state.projects.find(p => p.id === d.toProjectId);
+    const toMs = toProj ? toProj.milestones.find(m => m.id === d.toMilestoneId) : null;
+    const row = document.createElement("div");
+    row.className = "dep-row";
+    row.innerHTML = `<span>Depende de: <strong>${escapeHtml(toProj ? toProj.name : "?")}</strong> — ${escapeHtml(toMs ? toMs.phase : "?")}</span>`;
+    const rm = document.createElement("button");
+    rm.className = "link"; rm.textContent = "Quitar";
+    rm.addEventListener("click", () => {
+      state.dependencies = state.dependencies.filter(x => x !== d);
+      save();
+      renderDepList(proj);
+    });
+    row.appendChild(rm);
+    depBox.appendChild(row);
+  });
+}
+
+function renderDepSelect(proj) {
+  const sel = document.getElementById("dep-select");
+  sel.innerHTML = "";
+  state.projects.filter(p => p.id !== proj.id).forEach(p => {
+    sortedMs(p).forEach(m => {
+      const opt = document.createElement("option");
+      opt.value = p.id + "::" + m.id;
+      opt.textContent = p.name + " — " + m.phase;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+document.getElementById("btn-add-milestone").addEventListener("click", () => {
+  const proj = state.projects.find(p => p.id === editingProjectId);
+  if (!proj) return;
+  const ordered = sortedMs(proj);
+  const last = ordered[ordered.length - 1];
+  const d = new Date(last.date + "T00:00:00");
+  d.setDate(d.getDate() + 14);
+  proj.milestones.push({ id: uid("m"), phase: "Nuevo hito", date: d.toISOString().slice(0, 10), completed: false, completedAt: null, subtasks: [], comment: "" });
+  save();
+  renderPhaseList(proj);
+  renderDepSelect(proj);
+});
+
+document.getElementById("btn-add-dep").addEventListener("click", () => {
+  const sel = document.getElementById("dep-select");
+  if (!sel.value) return;
+  const [toProjectId, toMilestoneId] = sel.value.split("::");
+  state.dependencies = state.dependencies || [];
+  state.dependencies.push({ fromProjectId: editingProjectId, fromMilestoneId: getFirstIncompleteOrLastMilestone(editingProjectId), toProjectId, toMilestoneId });
+  save();
+  const proj = state.projects.find(p => p.id === editingProjectId);
+  renderDepList(proj);
+});
+
+function getFirstIncompleteOrLastMilestone(projectId) {
+  const proj = state.projects.find(p => p.id === projectId);
+  const incomplete = proj.milestones.find(m => !m.completed);
+  return (incomplete || proj.milestones[proj.milestones.length - 1]).id;
+}
+
+document.getElementById("btn-save-project").addEventListener("click", () => {
+  const proj = state.projects.find(p => p.id === editingProjectId);
+  proj.name = document.getElementById("d-name").value.trim() || proj.name;
+  proj.owner = document.getElementById("d-owner").value.trim();
+  proj.priority = document.getElementById("d-priority").value;
+  proj.notes = document.getElementById("d-notes").value.trim();
+  document.querySelectorAll(".ms-check").forEach(cb => {
+    const m = proj.milestones.find(x => x.id === cb.dataset.mid);
+    if (m) {
+      const wasCompleted = m.completed;
+      m.completed = cb.checked;
+      if (m.completed && !wasCompleted) m.completedAt = todayISO();
+      else if (!m.completed) m.completedAt = null;
+    }
+  });
+  document.querySelectorAll(".ms-date").forEach(inp => {
+    const m = proj.milestones.find(x => x.id === inp.dataset.mid);
+    if (m && inp.value) m.date = inp.value;
+  });
+  document.querySelectorAll(".ms-name").forEach(inp => {
+    const m = proj.milestones.find(x => x.id === inp.dataset.mid);
+    if (m) m.phase = inp.value.trim() || m.phase;
+  });
+  save();
+  document.getElementById("overlay-detail").classList.remove("open");
+});
+
+document.getElementById("btn-delete-project").addEventListener("click", () => {
+  if (!confirm("Eliminar este proyecto y sus hitos? Esta accion no se puede deshacer.")) return;
+  state.projects = state.projects.filter(p => p.id !== editingProjectId);
+  state.dependencies = (state.dependencies || []).filter(d => d.fromProjectId !== editingProjectId && d.toProjectId !== editingProjectId);
+  save();
+  document.getElementById("overlay-detail").classList.remove("open");
+});
+
+// ---- New project modal ----
+document.getElementById("btn-new-project").addEventListener("click", () => {
+  document.getElementById("n-name").value = "";
+  document.getElementById("n-owner").value = "";
+  document.getElementById("n-priority").value = "media";
+  document.getElementById("n-start").value = new Date().toISOString().slice(0, 10);
+  document.getElementById("overlay-new").classList.add("open");
+});
+
+document.getElementById("btn-create-project").addEventListener("click", () => {
+  const name = document.getElementById("n-name").value.trim();
+  if (!name) { alert("Ponle un nombre al proyecto."); return; }
+  const owner = document.getElementById("n-owner").value.trim();
+  const priority = document.getElementById("n-priority").value;
+  const start = document.getElementById("n-start").value || new Date().toISOString().slice(0, 10);
+
+  const addWeeks = (dateStr, w) => {
+    const d = new Date(dateStr + "T00:00:00");
+    d.setDate(d.getDate() + w * 14);
+    return d.toISOString().slice(0, 10);
+  };
+  const milestones = PHASES.map((ph, i) => ({ id: uid("m"), phase: ph, date: addWeeks(start, i), completed: false, completedAt: null, subtasks: [] }));
+  state.projects.push({ id: uid("p"), name, owner, priority, notes: "", milestones, subprojects: [] });
+  save();
+  document.getElementById("overlay-new").classList.remove("open");
+});
+
+// ---- Company-wide goals (independent of any project) ----
+function openGoalInfo(goalId) {
+  const g = (state.goals || []).find(x => x.id === goalId);
+  if (!g) return;
+  editingGoalId = goalId;
+  const today = todayISO();
+  const overdue = !g.completed && g.date < today;
+  document.getElementById("goal-info-title").textContent = g.name;
+  const pill = document.getElementById("goal-info-pill");
+  pill.textContent = g.completed ? "CUMPLIDA" : (overdue ? "ATRASADA" : "PENDIENTE");
+  pill.style.background = g.completed ? "#16C784" : (overdue ? "#FF4D5E" : "#7C3AED");
+  document.getElementById("goal-info-meta").textContent =
+    "Fecha: " + g.date + (g.completed && g.completedAt ? " · Cumplida el: " + g.completedAt : "");
+  document.getElementById("goal-info-note").textContent = g.note || "Sin notas.";
+  document.getElementById("overlay-goal-info").classList.add("open");
+}
+
+document.getElementById("btn-edit-goal").addEventListener("click", () => {
+  document.getElementById("overlay-goal-info").classList.remove("open");
+  openGoalModal(editingGoalId);
+});
+
+function openGoalModal(goalId) {
+  editingGoalId = goalId || null;
+  const goal = goalId ? (state.goals || []).find(g => g.id === goalId) : null;
+  document.getElementById("goal-modal-title").textContent = goal ? "Editar milestone de empresa" : "Nuevo milestone de empresa";
+  document.getElementById("g-name").value = goal ? goal.name : "";
+  document.getElementById("g-date").value = goal ? goal.date : new Date().toISOString().slice(0, 10);
+  document.getElementById("g-completed").checked = goal ? !!goal.completed : false;
+  document.getElementById("g-note").value = goal ? (goal.note || "") : "";
+  document.getElementById("btn-delete-goal").style.display = goal ? "inline-block" : "none";
+  document.getElementById("overlay-goal").classList.add("open");
+}
+
+document.getElementById("btn-new-goal").addEventListener("click", () => openGoalModal(null));
+
+document.getElementById("btn-save-goal").addEventListener("click", () => {
+  const name = document.getElementById("g-name").value.trim();
+  if (!name) { alert("Ponle un nombre a la meta."); return; }
+  const date = document.getElementById("g-date").value || todayISO();
+  const completed = document.getElementById("g-completed").checked;
+  const note = document.getElementById("g-note").value.trim();
+  state.goals = state.goals || [];
+  if (editingGoalId) {
+    const g = state.goals.find(x => x.id === editingGoalId);
+    if (g) {
+      const wasCompleted = g.completed;
+      g.name = name; g.date = date; g.completed = completed; g.note = note;
+      if (completed && !wasCompleted) g.completedAt = todayISO();
+      else if (!completed) g.completedAt = null;
+    }
+  } else {
+    state.goals.push({ id: uid("g"), name, date, completed, completedAt: completed ? todayISO() : null, note });
+  }
+  save();
+  document.getElementById("overlay-goal").classList.remove("open");
+});
+
+document.getElementById("btn-delete-goal").addEventListener("click", () => {
+  if (!editingGoalId) return;
+  if (!confirm("Eliminar esta meta de empresa?")) return;
+  state.goals = (state.goals || []).filter(g => g.id !== editingGoalId);
+  save();
+  document.getElementById("overlay-goal").classList.remove("open");
+});
+
+document.querySelectorAll("[data-close]").forEach(btn => {
+  btn.addEventListener("click", () => document.getElementById(btn.dataset.close).classList.remove("open"));
+});
+document.querySelectorAll(".overlay").forEach(ov => {
+  ov.addEventListener("click", e => { if (e.target === ov) ov.classList.remove("open"); });
+});
+
+// ---- Modo solo lectura (oculta botones de edicion; no es seguridad real) ----
+function applyViewOnly() {
+  const on = localStorage.getItem("roadmapViewOnly") === "1";
+  document.body.classList.toggle("view-only", on);
+  document.getElementById("btn-view-only").textContent = on ? "Salir de modo lectura" : "Modo solo lectura";
+}
+document.getElementById("btn-view-only").addEventListener("click", () => {
+  const on = localStorage.getItem("roadmapViewOnly") === "1";
+  localStorage.setItem("roadmapViewOnly", on ? "0" : "1");
+  applyViewOnly();
+});
+
+// ---- Exportar CSV de la tabla de KPIs ----
+function downloadBlob(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+function csvEscape(v) {
+  const s = String(v == null ? "" : v);
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+document.getElementById("btn-export-csv").addEventListener("click", () => {
+  const today = todayISO();
+  const rows = [["Proyecto", "Owner", "Estatus", "Prioridad", "Avance %", "Hitos completados", "Fecha de entrega", "Hitos atrasados"]];
+  getVisibleProjects().forEach(proj => {
+    const ordered = sortedMs(proj);
+    const deadline = ordered[ordered.length - 1];
+    const doneCount = proj.milestones.filter(m => m.completed).length;
+    const pct = Math.round((doneCount / proj.milestones.length) * 100);
+    const overdueCount = proj.milestones.filter(m => !m.completed && m.date < today).length;
+    rows.push([proj.name, proj.owner || "", statusLabel(getProjectStatus(proj)), priorityLabel(proj.priority), pct, doneCount + "/" + proj.milestones.length, deadline.date, overdueCount]);
+  });
+  const csv = rows.map(r => r.map(csvEscape).join(",")).join("\n");
+  downloadBlob(csv, "roadmap_proyectos_" + today + ".csv", "text/csv;charset=utf-8;");
+});
+
+// ---- Respaldo: exportar/importar el estado completo como JSON ----
+document.getElementById("btn-export-backup").addEventListener("click", () => {
+  downloadBlob(JSON.stringify(state, null, 2), "roadmap_respaldo_" + todayISO() + ".json", "application/json");
+});
+document.getElementById("btn-import-backup").addEventListener("click", () => {
+  document.getElementById("import-backup-input").click();
+});
+document.getElementById("import-backup-input").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (!Array.isArray(data.projects)) throw new Error("formato invalido");
+      if (!confirm("Esto reemplaza todos los datos actuales con el contenido del archivo. Continuar?")) return;
+      state = migrate(data);
+      save();
+      alert("Respaldo importado correctamente.");
+    } catch (err) {
+      alert("No se pudo leer el archivo: " + err.message);
+    }
+    e.target.value = "";
+  };
+  reader.readAsText(file);
+});
+
+// ---- Imprimir / PDF: usa el dialogo nativo del navegador con una hoja de estilos de impresion ----
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+applyViewOnly();
+load().then(render);
+</script>
+</body>
+</html>
