@@ -2062,4 +2062,16 @@ document.getElementById("btn-export-csv").addEventListener("click", () => {
     const doneCount = proj.milestones.filter(m => m.completed).length;
     const pct = Math.round((doneCount / proj.milestones.length) * 100);
     const overdueCount = proj.milestones.filter(m => !m.completed && m.date < today).length;
-    rows.push([proj.name, proj.owner || "", statusLabel(getProjectStatus(proj)), priorityL
+    rows.push([proj.name, proj.owner || "", statusLabel(getProjectStatus(proj)), priorityLabel(proj.priority), pct, doneCount + "/" + proj.milestones.length, deadline.date, overdueCount]);
+  });
+  const csv = rows.map(r => r.map(csvEscape).join(",")).join("\n");
+  downloadBlob(csv, "project_roadmap_" + today + ".csv", "text/csv;charset=utf-8;");
+});
+
+// ---- Print / PDF: uses the browser's native dialog with a print stylesheet ----
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+load().then(render);
+</script>
+</body>
+</html>
