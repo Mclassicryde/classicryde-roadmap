@@ -168,16 +168,16 @@
         {
           "id": "m11",
           "phase": "Intake",
-          "date": "2026-08-01",
+          "date": "Sat Aug 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-08-01",
+          "completedAt": "Sat Aug 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "m12",
           "phase": "Definition & Planning",
-          "date": "2026-08-15",
+          "date": "Sat Aug 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -186,7 +186,7 @@
         {
           "id": "m13",
           "phase": "Execution",
-          "date": "2026-08-29",
+          "date": "Sat Aug 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [
@@ -211,7 +211,7 @@
         {
           "id": "m14",
           "phase": "Follow-up",
-          "date": "2026-09-12",
+          "date": "Sat Sep 12 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [
@@ -226,7 +226,7 @@
         {
           "id": "m15",
           "phase": "Closeout",
-          "date": "2026-09-26",
+          "date": "Sat Sep 26 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
