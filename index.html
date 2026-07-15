@@ -580,6 +580,25 @@ let state = null;
 let editingProjectId = null;
 let editingGoalId = null;
 
+// ---- Live sync to the Google Sheet (optional; no-ops until configured) ----
+// Fill these in after deploying the Apps Script web app (see apps_script_code.gs.txt
+// and APPS_SCRIPT_SETUP.md in the same Drive folder). Leave SYNC_URL empty to keep
+// the dashboard fully local -- edits still save to this browser, they just won't be
+// written back to the Sheet or republished for everyone else.
+const SYNC_URL = "";
+const SYNC_SECRET = "";
+function syncToSheet(opOrOps) {
+  if (!SYNC_URL) return;
+  const body = Array.isArray(opOrOps)
+    ? { action: "batch", ops: opOrOps, secret: SYNC_SECRET }
+    : Object.assign({ secret: SYNC_SECRET }, opOrOps);
+  fetch(SYNC_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids a CORS preflight against Apps Script
+    body: JSON.stringify(body)
+  }).catch(() => { /* offline or unreachable -- the local copy is already saved via save() */ });
+}
+
 // ---- Filters (owner / status / priority) and KPI table sort order ----
 let filterOwner = "", filterStatus = "", filterPriority = "";
 let kpiSort = { col: null, dir: 1 };
@@ -1635,6 +1654,7 @@ function renderPhaseList(proj) {
       proj.milestones = proj.milestones.filter(x => x.id !== m.id);
       state.dependencies = (state.dependencies || []).filter(d => d.fromMilestoneId !== m.id && d.toMilestoneId !== m.id);
       save();
+      syncToSheet({ type: "deleteMilestone", id: m.id });
       const p2 = state.projects.find(p => p.id === editingProjectId);
       renderPhaseList(p2);
       renderDepList(p2);
@@ -1654,12 +1674,14 @@ function renderPhaseList(proj) {
       cb.addEventListener("change", () => {
         s.done = cb.checked;
         save();
+        syncToSheet({ type: "upsertSubtask", id: s.id, parentType: "milestone", parentId: m.id, text: s.text, done: s.done });
         const p2 = state.projects.find(p => p.id === editingProjectId);
         renderPhaseList(p2);
       });
       srow.querySelector("button").addEventListener("click", () => {
         m.subtasks = m.subtasks.filter(x => x !== s);
         save();
+        syncToSheet({ type: "deleteSubtask", id: s.id });
         const p2 = state.projects.find(p => p.id === editingProjectId);
         renderPhaseList(p2);
       });
@@ -1676,8 +1698,10 @@ function renderPhaseList(proj) {
       const text = input.value.trim();
       if (!text) return;
       m.subtasks = m.subtasks || [];
-      m.subtasks.push({ id: uid("s"), text, done: false });
+      const newSubtask = { id: uid("s"), text, done: false };
+      m.subtasks.push(newSubtask);
       save();
+      syncToSheet({ type: "upsertSubtask", id: newSubtask.id, parentType: "milestone", parentId: m.id, text: newSubtask.text, done: false });
       const p2 = state.projects.find(p => p.id === editingProjectId);
       renderPhaseList(p2);
     };
@@ -1689,7 +1713,11 @@ function renderPhaseList(proj) {
     commentWrap.style.margin = "6px 0 0 28px";
     commentWrap.innerHTML = `<textarea class="ms-comment" placeholder="Comment on this milestone (blockers, context...)" style="width:100%;min-height:34px;font-size:12px;padding:6px 8px;border:2px solid var(--border);border-radius:6px;font-family:inherit;">${escapeHtml(m.comment || "")}</textarea>`;
     const commentArea = commentWrap.querySelector("textarea");
-    commentArea.addEventListener("change", () => { m.comment = commentArea.value.trim(); save(); });
+    commentArea.addEventListener("change", () => {
+      m.comment = commentArea.value.trim();
+      save();
+      syncToSheet({ type: "upsertMilestone", id: m.id, projectId: proj.id, name: m.phase, date: m.date, completed: m.completed, completedAt: m.completedAt, comment: m.comment });
+    });
     block.appendChild(commentWrap);
 
     block.appendChild(subWrap);
@@ -1716,21 +1744,25 @@ function renderSubprojList(proj) {
       <label class="chk"><input type="checkbox" class="sp-completed" ${sp.completed ? "checked" : ""}> Completed</label>
       <button type="button" class="ms-remove" title="Delete subproject">✕</button>
     `;
-    row.querySelector(".sp-name").addEventListener("change", e => { sp.name = e.target.value.trim() || sp.name; save(); });
+    const syncSubproj = () => syncToSheet({ type: "upsertSubproject", id: sp.id, projectId: proj.id, name: sp.name, dueDate: sp.dueDate, completed: sp.completed });
+    row.querySelector(".sp-name").addEventListener("change", e => { sp.name = e.target.value.trim() || sp.name; save(); syncSubproj(); });
     row.querySelector(".sp-duedate").addEventListener("change", e => {
       sp.dueDate = e.target.value || null;
       save();
+      syncSubproj();
       renderSubprojList(state.projects.find(p => p.id === editingProjectId));
     });
     row.querySelector(".sp-completed").addEventListener("change", e => {
       sp.completed = e.target.checked;
       save();
+      syncSubproj();
       renderSubprojList(state.projects.find(p => p.id === editingProjectId));
     });
     row.querySelector(".ms-remove").addEventListener("click", () => {
       if (!confirm('Delete subproject "' + sp.name + '"?')) return;
       proj.subprojects = proj.subprojects.filter(x => x.id !== sp.id);
       save();
+      syncToSheet({ type: "deleteSubproject", id: sp.id });
       const p2 = state.projects.find(p => p.id === editingProjectId);
       renderSubprojList(p2);
     });
@@ -1748,12 +1780,14 @@ function renderSubprojList(proj) {
       cb.addEventListener("change", () => {
         t.done = cb.checked;
         save();
+        syncToSheet({ type: "upsertSubtask", id: t.id, parentType: "subproject", parentId: sp.id, text: t.text, done: t.done });
         const p2 = state.projects.find(p => p.id === editingProjectId);
         renderSubprojList(p2);
       });
       srow.querySelector("button").addEventListener("click", () => {
         sp.subtasks = sp.subtasks.filter(x => x !== t);
         save();
+        syncToSheet({ type: "deleteSubtask", id: t.id });
         const p2 = state.projects.find(p => p.id === editingProjectId);
         renderSubprojList(p2);
       });
@@ -1768,8 +1802,10 @@ function renderSubprojList(proj) {
     const doAdd = () => {
       const text = input.value.trim();
       if (!text) return;
-      sp.subtasks.push({ id: uid("s"), text, done: false });
+      const newSubtask = { id: uid("s"), text, done: false };
+      sp.subtasks.push(newSubtask);
       save();
+      syncToSheet({ type: "upsertSubtask", id: newSubtask.id, parentType: "subproject", parentId: sp.id, text: newSubtask.text, done: false });
       const p2 = state.projects.find(p => p.id === editingProjectId);
       renderSubprojList(p2);
     };
@@ -1786,8 +1822,10 @@ document.getElementById("btn-add-subproject").addEventListener("click", () => {
   proj.subprojects = proj.subprojects || [];
   const ord = sortedMs(proj);
   const defaultDue = ord.length ? ord[ord.length - 1].date : null;
-  proj.subprojects.push({ id: uid("sp"), name: "New subproject", dueDate: defaultDue, completed: false, subtasks: [] });
+  const newSubproj = { id: uid("sp"), name: "New subproject", dueDate: defaultDue, completed: false, subtasks: [] };
+  proj.subprojects.push(newSubproj);
   save();
+  syncToSheet({ type: "upsertSubproject", id: newSubproj.id, projectId: proj.id, name: newSubproj.name, dueDate: newSubproj.dueDate, completed: false });
   renderSubprojList(proj);
 });
 
@@ -1810,6 +1848,7 @@ function renderDepList(proj) {
     rm.addEventListener("click", () => {
       state.dependencies = state.dependencies.filter(x => x !== d);
       save();
+      syncToSheet({ type: "deleteDependency", fromProjectId: d.fromProjectId, fromMilestoneId: d.fromMilestoneId, toProjectId: d.toProjectId, toMilestoneId: d.toMilestoneId });
       renderDepList(proj);
     });
     row.appendChild(rm);
@@ -1837,8 +1876,10 @@ document.getElementById("btn-add-milestone").addEventListener("click", () => {
   const last = ordered[ordered.length - 1];
   const d = new Date(last.date + "T00:00:00");
   d.setDate(d.getDate() + 14);
-  proj.milestones.push({ id: uid("m"), phase: "New milestone", date: d.toISOString().slice(0, 10), completed: false, completedAt: null, subtasks: [], comment: "" });
+  const newMilestone = { id: uid("m"), phase: "New milestone", date: d.toISOString().slice(0, 10), completed: false, completedAt: null, subtasks: [], comment: "" };
+  proj.milestones.push(newMilestone);
   save();
+  syncToSheet({ type: "upsertMilestone", id: newMilestone.id, projectId: proj.id, name: newMilestone.phase, date: newMilestone.date, completed: false, completedAt: null, comment: "" });
   renderPhaseList(proj);
   renderDepSelect(proj);
 });
@@ -1847,9 +1888,11 @@ document.getElementById("btn-add-dep").addEventListener("click", () => {
   const sel = document.getElementById("dep-select");
   if (!sel.value) return;
   const [toProjectId, toMilestoneId] = sel.value.split("::");
+  const fromMilestoneId = getFirstIncompleteOrLastMilestone(editingProjectId);
   state.dependencies = state.dependencies || [];
-  state.dependencies.push({ fromProjectId: editingProjectId, fromMilestoneId: getFirstIncompleteOrLastMilestone(editingProjectId), toProjectId, toMilestoneId });
+  state.dependencies.push({ fromProjectId: editingProjectId, fromMilestoneId, toProjectId, toMilestoneId });
   save();
+  syncToSheet({ type: "addDependency", fromProjectId: editingProjectId, fromMilestoneId, toProjectId, toMilestoneId });
   const proj = state.projects.find(p => p.id === editingProjectId);
   renderDepList(proj);
 });
@@ -1884,6 +1927,12 @@ document.getElementById("btn-save-project").addEventListener("click", () => {
     if (m) m.phase = inp.value.trim() || m.phase;
   });
   save();
+  const ops = [{ type: "upsertProject", id: proj.id, name: proj.name, owner: proj.owner, priority: proj.priority, notes: proj.notes }];
+  proj.milestones.forEach(m => ops.push({
+    type: "upsertMilestone", id: m.id, projectId: proj.id, name: m.phase, date: m.date,
+    completed: m.completed, completedAt: m.completedAt, comment: m.comment
+  }));
+  syncToSheet(ops);
   document.getElementById("overlay-detail").classList.remove("open");
 });
 
@@ -1892,6 +1941,7 @@ document.getElementById("btn-delete-project").addEventListener("click", () => {
   state.projects = state.projects.filter(p => p.id !== editingProjectId);
   state.dependencies = (state.dependencies || []).filter(d => d.fromProjectId !== editingProjectId && d.toProjectId !== editingProjectId);
   save();
+  syncToSheet({ type: "deleteProject", id: editingProjectId });
   document.getElementById("overlay-detail").classList.remove("open");
 });
 
@@ -1955,6 +2005,7 @@ document.getElementById("btn-save-goal").addEventListener("click", () => {
   const completed = document.getElementById("g-completed").checked;
   const note = document.getElementById("g-note").value.trim();
   state.goals = state.goals || [];
+  let savedGoal;
   if (editingGoalId) {
     const g = state.goals.find(x => x.id === editingGoalId);
     if (g) {
@@ -1962,11 +2013,14 @@ document.getElementById("btn-save-goal").addEventListener("click", () => {
       g.name = name; g.date = date; g.completed = completed; g.note = note;
       if (completed && !wasCompleted) g.completedAt = todayISO();
       else if (!completed) g.completedAt = null;
+      savedGoal = g;
     }
   } else {
-    state.goals.push({ id: uid("g"), name, date, completed, completedAt: completed ? todayISO() : null, note });
+    savedGoal = { id: uid("g"), name, date, completed, completedAt: completed ? todayISO() : null, note };
+    state.goals.push(savedGoal);
   }
   save();
+  if (savedGoal) syncToSheet({ type: "upsertGoal", id: savedGoal.id, name: savedGoal.name, date: savedGoal.date, completed: savedGoal.completed, note: savedGoal.note });
   document.getElementById("overlay-goal").classList.remove("open");
 });
 
@@ -1975,6 +2029,7 @@ document.getElementById("btn-delete-goal").addEventListener("click", () => {
   if (!confirm("Delete this company goal?")) return;
   state.goals = (state.goals || []).filter(g => g.id !== editingGoalId);
   save();
+  syncToSheet({ type: "deleteGoal", id: editingGoalId });
   document.getElementById("overlay-goal").classList.remove("open");
 });
 
@@ -2007,17 +2062,4 @@ document.getElementById("btn-export-csv").addEventListener("click", () => {
     const doneCount = proj.milestones.filter(m => m.completed).length;
     const pct = Math.round((doneCount / proj.milestones.length) * 100);
     const overdueCount = proj.milestones.filter(m => !m.completed && m.date < today).length;
-    rows.push([proj.name, proj.owner || "", statusLabel(getProjectStatus(proj)), priorityLabel(proj.priority), pct, doneCount + "/" + proj.milestones.length, deadline.date, overdueCount]);
-  });
-  const csv = rows.map(r => r.map(csvEscape).join(",")).join("\n");
-  downloadBlob(csv, "project_roadmap_" + today + ".csv", "text/csv;charset=utf-8;");
-});
-
-// ---- Print / PDF: uses the browser's native dialog with a print stylesheet ----
-document.getElementById("btn-print").addEventListener("click", () => window.print());
-
-load().then(render);
-</script>
-</body>
-</html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+    rows.push([proj.name, proj.owner || "", statusLabel(getProjectStatus(proj)), priorityL

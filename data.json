@@ -31,7 +31,18 @@
           "date": "2026-07-29",
           "completed": true,
           "completedAt": "2026-07-29",
-          "subtasks": [],
+          "subtasks": [
+            {
+              "id": "s1",
+              "text": "Update main screens",
+              "done": true
+            },
+            {
+              "id": "s2",
+              "text": "Pilot driver testing",
+              "done": false
+            }
+          ],
           "comment": "Completed a few days late"
         },
         {
@@ -59,14 +70,36 @@
           "name": "iOS app",
           "dueDate": "2026-07-01",
           "completed": true,
-          "subtasks": []
+          "subtasks": [
+            {
+              "id": "s3",
+              "text": "Publish to the App Store",
+              "done": true
+            },
+            {
+              "id": "s4",
+              "text": "Final QA",
+              "done": true
+            }
+          ]
         },
         {
           "id": "sp2",
           "name": "Android app",
           "dueDate": "2026-07-25",
           "completed": false,
-          "subtasks": []
+          "subtasks": [
+            {
+              "id": "s5",
+              "text": "Adjust tablet UI",
+              "done": false
+            },
+            {
+              "id": "s6",
+              "text": "Performance testing",
+              "done": false
+            }
+          ]
         }
       ]
     },
@@ -156,7 +189,23 @@
           "date": "2026-08-29",
           "completed": false,
           "completedAt": null,
-          "subtasks": [],
+          "subtasks": [
+            {
+              "id": "s7",
+              "text": "Export current data",
+              "done": false
+            },
+            {
+              "id": "s8",
+              "text": "Map fields to new CRM",
+              "done": false
+            },
+            {
+              "id": "s9",
+              "text": "Validate duplicates",
+              "done": false
+            }
+          ],
           "comment": ""
         },
         {
@@ -165,7 +214,13 @@
           "date": "2026-09-12",
           "completed": false,
           "completedAt": null,
-          "subtasks": [],
+          "subtasks": [
+            {
+              "id": "s10",
+              "text": "Hire Account Manager",
+              "done": false
+            }
+          ],
           "comment": ""
         },
         {
@@ -184,7 +239,23 @@
           "name": "Contacts module",
           "dueDate": "2026-07-05",
           "completed": false,
-          "subtasks": []
+          "subtasks": [
+            {
+              "id": "s11",
+              "text": "Export from old CRM",
+              "done": true
+            },
+            {
+              "id": "s12",
+              "text": "Import to new CRM",
+              "done": false
+            },
+            {
+              "id": "s13",
+              "text": "Validate duplicates",
+              "done": false
+            }
+          ]
         },
         {
           "id": "sp4",
