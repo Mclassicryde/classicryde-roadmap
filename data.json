@@ -8,47 +8,29 @@
       "notes": "",
       "milestones": [
         {
-          "id": "m4",
-          "phase": "Follow-up",
-          "date": "Wed Aug 12 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m5",
-          "phase": "Closeout",
-          "date": "Wed Aug 26 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        },
-        {
           "id": "m1",
           "phase": "Intake",
-          "date": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-07-01",
           "completed": true,
-          "completedAt": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completedAt": "2026-07-01",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "m2",
           "phase": "Definition & Planning",
-          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-07-15",
           "completed": true,
-          "completedAt": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completedAt": "2026-07-15",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "m3",
           "phase": "Execution",
-          "date": "Wed Jul 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-07-29",
           "completed": true,
-          "completedAt": "Wed Jul 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completedAt": "2026-07-29",
           "subtasks": [
             {
               "id": "s1",
@@ -62,6 +44,24 @@
             }
           ],
           "comment": "Completed a few days late"
+        },
+        {
+          "id": "m4",
+          "phase": "Follow-up",
+          "date": "2026-08-12",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m5",
+          "phase": "Closeout",
+          "date": "2026-08-26",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
         }
       ],
       "subprojects": [
@@ -81,7 +81,8 @@
               "text": "Final QA",
               "done": true
             }
-          ]
+          ],
+          "subprojects": []
         },
         {
           "id": "sp2",
@@ -99,7 +100,8 @@
               "text": "Performance testing",
               "done": false
             }
-          ]
+          ],
+          "subprojects": []
         }
       ]
     },
@@ -168,16 +170,16 @@
         {
           "id": "m11",
           "phase": "Intake",
-          "date": "Sat Aug 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-08-01",
           "completed": true,
-          "completedAt": "Sat Aug 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completedAt": "2026-08-01",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "m12",
           "phase": "Definition & Planning",
-          "date": "Sat Aug 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-08-15",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -186,7 +188,7 @@
         {
           "id": "m13",
           "phase": "Execution",
-          "date": "Sat Aug 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-08-29",
           "completed": false,
           "completedAt": null,
           "subtasks": [
@@ -211,7 +213,7 @@
         {
           "id": "m14",
           "phase": "Follow-up",
-          "date": "Sat Sep 12 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-09-12",
           "completed": false,
           "completedAt": null,
           "subtasks": [
@@ -226,7 +228,7 @@
         {
           "id": "m15",
           "phase": "Closeout",
-          "date": "Sat Sep 26 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "date": "2026-09-26",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -255,14 +257,16 @@
               "text": "Validate duplicates",
               "done": false
             }
-          ]
+          ],
+          "subprojects": []
         },
         {
           "id": "sp4",
           "name": "Billing module",
           "dueDate": "2026-09-15",
           "completed": false,
-          "subtasks": []
+          "subtasks": [],
+          "subprojects": []
         }
       ]
     }
