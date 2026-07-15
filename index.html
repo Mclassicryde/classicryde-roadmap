@@ -62,8 +62,16 @@
   .kpi-table .kpi-atraso { color: var(--orange); font-weight: 700; }
   .kpi-table .kpi-ok { color: var(--gray); }
 
-  .toolbar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
-  .toolbar .edit-only-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  /* Every control (zoom/search/legend/upcoming/filters/export/print) lives on this one row,
+     so the timeline below gets as much vertical space as possible. Wraps on narrow screens. */
+  .toolbar {
+    display: flex; gap: 10px 14px; margin-bottom: 14px; align-items: center; flex-wrap: wrap;
+    font-size: 12px; color: var(--gray);
+  }
+  .toolbar label { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+  .toolbar select { font-size: 12.5px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 7px; font-family: inherit; }
+  .toolbar .zoom-group { display: flex; align-items: center; gap: 4px; background: #fff; border: 2px solid var(--border); border-radius: 9px; padding: 3px; }
+  .toolbar .zoom-group button { padding: 5px 12px; }
   .toolbar-sep { width: 1px; align-self: stretch; background: var(--border); margin: 0 2px; }
   button {
     font-family: inherit; font-size: 13px; cursor: pointer; border-radius: 9px; border: none;
@@ -75,13 +83,6 @@
   button.small { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
   button:hover { filter: brightness(1.08); }
 
-  /* Legend toggle, upcoming toggle and filters share one compact row to save space */
-  .controls-row {
-    display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 12px;
-    font-size: 12px; color: var(--gray);
-  }
-  .controls-row label { display: flex; align-items: center; gap: 6px; font-weight: 700; }
-  .controls-row select { font-size: 12.5px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 7px; font-family: inherit; }
   .upcoming-panel { display: none; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 6px 4px; margin-bottom: 14px; }
   .upcoming-panel.show { display: block; }
   .upcoming-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-bottom: 1px solid #f2f2f2; cursor: pointer; font-size: 12.5px; }
@@ -105,9 +106,6 @@
   .flag { font-size: 13px; display: inline-block; line-height: 1; }
   .legend-note { padding-top: 8px; border-top: 1px solid #f2f2f2; margin-top: 2px; font-size: 12px; }
 
-  .roadmap-toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-  .roadmap-toolbar .zoom-group { display: flex; align-items: center; gap: 4px; background: #fff; border: 2px solid var(--border); border-radius: 9px; padding: 3px; }
-  .roadmap-toolbar .zoom-group button { padding: 5px 12px; }
   #zoom-label { font-size: 12px; font-weight: 800; color: var(--navy); min-width: 42px; text-align: center; }
   #project-search { font-size: 13px; padding: 8px 10px; border: 2px solid var(--border); border-radius: 9px; font-family: inherit; min-width: 180px; flex: 1 1 180px; max-width: 320px; }
   .roadmap-viewport {
@@ -306,7 +304,7 @@
   /* Print / Save as PDF: the full diagram is unrolled (no zoom clipping), and everything
      that doesn't help a printed report is hidden (buttons, modals, controls). */
   @media print {
-    .toolbar, .roadmap-toolbar, .controls-row, .legend, .overlay { display: none !important; }
+    .toolbar, .legend, .overlay { display: none !important; }
     .kpi-detail { display: block !important; overflow: visible !important; }
     .roadmap-viewport { height: auto !important; max-height: none !important; overflow: visible !important; border: none; }
     .diagram-pan { position: static !important; transform: none !important; }
@@ -320,7 +318,7 @@
     .app { padding: 14px 10px 40px; }
     .summary-bar { padding: 12px 14px; gap: 10px 16px; }
     .summary-bar .metric .num { font-size: 20px; }
-    .toolbar, .roadmap-toolbar, .controls-row { gap: 8px; }
+    .toolbar { gap: 8px; }
     #project-search { min-width: 0; flex: 1 1 120px; max-width: none; }
     .kpi-table { min-width: 460px; }
     button { padding: 8px 12px; font-size: 12.5px; }
@@ -361,19 +359,19 @@
     </table>
   </div>
 
-  <div class="toolbar">
-    <span class="edit-only-group">
-      <button id="btn-new-project" class="edit-only">+ New project</button>
-      <button id="btn-new-goal" class="edit-only" style="background:#7C3AED;">+ Add company milestone</button>
-    </span>
-    <span class="toolbar-sep"></span>
-    <button class="secondary small" id="btn-export-csv">Export CSV</button>
-    <button class="secondary small" id="btn-print">Print / PDF</button>
-  </div>
-
   <div class="overdue-banner" id="overdue-banner"></div>
 
-  <div class="controls-row">
+  <!-- Everything lives on one compact row so the timeline below gets the most vertical space. -->
+  <div class="toolbar">
+    <div class="zoom-group">
+      <button class="secondary small" id="btn-zoom-out" title="Zoom out">−</button>
+      <span id="zoom-label">100%</span>
+      <button class="secondary small" id="btn-zoom-in" title="Zoom in">+</button>
+    </div>
+    <button class="secondary small" id="btn-zoom-fit">Fit all</button>
+    <button class="secondary small" id="btn-goto-today">Go to today</button>
+    <input type="text" id="project-search" placeholder="Search project, then Enter...">
+    <span class="toolbar-sep"></span>
     <button class="secondary small" id="btn-toggle-legend">View color legend ▾</button>
     <button class="secondary small" id="btn-toggle-upcoming">View upcoming steps ▾</button>
     <span class="toolbar-sep"></span>
@@ -391,6 +389,9 @@
       <option value="low">Low</option>
     </select></label>
     <button class="secondary small" id="btn-clear-filters">Clear filters</button>
+    <span class="toolbar-sep"></span>
+    <button class="secondary small" id="btn-export-csv">Export CSV</button>
+    <button class="secondary small" id="btn-print">Print / PDF</button>
   </div>
 
   <div class="upcoming-panel" id="upcoming-panel">
@@ -422,17 +423,6 @@
       <div style="margin-bottom:5px;">Arrow = this project depends on another</div>
       <div>Click any bubble, milestone, or goal to view its detail (does not edit it)</div>
     </div>
-  </div>
-
-  <div class="roadmap-toolbar">
-    <div class="zoom-group">
-      <button class="secondary small" id="btn-zoom-out" title="Zoom out">−</button>
-      <span id="zoom-label">100%</span>
-      <button class="secondary small" id="btn-zoom-in" title="Zoom in">+</button>
-    </div>
-    <button class="secondary small" id="btn-zoom-fit">Fit all</button>
-    <button class="secondary small" id="btn-goto-today">Go to today</button>
-    <input type="text" id="project-search" placeholder="Search project, then Enter...">
   </div>
 
   <div class="roadmap-viewport" id="roadmap-viewport">
@@ -1901,14 +1891,6 @@ document.getElementById("btn-delete-project").addEventListener("click", () => {
   document.getElementById("overlay-detail").classList.remove("open");
 });
 
-// ---- New project modal ----
-document.getElementById("btn-new-project").addEventListener("click", () => {
-  document.getElementById("n-name").value = "";
-  document.getElementById("n-owner").value = "";
-  document.getElementById("n-priority").value = "medium";
-  document.getElementById("n-start").value = new Date().toISOString().slice(0, 10);
-  document.getElementById("overlay-new").classList.add("open");
-});
 
 document.getElementById("btn-create-project").addEventListener("click", () => {
   const name = document.getElementById("n-name").value.trim();
@@ -1961,8 +1943,6 @@ function openGoalModal(goalId) {
   document.getElementById("btn-delete-goal").style.display = goal ? "inline-block" : "none";
   document.getElementById("overlay-goal").classList.add("open");
 }
-
-document.getElementById("btn-new-goal").addEventListener("click", () => openGoalModal(null));
 
 document.getElementById("btn-save-goal").addEventListener("click", () => {
   const name = document.getElementById("g-name").value.trim();
@@ -2036,4 +2016,4 @@ load().then(render);
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
