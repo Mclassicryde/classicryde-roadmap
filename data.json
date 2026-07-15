@@ -100,13 +100,6 @@
               "done": false
             }
           ]
-        },
-        {
-          "id": "sp_aqg7s5w",
-          "name": "New subproject",
-          "dueDate": "Wed Aug 26 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "subtasks": []
         }
       ]
     },
