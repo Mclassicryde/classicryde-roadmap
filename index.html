@@ -255,6 +255,8 @@
   .subproj-row input[type=date] { font-size: 12px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; width: 138px; flex: none; }
   .subproj-row .dot { flex-shrink: 0; }
   .subproj-row label.chk { display: flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--gray); white-space: nowrap; }
+  .subproj-row.subproj-row-nested { margin-left: 26px; border-left: 2px solid var(--border); padding-left: 10px; }
+  .subproj-nested-wrap { margin-bottom: 4px; }
 
   /* sub-projects: round bubbles (name + status inside, like a mini version of the parent
      bubble) connected back to it by a line */
@@ -274,6 +276,10 @@
     position: absolute; top: -8px; right: -8px; background: #fff; color: var(--navy); font-size: 9.5px;
     font-weight: 800; border-radius: 20px; padding: 2px 7px; box-shadow: 0 3px 8px rgba(0,0,0,0.2);
   }
+  /* second-level subprojects (subprojects of a subproject): a bit smaller, so the hierarchy
+     reads at a glance without needing a label to explain it. */
+  .subproj-circle.subproj-circle-nested { width: 78px; height: 78px; }
+  .subproj-circle.subproj-circle-nested .spn-name { font-size: 10px; }
   .subtask-wrap { margin: 6px 0 0 28px; }
   .subtask-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 12px; }
   .subtask-row input[type=checkbox] { width: 14px; height: 14px; }
@@ -705,6 +711,7 @@ function migrate(data) {
     const fallbackDue = ord.length ? ord[ord.length - 1].date : null;
     p.subprojects.forEach(sp => {
       if (!Array.isArray(sp.subtasks)) sp.subtasks = [];
+      if (!Array.isArray(sp.subprojects)) sp.subprojects = []; // subprojects of THIS subproject (one more level, the last one)
       if (!("dueDate" in sp)) sp.dueDate = fallbackDue; // old data carried a manual "status"; it's calculated by date now
       delete sp.status;
       if (sp.dueDate) {
@@ -714,6 +721,17 @@ function migrate(data) {
           sp.dueDate = fixedDue;
         }
       }
+      sp.subprojects.forEach(child => {
+        if (!Array.isArray(child.subtasks)) child.subtasks = [];
+        if (!("dueDate" in child)) child.dueDate = sp.dueDate;
+        if (child.dueDate) {
+          const fixedChildDue = repairDateStr(child.dueDate, null);
+          if (fixedChildDue !== child.dueDate) {
+            console.warn('Roadmap: repaired invalid nested subproject due date for "' + child.name + '": ' + JSON.stringify(child.dueDate) + " -> " + fixedChildDue);
+            child.dueDate = fixedChildDue;
+          }
+        }
+      });
     });
   });
   data.goals.forEach(g => {
@@ -1048,6 +1066,27 @@ function renderOverdueBanner() {
   });
 }
 
+// Distributes `count` items in an arc (petals) around (cx,cy), centered on baseAngleDeg,
+// spanning spreadDeg total, at a fixed distance `radius`. A single item sits exactly at
+// baseAngleDeg (no point spreading a fan of one). Angles are in the usual screen convention
+// (0deg = right, 90deg = down, -90deg = up).
+function fanPositions(cx, cy, baseAngleDeg, count, radius, spreadDeg) {
+  const out = [];
+  if (count <= 0) return out;
+  if (count === 1) {
+    const a = baseAngleDeg * Math.PI / 180;
+    out.push({ x: cx + radius * Math.cos(a), y: cy + radius * Math.sin(a) });
+    return out;
+  }
+  const start = baseAngleDeg - spreadDeg / 2;
+  const step = spreadDeg / (count - 1);
+  for (let i = 0; i < count; i++) {
+    const a = (start + step * i) * Math.PI / 180;
+    out.push({ x: cx + radius * Math.cos(a), y: cy + radius * Math.sin(a) });
+  }
+  return out;
+}
+
 function render() {
   renderSummary();
   const diagram = document.getElementById("diagram");
@@ -1075,6 +1114,8 @@ function render() {
   const TIER_STEP = 110;
   const MIN_GAP = 220; // min horizontal distance between bubbles sharing a side+tier
   const GOAL_TAG_DIST = 78; // how far a goal's name tag sits from the spine (inside the TIER_BASE buffer)
+  const SP_RADIUS_1 = 150; // distance from a project to its (1st level) subprojects
+  const SP_RADIUS_2 = 95;  // distance from a subproject to ITS subprojects (2nd/last level)
 
   const ms = allMilestones();
   const todayT = new Date(todayISO() + "T00:00:00").getTime();
@@ -1115,8 +1156,12 @@ function render() {
   // The 90px base leaves room for the bubble's own height plus the task-count badge that pokes out above it.
   // Sub-project chips extend further outward from whichever bubble has the most of them, so we
   // pad both edges of the canvas enough to fit that regardless of which tier/side it lands on.
-  const maxSubprojCount = Math.max(0, ...projects.map(p => (p.subprojects || []).length));
-  const subprojReach = maxSubprojCount > 0 ? 135 + maxSubprojCount * 108 : 0;
+  // Subprojects now fan out in an arc at a FIXED distance instead of stacking further out per
+  // item, so the extra space we need to reserve no longer grows with how many there are --
+  // just with whether there's a 2nd level (subprojects of subprojects) or not.
+  const hasAnySubprojects = projects.some(p => (p.subprojects || []).length > 0);
+  const hasAnyNestedSubprojects = projects.some(p => (p.subprojects || []).some(sp => (sp.subprojects || []).length > 0));
+  const subprojReach = hasAnySubprojects ? (SP_RADIUS_1 + (hasAnyNestedSubprojects ? SP_RADIUS_2 : 0) + 70) : 0;
   const SPINE_Y = 90 + subprojReach + TIER_BASE + maxTierAbove * TIER_STEP;
   const totalH = SPINE_Y + TIER_BASE + maxTierBelow * TIER_STEP + 130 + subprojReach;
   projects.forEach(proj => {
@@ -1316,13 +1361,16 @@ function render() {
     bubble.addEventListener("click", () => openInfo(proj.id));
     diagram.appendChild(bubble);
 
-    // sub-projects: round bubbles with their name and status inside, stacked outward from the
-    // parent (clear of its top-corner badges), each linked back to it by a line.
+    // sub-projects: round bubbles with their name and status inside, fanned out around the
+    // parent like petals (rather than stacked straight out), each linked back to it by a line.
+    // Each subproject can in turn have its own subprojects (one more level), fanned out around
+    // IT, continuing further outward -- a small "star" of nested circles.
     const subs = proj.subprojects || [];
+    const baseAngle = p.side === "above" ? -90 : 90;
+    const spread1 = subs.length > 1 ? Math.min(140, 40 + subs.length * 25) : 0;
+    const positions1 = fanPositions(p.x, p.y, baseAngle, subs.length, SP_RADIUS_1, spread1);
     subs.forEach((sp, si) => {
-      const dist = 135 + si * 108;
-      const cy = p.side === "above" ? p.y - dist : p.y + dist;
-      const cx = p.x;
+      const { x: cx, y: cy } = positions1[si];
       const color = statusColor(getSubprojStatus(sp));
 
       const line = document.createElementNS(svgNS, "line");
@@ -1352,6 +1400,47 @@ function render() {
       circle.title = sp.name + " — " + (sp.completed ? "completed" : statusLabel(getSubprojStatus(sp))) + (sp.dueDate ? " — due " + sp.dueDate : "") + (spTotal > 0 ? " — " + spDone + "/" + spTotal + " tasks" : "");
       circle.addEventListener("click", ev => { ev.stopPropagation(); openInfo(proj.id); });
       diagram.appendChild(circle);
+
+      // 2nd (last) level: this subproject's own subprojects, fanned out further outward
+      // continuing the same direction from the parent project through this subproject.
+      const children = sp.subprojects || [];
+      if (children.length) {
+        const outwardAngle = Math.atan2(cy - p.y, cx - p.x) * 180 / Math.PI;
+        const spread2 = children.length > 1 ? Math.min(110, 35 + children.length * 20) : 0;
+        const positions2 = fanPositions(cx, cy, outwardAngle, children.length, SP_RADIUS_2, spread2);
+        children.forEach((child, ci) => {
+          const { x: cx2, y: cy2 } = positions2[ci];
+          const color2 = statusColor(getSubprojStatus(child));
+
+          const line2 = document.createElementNS(svgNS, "line");
+          line2.setAttribute("x1", cx);
+          line2.setAttribute("y1", cy);
+          line2.setAttribute("x2", cx2);
+          line2.setAttribute("y2", cy2);
+          line2.setAttribute("stroke", color2);
+          line2.setAttribute("stroke-width", "2");
+          line2.setAttribute("stroke-dasharray", "4,4");
+          line2.setAttribute("opacity", "0.7");
+          subLineSvg.appendChild(line2);
+
+          const cTotal = (child.subtasks || []).length;
+          const cDone = (child.subtasks || []).filter(t => t.done).length;
+
+          const circle2 = document.createElement("div");
+          circle2.className = "subproj-circle subproj-circle-nested";
+          circle2.style.left = cx2 + "px";
+          circle2.style.top = cy2 + "px";
+          circle2.innerHTML = `
+            <div class="subproj-face" style="background:${color2}">
+              <div class="spn-name">${child.completed ? "✓ " : ""}${escapeHtml(child.name)}</div>
+            </div>
+            ${cTotal > 0 ? `<div class="sp-tasks">${cDone}/${cTotal}</div>` : ""}
+          `;
+          circle2.title = child.name + " — " + (child.completed ? "completed" : statusLabel(getSubprojStatus(child))) + (child.dueDate ? " — due " + child.dueDate : "") + (cTotal > 0 ? " — " + cDone + "/" + cTotal + " tasks" : "");
+          circle2.addEventListener("click", ev => { ev.stopPropagation(); openInfo(proj.id); });
+          diagram.appendChild(circle2);
+        });
+      }
     });
   });
   diagram.appendChild(subLineSvg);
@@ -1629,6 +1718,34 @@ function openInfo(projectId) {
         });
         spBox.appendChild(subList);
       }
+      // nested subprojects (one more level), shown indented under their parent
+      (sp.subprojects || []).forEach(child => {
+        const cTotal = (child.subtasks || []).length;
+        const cDone = (child.subtasks || []).filter(t => t.done).length;
+        const crow = document.createElement("div");
+        crow.style.display = "flex";
+        crow.style.alignItems = "center";
+        crow.style.gap = "8px";
+        crow.style.padding = "4px 0 4px 22px";
+        crow.innerHTML = `<span class="dot" style="background:${statusColor(getSubprojStatus(child))}"></span>
+          <span style="${child.completed ? "text-decoration:line-through;color:#999;" : ""}">${escapeHtml(child.name)}</span>
+          ${child.dueDate ? `<span style="color:var(--gray);font-size:11px;">due ${child.dueDate}</span>` : ""}
+          ${cTotal > 0 ? `<span style="color:var(--gray);font-size:11px;">${cDone}/${cTotal} tasks</span>` : ""}
+          ${child.completed ? '<span style="color:#16C784;font-weight:700;font-size:11px;">completed</span>' : ""}`;
+        spBox.appendChild(crow);
+        if (cTotal > 0) {
+          const cSubList = document.createElement("div");
+          cSubList.className = "info-sub-list";
+          cSubList.style.marginLeft = "44px";
+          child.subtasks.forEach(t => {
+            const srow = document.createElement("div");
+            srow.className = "info-sub-row" + (t.done ? " done" : "");
+            srow.textContent = (t.done ? "✓ " : "○ ") + t.text;
+            cSubList.appendChild(srow);
+          });
+          spBox.appendChild(cSubList);
+        }
+      });
     });
   }
 
@@ -1770,6 +1887,55 @@ function renderPhaseList(proj) {
   });
 }
 
+// Shared by both levels of subprojects: renders the checklist under a subproject row and
+// wires up add/toggle/delete, all synced with parentType "subproject" (subtasks always hang
+// off a subproject regardless of which level that subproject itself is at).
+function renderSubprojSubtaskWrap(container, owner, onChange) {
+  owner.subtasks = owner.subtasks || [];
+  const subWrap = document.createElement("div");
+  subWrap.className = "subtask-wrap";
+  owner.subtasks.forEach(t => {
+    const srow = document.createElement("div");
+    srow.className = "subtask-row";
+    srow.innerHTML = `<input type="checkbox" ${t.done ? "checked" : ""}>
+      <span class="stxt ${t.done ? "done" : ""}">${escapeHtml(t.text)}</span>
+      <button class="link" style="text-decoration:none;color:#c62828;">✕</button>`;
+    const cb = srow.querySelector("input");
+    cb.addEventListener("change", () => {
+      t.done = cb.checked;
+      save();
+      syncToSheet({ type: "upsertSubtask", id: t.id, parentType: "subproject", parentId: owner.id, text: t.text, done: t.done });
+      onChange();
+    });
+    srow.querySelector("button").addEventListener("click", () => {
+      owner.subtasks = owner.subtasks.filter(x => x !== t);
+      save();
+      syncToSheet({ type: "deleteSubtask", id: t.id });
+      onChange();
+    });
+    subWrap.appendChild(srow);
+  });
+  const addRow = document.createElement("div");
+  addRow.className = "subtask-add";
+  addRow.innerHTML = `<input type="text" placeholder="Add a task for this subproject...">
+    <button class="secondary small">Add</button>`;
+  const input = addRow.querySelector("input");
+  const addBtn = addRow.querySelector("button");
+  const doAdd = () => {
+    const text = input.value.trim();
+    if (!text) return;
+    const newSubtask = { id: uid("s"), text, done: false };
+    owner.subtasks.push(newSubtask);
+    save();
+    syncToSheet({ type: "upsertSubtask", id: newSubtask.id, parentType: "subproject", parentId: owner.id, text: newSubtask.text, done: false });
+    onChange();
+  };
+  addBtn.addEventListener("click", doAdd);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); doAdd(); } });
+  subWrap.appendChild(addRow);
+  container.appendChild(subWrap);
+}
+
 function renderSubprojList(proj) {
   const list = document.getElementById("subproj-list");
   list.innerHTML = "";
@@ -1777,8 +1943,11 @@ function renderSubprojList(proj) {
   if (proj.subprojects.length === 0) {
     list.innerHTML = '<div style="color:#999;font-size:12px;padding:4px 0;">No subprojects yet.</div>';
   }
+  const refresh = () => renderSubprojList(state.projects.find(p => p.id === editingProjectId));
+
   proj.subprojects.forEach(sp => {
     sp.subtasks = sp.subtasks || [];
+    sp.subprojects = sp.subprojects || [];
     const row = document.createElement("div");
     row.className = "subproj-row";
     const spStatus = getSubprojStatus(sp);
@@ -1787,77 +1956,62 @@ function renderSubprojList(proj) {
       <input type="date" class="sp-duedate" value="${sp.dueDate || ""}" title="Target date">
       <span class="dot" style="background:${statusColor(spStatus)}" title="Automatic status: ${statusLabel(spStatus)}"></span>
       <label class="chk"><input type="checkbox" class="sp-completed" ${sp.completed ? "checked" : ""}> Completed</label>
+      <button type="button" class="link sp-add-child" style="text-decoration:none;white-space:nowrap;" title="Add a subproject nested under this one">+ Sub</button>
       <button type="button" class="ms-remove" title="Delete subproject">✕</button>
     `;
-    const syncSubproj = () => syncToSheet({ type: "upsertSubproject", id: sp.id, projectId: proj.id, name: sp.name, dueDate: sp.dueDate, completed: sp.completed });
+    const syncSubproj = () => syncToSheet({ type: "upsertSubproject", id: sp.id, parentType: "project", parentId: proj.id, name: sp.name, dueDate: sp.dueDate, completed: sp.completed });
     row.querySelector(".sp-name").addEventListener("change", e => { sp.name = e.target.value.trim() || sp.name; save(); syncSubproj(); });
-    row.querySelector(".sp-duedate").addEventListener("change", e => {
-      sp.dueDate = e.target.value || null;
+    row.querySelector(".sp-duedate").addEventListener("change", e => { sp.dueDate = e.target.value || null; save(); syncSubproj(); refresh(); });
+    row.querySelector(".sp-completed").addEventListener("change", e => { sp.completed = e.target.checked; save(); syncSubproj(); refresh(); });
+    row.querySelector(".sp-add-child").addEventListener("click", () => {
+      const newChild = { id: uid("sp"), name: "New subproject", dueDate: sp.dueDate || null, completed: false, subtasks: [] };
+      sp.subprojects.push(newChild);
       save();
-      syncSubproj();
-      renderSubprojList(state.projects.find(p => p.id === editingProjectId));
-    });
-    row.querySelector(".sp-completed").addEventListener("change", e => {
-      sp.completed = e.target.checked;
-      save();
-      syncSubproj();
-      renderSubprojList(state.projects.find(p => p.id === editingProjectId));
+      syncToSheet({ type: "upsertSubproject", id: newChild.id, parentType: "subproject", parentId: sp.id, name: newChild.name, dueDate: newChild.dueDate, completed: false });
+      refresh();
     });
     row.querySelector(".ms-remove").addEventListener("click", () => {
-      if (!confirm('Delete subproject "' + sp.name + '"?')) return;
+      if (!confirm('Delete subproject "' + sp.name + '"' + (sp.subprojects.length ? " and its nested subprojects" : "") + '?')) return;
       proj.subprojects = proj.subprojects.filter(x => x.id !== sp.id);
       save();
       syncToSheet({ type: "deleteSubproject", id: sp.id });
-      const p2 = state.projects.find(p => p.id === editingProjectId);
-      renderSubprojList(p2);
+      refresh();
     });
     list.appendChild(row);
+    renderSubprojSubtaskWrap(list, sp, refresh);
 
-    const subWrap = document.createElement("div");
-    subWrap.className = "subtask-wrap";
-    sp.subtasks.forEach(t => {
-      const srow = document.createElement("div");
-      srow.className = "subtask-row";
-      srow.innerHTML = `<input type="checkbox" ${t.done ? "checked" : ""}>
-        <span class="stxt ${t.done ? "done" : ""}">${escapeHtml(t.text)}</span>
-        <button class="link" style="text-decoration:none;color:#c62828;">✕</button>`;
-      const cb = srow.querySelector("input");
-      cb.addEventListener("change", () => {
-        t.done = cb.checked;
-        save();
-        syncToSheet({ type: "upsertSubtask", id: t.id, parentType: "subproject", parentId: sp.id, text: t.text, done: t.done });
-        const p2 = state.projects.find(p => p.id === editingProjectId);
-        renderSubprojList(p2);
+    // nested subprojects (last level -- no further "+ Sub" button on these)
+    if (sp.subprojects.length) {
+      const nestedWrap = document.createElement("div");
+      nestedWrap.className = "subproj-nested-wrap";
+      sp.subprojects.forEach(child => {
+        child.subtasks = child.subtasks || [];
+        const crow = document.createElement("div");
+        crow.className = "subproj-row subproj-row-nested";
+        const cStatus = getSubprojStatus(child);
+        crow.innerHTML = `
+          <input type="text" class="sp-name" value="${escapeHtml(child.name)}" placeholder="Nested subproject name">
+          <input type="date" class="sp-duedate" value="${child.dueDate || ""}" title="Target date">
+          <span class="dot" style="background:${statusColor(cStatus)}" title="Automatic status: ${statusLabel(cStatus)}"></span>
+          <label class="chk"><input type="checkbox" class="sp-completed" ${child.completed ? "checked" : ""}> Completed</label>
+          <button type="button" class="ms-remove" title="Delete nested subproject">✕</button>
+        `;
+        const syncChild = () => syncToSheet({ type: "upsertSubproject", id: child.id, parentType: "subproject", parentId: sp.id, name: child.name, dueDate: child.dueDate, completed: child.completed });
+        crow.querySelector(".sp-name").addEventListener("change", e => { child.name = e.target.value.trim() || child.name; save(); syncChild(); });
+        crow.querySelector(".sp-duedate").addEventListener("change", e => { child.dueDate = e.target.value || null; save(); syncChild(); refresh(); });
+        crow.querySelector(".sp-completed").addEventListener("change", e => { child.completed = e.target.checked; save(); syncChild(); refresh(); });
+        crow.querySelector(".ms-remove").addEventListener("click", () => {
+          if (!confirm('Delete nested subproject "' + child.name + '"?')) return;
+          sp.subprojects = sp.subprojects.filter(x => x.id !== child.id);
+          save();
+          syncToSheet({ type: "deleteSubproject", id: child.id });
+          refresh();
+        });
+        nestedWrap.appendChild(crow);
+        renderSubprojSubtaskWrap(nestedWrap, child, refresh);
       });
-      srow.querySelector("button").addEventListener("click", () => {
-        sp.subtasks = sp.subtasks.filter(x => x !== t);
-        save();
-        syncToSheet({ type: "deleteSubtask", id: t.id });
-        const p2 = state.projects.find(p => p.id === editingProjectId);
-        renderSubprojList(p2);
-      });
-      subWrap.appendChild(srow);
-    });
-    const addRow = document.createElement("div");
-    addRow.className = "subtask-add";
-    addRow.innerHTML = `<input type="text" placeholder="Add a task for this subproject...">
-      <button class="secondary small">Add</button>`;
-    const input = addRow.querySelector("input");
-    const addBtn = addRow.querySelector("button");
-    const doAdd = () => {
-      const text = input.value.trim();
-      if (!text) return;
-      const newSubtask = { id: uid("s"), text, done: false };
-      sp.subtasks.push(newSubtask);
-      save();
-      syncToSheet({ type: "upsertSubtask", id: newSubtask.id, parentType: "subproject", parentId: sp.id, text: newSubtask.text, done: false });
-      const p2 = state.projects.find(p => p.id === editingProjectId);
-      renderSubprojList(p2);
-    };
-    addBtn.addEventListener("click", doAdd);
-    input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); doAdd(); } });
-    subWrap.appendChild(addRow);
-    list.appendChild(subWrap);
+      list.appendChild(nestedWrap);
+    }
   });
 }
 
@@ -1867,10 +2021,10 @@ document.getElementById("btn-add-subproject").addEventListener("click", () => {
   proj.subprojects = proj.subprojects || [];
   const ord = sortedMs(proj);
   const defaultDue = ord.length ? ord[ord.length - 1].date : null;
-  const newSubproj = { id: uid("sp"), name: "New subproject", dueDate: defaultDue, completed: false, subtasks: [] };
+  const newSubproj = { id: uid("sp"), name: "New subproject", dueDate: defaultDue, completed: false, subtasks: [], subprojects: [] };
   proj.subprojects.push(newSubproj);
   save();
-  syncToSheet({ type: "upsertSubproject", id: newSubproj.id, projectId: proj.id, name: newSubproj.name, dueDate: newSubproj.dueDate, completed: false });
+  syncToSheet({ type: "upsertSubproject", id: newSubproj.id, parentType: "project", parentId: proj.id, name: newSubproj.name, dueDate: newSubproj.dueDate, completed: false });
   renderSubprojList(proj);
 });
 
