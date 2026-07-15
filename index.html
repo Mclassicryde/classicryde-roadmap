@@ -1112,10 +1112,11 @@ function render() {
   const H_PAD = 140;
   const TIER_BASE = 165;
   const TIER_STEP = 110;
-  const MIN_GAP = 220; // min horizontal distance between bubbles sharing a side+tier
+  const MIN_GAP = 260; // min horizontal distance between bubbles sharing a side+tier (wider than
+                        // before so two adjacent projects' subproject fans have room not to collide)
   const GOAL_TAG_DIST = 78; // how far a goal's name tag sits from the spine (inside the TIER_BASE buffer)
-  const SP_RADIUS_1 = 150; // distance from a project to its (1st level) subprojects
-  const SP_RADIUS_2 = 95;  // distance from a subproject to ITS subprojects (2nd/last level)
+  const SP_RADIUS_1 = 170; // distance from a project to its (1st level) subprojects
+  const SP_RADIUS_2 = 100; // distance from a subproject to ITS subprojects (2nd/last level)
 
   const ms = allMilestones();
   const todayT = new Date(todayISO() + "T00:00:00").getTime();
@@ -1367,7 +1368,10 @@ function render() {
     // IT, continuing further outward -- a small "star" of nested circles.
     const subs = proj.subprojects || [];
     const baseAngle = p.side === "above" ? -90 : 90;
-    const spread1 = subs.length > 1 ? Math.min(140, 40 + subs.length * 25) : 0;
+    // Narrower fan than before: wide angles were pushing subprojects toward the bubble's top
+    // corners (where the overdue/task-count badges live) and toward whichever neighboring
+    // project was fanning out its own subprojects in the same direction.
+    const spread1 = subs.length > 1 ? Math.min(90, 20 + subs.length * 18) : 0;
     const positions1 = fanPositions(p.x, p.y, baseAngle, subs.length, SP_RADIUS_1, spread1);
     subs.forEach((sp, si) => {
       const { x: cx, y: cy } = positions1[si];
@@ -1406,7 +1410,7 @@ function render() {
       const children = sp.subprojects || [];
       if (children.length) {
         const outwardAngle = Math.atan2(cy - p.y, cx - p.x) * 180 / Math.PI;
-        const spread2 = children.length > 1 ? Math.min(110, 35 + children.length * 20) : 0;
+        const spread2 = children.length > 1 ? Math.min(80, 15 + children.length * 15) : 0;
         const positions2 = fanPositions(cx, cy, outwardAngle, children.length, SP_RADIUS_2, spread2);
         children.forEach((child, ci) => {
           const { x: cx2, y: cy2 } = positions2[ci];
