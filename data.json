@@ -273,6 +273,12 @@
       "fromMilestoneId": "m13",
       "toProjectId": "p1",
       "toMilestoneId": "m5"
+    },
+    {
+      "fromProjectId": "p1",
+      "fromMilestoneId": "m4",
+      "toProjectId": "p2",
+      "toMilestoneId": "m6"
     }
   ],
   "goals": [
