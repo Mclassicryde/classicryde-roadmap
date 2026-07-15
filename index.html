@@ -621,6 +621,20 @@ let lastPosOf = {};
 
 function uid(prefix) { return prefix + "_" + Math.random().toString(36).slice(2, 9); }
 
+// Defensive repair for dates coming from the Sheet/data.json. A milestone or goal with a
+// corrupted date (e.g. a full "Sat Sep 26 2026 03:00:00 GMT-0400..." string instead of
+// "2026-09-26") used to silently break the ENTIRE diagram: the timeline's min/max date range
+// turns into NaN and every position on the canvas collapses onto itself. This normalizes any
+// date-ish value to a clean "YYYY-MM-DD" once, at load time, so nothing downstream has to
+// worry about it. Returns `fallback` if the value can't be parsed as a date at all.
+function repairDateStr(v, fallback) {
+  if (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+  if (v === null || v === undefined || v === "") return fallback;
+  const d = new Date(v);
+  if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+  return fallback;
+}
+
 function sampleData() {
   const addWeeks = (dateStr, w) => {
     const d = new Date(dateStr + "T00:00:00");
@@ -668,6 +682,7 @@ function sampleData() {
 }
 
 function migrate(data) {
+  if (!Array.isArray(data.goals)) data.goals = [];
   (data.projects || []).forEach(p => {
     if (!p.priority) p.priority = "medium";
     delete p.status; // status is no longer stored manually, it's calculated on the fly
@@ -679,6 +694,11 @@ function migrate(data) {
       delete m.note;
       if (!("completedAt" in m)) m.completedAt = null;
       if (typeof m.comment !== "string") m.comment = "";
+      const fixedDate = repairDateStr(m.date, null);
+      if (fixedDate !== m.date) {
+        console.warn('Roadmap: repaired invalid milestone date for "' + (m.phase || m.id) + '" (' + p.name + '): ' + JSON.stringify(m.date) + " -> " + (fixedDate || todayISO()));
+        m.date = fixedDate || todayISO();
+      }
     });
     if (!Array.isArray(p.subprojects)) p.subprojects = [];
     const ord = sortedMs(p);
@@ -687,9 +707,22 @@ function migrate(data) {
       if (!Array.isArray(sp.subtasks)) sp.subtasks = [];
       if (!("dueDate" in sp)) sp.dueDate = fallbackDue; // old data carried a manual "status"; it's calculated by date now
       delete sp.status;
+      if (sp.dueDate) {
+        const fixedDue = repairDateStr(sp.dueDate, null);
+        if (fixedDue !== sp.dueDate) {
+          console.warn('Roadmap: repaired invalid subproject due date for "' + sp.name + '": ' + JSON.stringify(sp.dueDate) + " -> " + fixedDue);
+          sp.dueDate = fixedDue;
+        }
+      }
     });
   });
-  if (!Array.isArray(data.goals)) data.goals = [];
+  data.goals.forEach(g => {
+    const fixedGoalDate = repairDateStr(g.date, null);
+    if (fixedGoalDate !== g.date) {
+      console.warn('Roadmap: repaired invalid goal date for "' + g.name + '": ' + JSON.stringify(g.date) + " -> " + (fixedGoalDate || todayISO()));
+      g.date = fixedGoalDate || todayISO();
+    }
+  });
   return data;
 }
 
