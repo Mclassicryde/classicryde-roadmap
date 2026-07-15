@@ -272,6 +272,8 @@
     justify-content: center; text-align: center; padding: 8px; color: #fff; overflow: hidden;
   }
   .subproj-circle .spn-name { font-size: 12px; font-weight: 800; line-height: 1.2; text-align: center; }
+  .subproj-circle .spn-status { font-size: 9px; font-weight: 700; opacity: .85; text-transform: uppercase; letter-spacing: .03em; margin-top: 3px; text-align: center; }
+  .subproj-circle.subproj-circle-nested .spn-status { font-size: 8px; margin-top: 2px; }
   .subproj-circle .sp-tasks {
     position: absolute; top: -8px; right: -8px; background: #fff; color: var(--navy); font-size: 9.5px;
     font-weight: 800; border-radius: 20px; padding: 2px 7px; box-shadow: 0 3px 8px rgba(0,0,0,0.2);
@@ -1420,6 +1422,7 @@ function render() {
       circle.innerHTML = `
         <div class="subproj-face" style="background:${color}">
           <div class="spn-name">${sp.completed ? "✓ " : ""}${escapeHtml(sp.name)}</div>
+          <div class="spn-status">${sp.completed ? "Completed" : statusLabel(getSubprojStatus(sp))}</div>
         </div>
         ${spTotal > 0 ? `<div class="sp-tasks">${spDone}/${spTotal}</div>` : ""}
       `;
@@ -1461,6 +1464,7 @@ function render() {
           circle2.innerHTML = `
             <div class="subproj-face" style="background:${color2}">
               <div class="spn-name">${child.completed ? "✓ " : ""}${escapeHtml(child.name)}</div>
+              <div class="spn-status">${child.completed ? "Completed" : statusLabel(getSubprojStatus(child))}</div>
             </div>
             ${cTotal > 0 ? `<div class="sp-tasks">${cDone}/${cTotal}</div>` : ""}
           `;
