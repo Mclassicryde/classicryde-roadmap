@@ -585,8 +585,8 @@ let editingGoalId = null;
 // and APPS_SCRIPT_SETUP.md in the same Drive folder). Leave SYNC_URL empty to keep
 // the dashboard fully local -- edits still save to this browser, they just won't be
 // written back to the Sheet or republished for everyone else.
-const SYNC_URL = "";
-const SYNC_SECRET = "";
+const SYNC_URL = "https://script.google.com/a/macros/classicryde.com/s/AKfycbyDTaQLTvBaqYZGuI753iSrzStTz-5iziXdOBzPovgZUDCqaLeS5ZVXIrcZatdAkK3b/exec";
+const SYNC_SECRET = "media2026";
 function syncToSheet(opOrOps) {
   if (!SYNC_URL) return;
   const body = Array.isArray(opOrOps)
