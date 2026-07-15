@@ -8,29 +8,47 @@
       "notes": "",
       "milestones": [
         {
+          "id": "m4",
+          "phase": "Follow-up",
+          "date": "Wed Aug 12 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m5",
+          "phase": "Closeout",
+          "date": "Wed Aug 26 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": ""
+        },
+        {
           "id": "m1",
           "phase": "Intake",
-          "date": "2026-07-01",
+          "date": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-07-01",
+          "completedAt": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "m2",
           "phase": "Definition & Planning",
-          "date": "2026-07-15",
+          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-07-15",
+          "completedAt": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "m3",
           "phase": "Execution",
-          "date": "2026-07-29",
+          "date": "Wed Jul 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-07-29",
+          "completedAt": "Wed Jul 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [
             {
               "id": "s1",
@@ -44,24 +62,6 @@
             }
           ],
           "comment": "Completed a few days late"
-        },
-        {
-          "id": "m4",
-          "phase": "Follow-up",
-          "date": "2026-08-12",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m5",
-          "phase": "Closeout",
-          "date": "2026-08-26",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
         }
       ],
       "subprojects": [
