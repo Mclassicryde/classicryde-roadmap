@@ -263,13 +263,6 @@
           "dueDate": "2026-09-15",
           "completed": false,
           "subtasks": []
-        },
-        {
-          "id": "sp5",
-          "name": "Reports module",
-          "dueDate": "2026-07-10",
-          "completed": true,
-          "subtasks": []
         }
       ]
     }
