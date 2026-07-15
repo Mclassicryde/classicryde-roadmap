@@ -1087,6 +1087,22 @@ function fanPositions(cx, cy, baseAngleDeg, count, radius, spreadDeg) {
   return out;
 }
 
+// Point on a circle's edge (radius r, centered at fromX/fromY) in the direction of (towardX,towardY).
+function pointTowardOnCircleEdge(fromX, fromY, towardX, towardY, r) {
+  const dx = towardX - fromX, dy = towardY - fromY;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  return { x: fromX + (dx / dist) * r, y: fromY + (dy / dist) * r };
+}
+// Point on an axis-aligned rectangle's edge (centered at cx0/cy0, given half-width/half-height)
+// in the direction of (towardX,towardY). Used so a connector line starts at the bubble's border
+// instead of cutting across the whole shape from its center.
+function pointOnRectEdge(cx0, cy0, halfW, halfH, towardX, towardY) {
+  const dx = towardX - cx0, dy = towardY - cy0;
+  if (dx === 0 && dy === 0) return { x: cx0, y: cy0 };
+  const t = 1 / Math.max(Math.abs(dx) / halfW, Math.abs(dy) / halfH);
+  return { x: cx0 + dx * t, y: cy0 + dy * t };
+}
+
 function render() {
   renderSummary();
   const diagram = document.getElementById("diagram");
@@ -1117,6 +1133,10 @@ function render() {
   const GOAL_TAG_DIST = 78; // how far a goal's name tag sits from the spine (inside the TIER_BASE buffer)
   const SP_RADIUS_1 = 170; // distance from a project to its (1st level) subprojects
   const SP_RADIUS_2 = 100; // distance from a subproject to ITS subprojects (2nd/last level)
+  const BUBBLE_HALF_W = 100; // half of .bubble's 200px width, used so connector lines start at its edge, not its center
+  const BUBBLE_HALF_H = 62;  // approximate half-height of .bubble (name+meta+phases+badges)
+  const SUBPROJ_R = 52;      // half of .subproj-circle's 104px, used the same way
+  const SUBPROJ_R_NESTED = 39; // half of .subproj-circle-nested's 78px
 
   const ms = allMilestones();
   const todayT = new Date(todayISO() + "T00:00:00").getTime();
@@ -1377,11 +1397,13 @@ function render() {
       const { x: cx, y: cy } = positions1[si];
       const color = statusColor(getSubprojStatus(sp));
 
+      const lineStart = pointOnRectEdge(p.x, p.y, BUBBLE_HALF_W, BUBBLE_HALF_H, cx, cy);
+      const lineEnd = pointTowardOnCircleEdge(cx, cy, p.x, p.y, SUBPROJ_R);
       const line = document.createElementNS(svgNS, "line");
-      line.setAttribute("x1", p.x);
-      line.setAttribute("y1", p.y);
-      line.setAttribute("x2", cx);
-      line.setAttribute("y2", cy);
+      line.setAttribute("x1", lineStart.x);
+      line.setAttribute("y1", lineStart.y);
+      line.setAttribute("x2", lineEnd.x);
+      line.setAttribute("y2", lineEnd.y);
       line.setAttribute("stroke", color);
       line.setAttribute("stroke-width", "2.5");
       line.setAttribute("stroke-dasharray", "5,5");
@@ -1416,11 +1438,13 @@ function render() {
           const { x: cx2, y: cy2 } = positions2[ci];
           const color2 = statusColor(getSubprojStatus(child));
 
+          const line2Start = pointTowardOnCircleEdge(cx, cy, cx2, cy2, SUBPROJ_R);
+          const line2End = pointTowardOnCircleEdge(cx2, cy2, cx, cy, SUBPROJ_R_NESTED);
           const line2 = document.createElementNS(svgNS, "line");
-          line2.setAttribute("x1", cx);
-          line2.setAttribute("y1", cy);
-          line2.setAttribute("x2", cx2);
-          line2.setAttribute("y2", cy2);
+          line2.setAttribute("x1", line2Start.x);
+          line2.setAttribute("y1", line2Start.y);
+          line2.setAttribute("x2", line2End.x);
+          line2.setAttribute("y2", line2End.y);
           line2.setAttribute("stroke", color2);
           line2.setAttribute("stroke-width", "2");
           line2.setAttribute("stroke-dasharray", "4,4");
