@@ -1279,6 +1279,17 @@ function render() {
 
   // project bubbles (on top)
   const today = todayISO();
+  // Subproject connector lines are drawn into this SEPARATE overlay, appended to the diagram
+  // AFTER the bubbles/circles below so it paints on top of them. Drawing them into the earlier
+  // "svg" (used for the spine connectors/dependency arrows) put them fully underneath the
+  // opaque bubble and circle shapes, which -- given how close the two are -- hid the line
+  // completely instead of just running "behind" it a little.
+  const subLineSvg = document.createElementNS(svgNS, "svg");
+  subLineSvg.setAttribute("width", totalW);
+  subLineSvg.setAttribute("height", totalH);
+  subLineSvg.style.position = "absolute";
+  subLineSvg.style.left = "0"; subLineSvg.style.top = "0";
+  subLineSvg.style.pointerEvents = "none";
   projects.forEach(proj => {
     const p = posOf[proj.id];
     const doneCount = proj.milestones.filter(m => m.completed).length;
@@ -1323,7 +1334,7 @@ function render() {
       line.setAttribute("stroke-width", "2.5");
       line.setAttribute("stroke-dasharray", "5,5");
       line.setAttribute("opacity", "0.75");
-      svg.appendChild(line);
+      subLineSvg.appendChild(line);
 
       const spTotal = (sp.subtasks || []).length;
       const spDone = (sp.subtasks || []).filter(t => t.done).length;
@@ -1343,6 +1354,7 @@ function render() {
       diagram.appendChild(circle);
     });
   });
+  diagram.appendChild(subLineSvg);
 
   // company-wide goals: independent of any project. The star sits exactly on the spine;
   // only its name tag floats off to the side, in the buffer band before bubbles start.
