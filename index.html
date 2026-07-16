@@ -396,6 +396,7 @@
       <option value="medium">Medium</option>
       <option value="low">Low</option>
     </select></label>
+    <label><input type="checkbox" id="filter-hide-completed" checked> Hide completed</label>
     <button class="secondary small" id="btn-clear-filters">Clear filters</button>
     <span class="toolbar-sep"></span>
     <button class="secondary small" id="btn-export-csv">Export CSV</button>
@@ -607,14 +608,19 @@ function syncToSheet(opOrOps) {
   }).catch(() => { /* offline or unreachable -- the local copy is already saved via save() */ });
 }
 
-// ---- Filters (owner / status / priority) and KPI table sort order ----
+// ---- Filters (owner / status / priority / hide completed) and KPI table sort order ----
 let filterOwner = "", filterStatus = "", filterPriority = "";
+let hideCompleted = true;
 let kpiSort = { col: null, dir: 1 };
+function isProjectFullyCompleted(proj) {
+  return (proj.milestones || []).length > 0 && proj.milestones.every(m => m.completed);
+}
 function getVisibleProjects() {
   return state.projects.filter(proj => {
     if (filterOwner && (proj.owner || "") !== filterOwner) return false;
     if (filterStatus && getProjectStatus(proj) !== filterStatus) return false;
     if (filterPriority && proj.priority !== filterPriority) return false;
+    if (hideCompleted && isProjectFullyCompleted(proj)) return false;
     return true;
   });
 }
@@ -1019,11 +1025,13 @@ document.querySelectorAll(".kpi-table th.sortable").forEach(th => {
 document.getElementById("filter-owner").addEventListener("change", e => { filterOwner = e.target.value; render(); });
 document.getElementById("filter-status").addEventListener("change", e => { filterStatus = e.target.value; render(); });
 document.getElementById("filter-priority").addEventListener("change", e => { filterPriority = e.target.value; render(); });
+document.getElementById("filter-hide-completed").addEventListener("change", e => { hideCompleted = e.target.checked; render(); });
 document.getElementById("btn-clear-filters").addEventListener("click", () => {
-  filterOwner = ""; filterStatus = ""; filterPriority = "";
+  filterOwner = ""; filterStatus = ""; filterPriority = ""; hideCompleted = true;
   document.getElementById("filter-owner").value = "";
   document.getElementById("filter-status").value = "";
   document.getElementById("filter-priority").value = "";
+  document.getElementById("filter-hide-completed").checked = true;
   render();
 });
 
