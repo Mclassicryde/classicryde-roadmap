@@ -8,20 +8,20 @@
       "notes": "[Internal | In Progress | 70% complete]\n\nClassic Ryde side pipeline: email bounce regex fixed Jun 24 (extracts all emails from body); email samples (Welcome/Drug Test/Activation ES+EN) generated as PDF and shared; 16 pipeline statuses confirmed; Zapier webhook replacement still pending; Mailerlite sync running; new driver #833 SHANFU LIN added Jun 26; YouTube tutorial link integrated into Activation email play button (Setup.gs/Emails.gs) and email preview shared Jun 30; new driver #838 Lakhvir Singh added and synced to Mailerlite Jul 2-3; weekly new driver report Jul 5: 4 new drivers added Jun 29-Jul 5 (IDs 840, 841, 837, 838) across dispatchers Blanca, Diana, Rumaldo and Valery, 14 completed trips; driver 841 Heinz Cedillo flagged with no dispatcher contact log and 0 trips; Jul 7-8 Mailerlite sync added 2 more new drivers (#842 Emamul Ananda, #843 Karan Maggo); Jul 9-10 Zapier-to-Apps-Script migration completed for the AKI/Classic Ryde recruitment pipeline: all 12 Zaps migrated (call reminders, pre-screening scoring, 24h nudge, 48h decider, Day 7 classifier, dispatcher assignment); Zap 08 confirmed already replaced by apps_script_daily_trips_processor.gs running live in production; 2 bugs found and fixed during migration (Zap 10 was clearing real trip-date data; Zap 11 was mislabeling Engaged drivers as Active and resetting the 48h Check Done flag); cutover plan written (ClassicRyde_Zapier_Cutover_Plan.md), parallel-run recommended before disabling any Zap; blocked on Slack bot token (blank in all config files) and Manuel's confirmation of the 2 bug fixes before going live; confirmed all scripts read/write the same existing Applicant Tracker spreadsheet with no row deletions, only appendRow/setValue; Dispatchers tab may need a 7th Weekend On-Call column; Jul 12-13 weekly new driver report (07/06-07/12): 4 new drivers added (Emamul Ananda #842, Karan Maggo #843, Mohammad Majumder #844, Abdullah Faruk #845) assigned to dispatchers Caleb, Karla, Rumaldo and Valery, 2 completed trips total; none of the four dispatchers replied in their driver's thread, all logged as Sin reporte, posted to #insights; Jul 13-14 Mailerlite sync added 4 more new drivers (#847 Germaine Williams, #848 Muhamma Ijaz, #849 Kuljinder Singh, #850 Enly Guzman), completion DMs sent to Manuel each run; separately, Aki daily 9am digest reconfigured to post to a new Operations Slack channel via SLACK_WEBHOOK_OPERATIONS webhook, configured in the spreadsheet Config tab, takes effect on next Apps Script deploy",
       "milestones": [
         {
-          "id": "p_aki_recruitment_workflow_str_start",
-          "phase": "Start",
-          "date": "2026-06-03",
-          "completed": true,
-          "completedAt": "2026-06-03",
+          "id": "p_aki_recruitment_workflow_str_due",
+          "phase": "Target completion",
+          "date": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": false,
+          "completedAt": null,
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_aki_recruitment_workflow_str_due",
-          "phase": "Target completion",
-          "date": "2026-06-30",
-          "completed": false,
-          "completedAt": null,
+          "id": "p_aki_recruitment_workflow_str_start",
+          "phase": "Start",
+          "date": "Wed Jun 03 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": true,
+          "completedAt": "Wed Jun 03 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -36,20 +36,20 @@
       "notes": "[Internal | In Progress | 95% complete]\n\nPilot extended through end of Jun 27 week; bilingual driver update email sent; board rate comparison report completed (Z2 BK and Z6 cross-borough breakdown); BK Z2 margin still thin (+$1.39/trip at 4-5mi band); Z6 12-15mi highest GP/trip at +$25.82; awaiting final pilot decision to close out. PAST DUE as of Jun 15; Jun 29 rate calc errors found and corrected (Manhattan cross-borough discrepancy, $54 actual vs $67 calculated; increment step errors 9.99-11.99 vs 14.99-17.99); pilot extended again via driver email Jun 29 through end of that week; Kornel confirmed pushing updated rates to Limosys; Chanel flagged Jun 30 that the Limosys ratebook approach needs broader rework; Jul 1 Z1 long-distance pricing found too low (BX-BK 20mi trips paid $35-40, should be $40-45); mile 15+ rate increased by $1/mile after mile 14.99 (mile 15 now $39-40, scaling by $1 per mile); Chanel confirmed the adjustment; Jul 5 Chanel noted BX-BK still needs an increase after about 10-12 miles, the 5% will remain temporary until full confidence in the change, summer margins expected to improve due to increased driver supply; Jul 6 Manuel shared a proposed new rate table for BX-BK/Z1 long-distance trips (mile 13.99+ scaling to a $2/mile increase, up from the current $1/mile), Chanel acknowledged, pending final review; Jul 12 evening Chanel requested a two-part Monday deliverable: a summary of the pilot program to date, and the weekly report for last week including the 10-week trend, asked for Claude to review the work a couple of times before finalizing; Manuel acknowledged Jul 13 morning (Noted), document still pending as of Jul 13; Jul 13 Manuel shared the last-10-weeks trend chart in Slack, Chanel confirmed it works (Yes, thumbs up); written pilot summary document still not confirmed sent as of this check",
       "milestones": [
         {
-          "id": "p_ratebook_v16_rate_restructur_start",
-          "phase": "Start",
-          "date": "2026-06-02",
-          "completed": true,
-          "completedAt": "2026-06-02",
+          "id": "p_ratebook_v16_rate_restructur_due",
+          "phase": "Target completion",
+          "date": "Mon Jun 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": false,
+          "completedAt": null,
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_ratebook_v16_rate_restructur_due",
-          "phase": "Target completion",
-          "date": "2026-06-15",
-          "completed": false,
-          "completedAt": null,
+          "id": "p_ratebook_v16_rate_restructur_start",
+          "phase": "Start",
+          "date": "Tue Jun 02 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": true,
+          "completedAt": "Tue Jun 02 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -66,16 +66,16 @@
         {
           "id": "p_driver_connect_re_engagement_start",
           "phase": "Start",
-          "date": "2026-04-15",
+          "date": "Wed Apr 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-04-15",
+          "completedAt": "Wed Apr 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "p_driver_connect_re_engagement_due",
           "phase": "Target completion",
-          "date": "2026-07-15",
+          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -92,18 +92,18 @@
       "notes": "[Internal | Not Started | 0% complete]\n\nSend survey to ghost drivers (inactive since Apr 15-20) to confirm rate dissatisfaction; results feed into rate restructuring",
       "milestones": [
         {
-          "id": "p_inactive_driver_survey_start",
-          "phase": "Start",
-          "date": "2026-06-10",
+          "id": "p_inactive_driver_survey_due",
+          "phase": "Target completion",
+          "date": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_inactive_driver_survey_due",
-          "phase": "Target completion",
-          "date": "2026-06-30",
+          "id": "p_inactive_driver_survey_start",
+          "phase": "Start",
+          "date": "Wed Jun 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -120,20 +120,20 @@
       "notes": "[Internal | In Progress | 75% complete]\n\nAutomated Slack alerts running daily; H&B Sunnyside Surety Bond still EXPIRED as of Jul 1 (expired May 30 2026); Classic Car Service Livery Fund 12 days (Jul 15); H&B Livery Fund 12 days (Jul 15), alerts posted to #adm-doc-tracking Jul 3 tagging Kirstin; Aki Mobility General Liability Insurance 44 days flagged (tagging Diana); Gen Liability Classic Car Service and AKI Workers Comp progressing toward Jul 20/28 deadlines. Expanded scope: all companies (CR / Paisa / Sunnyside / AKI); Jul 6 alert check: Classic Car Service Livery Fund Certificate 9 days (Jul 15), Classic Car Service General Liability Insurance 14 days (Jul 20), H&B Sunnyside Livery Fund Certificate 9 days (Jul 15), AKI Workers Compensation 22 days (Jul 28), all tagged to Kirstin; H&B Sunnyside Surety Bond no longer flagged as expired, appears to have been renewed; Jul 8 alert check: Classic Car Service Livery Fund Certificate 7 days (Jul 15) and H&B Sunnyside Livery Fund Certificate 7 days (Jul 15) both URGENT tier, Classic Car Service General Liability Insurance 12 days (Jul 20) Renewal Check tier, all three posted to #adm-doc-tracking tagging Kirstin; Jul 13 alert check: Classic Car Service Livery Fund Certificate and H&B Sunnyside Livery Fund Certificate both 2 days (Jul 15) URGENT, Classic Car Service General Liability Insurance 7 days (Jul 20) URGENT, AKI Workers Compensation 15 days (Jul 28) Renewal Check tier, all posted to #adm-doc-tracking tagging Kirstin; Jul 15 alert check: Classic Car Service Livery Fund Certificate and H&B Sunnyside Livery Fund Certificate both EXPIRES TODAY, Classic Car Service General Liability Insurance 5 days (Jul 20) URGENT, AKI Workers Compensation 13 days (Jul 28) Renewal Check tier, all posted to #adm-doc-tracking tagging Kirstin",
       "milestones": [
         {
-          "id": "p_license_certificate_expirati_start",
-          "phase": "Start",
-          "date": "2026-06-05",
-          "completed": true,
-          "completedAt": "2026-06-05",
+          "id": "p_license_certificate_expirati_due",
+          "phase": "Target completion",
+          "date": "Fri Jul 31 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": false,
+          "completedAt": null,
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_license_certificate_expirati_due",
-          "phase": "Target completion",
-          "date": "2026-07-31",
-          "completed": false,
-          "completedAt": null,
+          "id": "p_license_certificate_expirati_start",
+          "phase": "Start",
+          "date": "Fri Jun 05 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": true,
+          "completedAt": "Fri Jun 05 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -150,7 +150,7 @@
         {
           "id": "p_company_weak_points_mapping_start",
           "phase": "Start",
-          "date": "2026-06-05",
+          "date": "Fri Jun 05 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -159,7 +159,7 @@
         {
           "id": "p_company_weak_points_mapping_due",
           "phase": "Target completion",
-          "date": "2026-06-30",
+          "date": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -178,7 +178,7 @@
         {
           "id": "p_limosys_network_partnership__start",
           "phase": "Start",
-          "date": "2026-06-04",
+          "date": "Mon Aug 17 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -187,7 +187,7 @@
         {
           "id": "p_limosys_network_partnership__due",
           "phase": "Target completion",
-          "date": "2026-07-31",
+          "date": "Sat Oct 31 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -206,9 +206,9 @@
         {
           "id": "p_drug_test_email_choferes_cla_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-19",
+          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -225,9 +225,9 @@
         {
           "id": "p_dashboard_data_kinetic_cr_ki_start",
           "phase": "Start",
-          "date": "2026-06-01",
+          "date": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-01",
+          "completedAt": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -244,9 +244,9 @@
         {
           "id": "p_instructivo_para_app_chofere_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-19",
+          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -263,7 +263,7 @@
         {
           "id": "p_campana_incentivos_dispatche_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -282,9 +282,9 @@
         {
           "id": "p_estructura_de_la_empresa_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-19",
+          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -301,9 +301,9 @@
         {
           "id": "p_aki_driver_recruitment_workf_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-19",
+          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -320,7 +320,7 @@
         {
           "id": "p_company_systems_and_structur_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -339,9 +339,9 @@
         {
           "id": "p_ads_management_aki_and_class_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-19",
+          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -358,7 +358,7 @@
         {
           "id": "p_business_development_paisa_a_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -377,9 +377,9 @@
         {
           "id": "p_medicaid_email_automation_nh_start",
           "phase": "Start",
-          "date": "2026-06-19",
+          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-19",
+          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -396,18 +396,18 @@
         {
           "id": "p_patient_eligibility_notifica_start",
           "phase": "Start",
-          "date": "2026-06-25",
+          "date": "Thu Jun 25 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-25",
+          "completedAt": "Thu Jun 25 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "p_patient_eligibility_notifica_due",
           "phase": "Target completion",
-          "date": "2026-07-15",
+          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-07-15",
+          "completedAt": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -424,18 +424,18 @@
         {
           "id": "p_july_2026_driver_newsletter_start",
           "phase": "Start",
-          "date": "2026-06-29",
+          "date": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-29",
+          "completedAt": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "p_july_2026_driver_newsletter_due",
           "phase": "Target completion",
-          "date": "2026-07-01",
+          "date": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-07-01",
+          "completedAt": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -452,9 +452,9 @@
         {
           "id": "p_mas_fee_schedule_ratebook_re_start",
           "phase": "Start",
-          "date": "2026-06-29",
+          "date": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-29",
+          "completedAt": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -471,18 +471,18 @@
         {
           "id": "p_meeting_notes_automation_not_start",
           "phase": "Start",
-          "date": "2026-06-30",
+          "date": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-30",
+          "completedAt": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
         {
           "id": "p_meeting_notes_automation_not_done",
           "phase": "Completed",
-          "date": "2026-07-15",
+          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-07-15",
+          "completedAt": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -497,20 +497,20 @@
       "notes": "[Internal | In Progress | 10% complete]\n\nBacklog of documents owed to Limosys affiliate network dating to March 2026; Gallant sent emails Jul 1 requesting outstanding documents; Manuel spent Jul 1 working on gathering and sending documents",
       "milestones": [
         {
-          "id": "p_affiliate_documents_backlog_start",
-          "phase": "Start",
-          "date": "2026-03-01",
-          "completed": true,
-          "completedAt": "2026-03-01",
+          "id": "p_affiliate_documents_backlog_due",
+          "phase": "Target completion",
+          "date": "Fri Jul 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": false,
+          "completedAt": null,
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_affiliate_documents_backlog_due",
-          "phase": "Target completion",
-          "date": "2026-07-10",
-          "completed": false,
-          "completedAt": null,
+          "id": "p_affiliate_documents_backlog_start",
+          "phase": "Start",
+          "date": "Sun Mar 01 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
+          "completed": true,
+          "completedAt": "Sun Mar 01 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -527,7 +527,7 @@
         {
           "id": "p_website_contact_form_aki_cla_start",
           "phase": "Start",
-          "date": "2026-07-08",
+          "date": "Wed Jul 08 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -546,9 +546,9 @@
         {
           "id": "p_cr_kinetics_claims_dashboard_start",
           "phase": "Start",
-          "date": "2026-06-01",
+          "date": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-06-01",
+          "completedAt": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
@@ -565,9 +565,9 @@
         {
           "id": "p_interactive_project_manageme_start",
           "phase": "Start",
-          "date": "2026-07-10",
+          "date": "Fri Jul 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "completed": true,
-          "completedAt": "2026-07-10",
+          "completedAt": "Fri Jul 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         }
