@@ -488,20 +488,20 @@
       "notes": "[Internal | In Progress | 10% complete]\n\nBacklog of documents owed to Limosys affiliate network dating to March 2026; Gallant sent emails Jul 1 requesting outstanding documents; Manuel spent Jul 1 working on gathering and sending documents",
       "milestones": [
         {
-          "id": "p_affiliate_documents_backlog_due",
-          "phase": "Target completion",
-          "date": "Fri Jul 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        },
-        {
           "id": "p_affiliate_documents_backlog_start",
           "phase": "Start",
           "date": "Sun Mar 01 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
           "completed": true,
           "completedAt": "Sun Mar 01 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_affiliate_documents_backlog_due",
+          "phase": "Target completion",
+          "date": "Thu Dec 31 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
+          "completed": false,
+          "completedAt": null,
           "subtasks": [],
           "comment": ""
         }
