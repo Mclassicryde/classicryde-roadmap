@@ -38,9 +38,9 @@
         {
           "id": "p_ratebook_v16_rate_restructur_due",
           "phase": "Target completion",
-          "date": "Mon Jun 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
+          "date": "Mon Aug 03 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completed": true,
+          "completedAt": "Thu Jul 16 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
           "comment": ""
         },
