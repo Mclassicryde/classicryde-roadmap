@@ -92,15 +92,6 @@
       "notes": "[Internal | Not Started | 0% complete]\n\nSend survey to ghost drivers (inactive since Apr 15-20) to confirm rate dissatisfaction; results feed into rate restructuring",
       "milestones": [
         {
-          "id": "p_inactive_driver_survey_due",
-          "phase": "Target completion",
-          "date": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        },
-        {
           "id": "p_inactive_driver_survey_start",
           "phase": "Start",
           "date": "Wed Jun 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
