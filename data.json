@@ -1,81 +1,157 @@
 {
   "projects": [
     {
-      "id": "p_aki_recruitment_workflow_str",
-      "name": "AKI Recruitment Workflow Streamlining",
+      "id": "p1",
+      "name": "Driver app redesign",
       "owner": "Manuel",
       "priority": "high",
-      "notes": "[Internal | In Progress | 70% complete]\n\nClassic Ryde side pipeline: email bounce regex fixed Jun 24 (extracts all emails from body); email samples (Welcome/Drug Test/Activation ES+EN) generated as PDF and shared; 16 pipeline statuses confirmed; Zapier webhook replacement still pending; Mailerlite sync running; new driver #833 SHANFU LIN added Jun 26; YouTube tutorial link integrated into Activation email play button (Setup.gs/Emails.gs) and email preview shared Jun 30; new driver #838 Lakhvir Singh added and synced to Mailerlite Jul 2-3; weekly new driver report Jul 5: 4 new drivers added Jun 29-Jul 5 (IDs 840, 841, 837, 838) across dispatchers Blanca, Diana, Rumaldo and Valery, 14 completed trips; driver 841 Heinz Cedillo flagged with no dispatcher contact log and 0 trips; Jul 7-8 Mailerlite sync added 2 more new drivers (#842 Emamul Ananda, #843 Karan Maggo); Jul 9-10 Zapier-to-Apps-Script migration completed for the AKI/Classic Ryde recruitment pipeline: all 12 Zaps migrated (call reminders, pre-screening scoring, 24h nudge, 48h decider, Day 7 classifier, dispatcher assignment); Zap 08 confirmed already replaced by apps_script_daily_trips_processor.gs running live in production; 2 bugs found and fixed during migration (Zap 10 was clearing real trip-date data; Zap 11 was mislabeling Engaged drivers as Active and resetting the 48h Check Done flag); cutover plan written (ClassicRyde_Zapier_Cutover_Plan.md), parallel-run recommended before disabling any Zap; blocked on Slack bot token (blank in all config files) and Manuel's confirmation of the 2 bug fixes before going live; confirmed all scripts read/write the same existing Applicant Tracker spreadsheet with no row deletions, only appendRow/setValue; Dispatchers tab may need a 7th Weekend On-Call column; Jul 12-13 weekly new driver report (07/06-07/12): 4 new drivers added (Emamul Ananda #842, Karan Maggo #843, Mohammad Majumder #844, Abdullah Faruk #845) assigned to dispatchers Caleb, Karla, Rumaldo and Valery, 2 completed trips total; none of the four dispatchers replied in their driver's thread, all logged as Sin reporte, posted to #insights; Jul 13-14 Mailerlite sync added 4 more new drivers (#847 Germaine Williams, #848 Muhamma Ijaz, #849 Kuljinder Singh, #850 Enly Guzman), completion DMs sent to Manuel each run; separately, Aki daily 9am digest reconfigured to post to a new Operations Slack channel via SLACK_WEBHOOK_OPERATIONS webhook, configured in the spreadsheet Config tab, takes effect on next Apps Script deploy",
+      "notes": "",
       "milestones": [
         {
-          "id": "p_aki_recruitment_workflow_str_due",
-          "phase": "Target completion",
-          "date": "Mon Aug 24 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "m1",
+          "phase": "Intake",
+          "date": "2026-07-01",
+          "completed": true,
+          "completedAt": "2026-07-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m2",
+          "phase": "Definition & Planning",
+          "date": "2026-07-15",
+          "completed": true,
+          "completedAt": "2026-07-15",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m3",
+          "phase": "Execution",
+          "date": "2026-07-29",
+          "completed": true,
+          "completedAt": "2026-07-29",
+          "subtasks": [
+            {
+              "id": "s1",
+              "text": "Update main screens",
+              "done": true
+            },
+            {
+              "id": "s2",
+              "text": "Pilot driver testing",
+              "done": false
+            }
+          ],
+          "comment": "Completed a few days late"
+        },
+        {
+          "id": "m4",
+          "phase": "Follow-up",
+          "date": "2026-08-12",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_aki_recruitment_workflow_str_start",
-          "phase": "Start",
-          "date": "Wed Jun 03 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Wed Jun 03 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "m5",
+          "phase": "Closeout",
+          "date": "2026-08-26",
+          "completed": false,
+          "completedAt": null,
           "subtasks": [],
           "comment": ""
         }
       ],
-      "subprojects": []
-    },
-    {
-      "id": "p_ratebook_v16_rate_restructur",
-      "name": "Ratebook v16 - Rate Restructuring",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 95% complete]\n\nPilot extended through end of Jun 27 week; bilingual driver update email sent; board rate comparison report completed (Z2 BK and Z6 cross-borough breakdown); BK Z2 margin still thin (+$1.39/trip at 4-5mi band); Z6 12-15mi highest GP/trip at +$25.82; awaiting final pilot decision to close out. PAST DUE as of Jun 15; Jun 29 rate calc errors found and corrected (Manhattan cross-borough discrepancy, $54 actual vs $67 calculated; increment step errors 9.99-11.99 vs 14.99-17.99); pilot extended again via driver email Jun 29 through end of that week; Kornel confirmed pushing updated rates to Limosys; Chanel flagged Jun 30 that the Limosys ratebook approach needs broader rework; Jul 1 Z1 long-distance pricing found too low (BX-BK 20mi trips paid $35-40, should be $40-45); mile 15+ rate increased by $1/mile after mile 14.99 (mile 15 now $39-40, scaling by $1 per mile); Chanel confirmed the adjustment; Jul 5 Chanel noted BX-BK still needs an increase after about 10-12 miles, the 5% will remain temporary until full confidence in the change, summer margins expected to improve due to increased driver supply; Jul 6 Manuel shared a proposed new rate table for BX-BK/Z1 long-distance trips (mile 13.99+ scaling to a $2/mile increase, up from the current $1/mile), Chanel acknowledged, pending final review; Jul 12 evening Chanel requested a two-part Monday deliverable: a summary of the pilot program to date, and the weekly report for last week including the 10-week trend, asked for Claude to review the work a couple of times before finalizing; Manuel acknowledged Jul 13 morning (Noted), document still pending as of Jul 13; Jul 13 Manuel shared the last-10-weeks trend chart in Slack, Chanel confirmed it works (Yes, thumbs up); written pilot summary document still not confirmed sent as of this check",
-      "milestones": [
+      "subprojects": [
         {
-          "id": "p_ratebook_v16_rate_restructur_due",
-          "phase": "Target completion",
-          "date": "Mon Aug 03 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "sp1",
+          "name": "iOS app",
+          "dueDate": "2026-07-01",
           "completed": true,
-          "completedAt": "Thu Jul 16 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
+          "subtasks": [
+            {
+              "id": "s3",
+              "text": "Publish to the App Store",
+              "done": true
+            },
+            {
+              "id": "s4",
+              "text": "Final QA",
+              "done": true
+            }
+          ],
+          "subprojects": []
         },
         {
-          "id": "p_ratebook_v16_rate_restructur_start",
-          "phase": "Start",
-          "date": "Tue Jun 02 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Tue Jun 02 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
+          "id": "sp2",
+          "name": "Android app",
+          "dueDate": "2026-07-25",
+          "completed": false,
+          "subtasks": [
+            {
+              "id": "s5",
+              "text": "Adjust tablet UI",
+              "done": false
+            },
+            {
+              "id": "s6",
+              "text": "Performance testing",
+              "done": false
+            }
+          ],
+          "subprojects": []
         }
-      ],
-      "subprojects": []
+      ]
     },
     {
-      "id": "p_driver_connect_re_engagement",
-      "name": "Driver Connect - Re-engagement Campaign",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 30% complete]\n\n300 hired over 6 months; only ~40 active; ops staff not following up (only Blanca reporting); need 24-hr follow-up standard; DOE contract ending frees drivers",
+      "id": "p2",
+      "name": "Summer campaign",
+      "owner": "Marketing",
+      "priority": "low",
+      "notes": "",
       "milestones": [
         {
-          "id": "p_driver_connect_re_engagement_start",
-          "phase": "Start",
-          "date": "Wed Apr 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "m6",
+          "phase": "Intake",
+          "date": "2026-07-15",
           "completed": true,
-          "completedAt": "Wed Apr 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "completedAt": "2026-07-15",
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_driver_connect_re_engagement_due",
-          "phase": "Target completion",
-          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "m7",
+          "phase": "Definition & Planning",
+          "date": "2026-07-29",
+          "completed": true,
+          "completedAt": "2026-07-29",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m8",
+          "phase": "Execution",
+          "date": "2026-08-12",
+          "completed": true,
+          "completedAt": "2026-08-12",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m9",
+          "phase": "Follow-up",
+          "date": "2026-08-26",
+          "completed": true,
+          "completedAt": "2026-08-26",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "m10",
+          "phase": "Closeout",
+          "date": "2026-09-09",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
@@ -85,488 +161,132 @@
       "subprojects": []
     },
     {
-      "id": "p_inactive_driver_survey",
-      "name": "Inactive Driver Survey",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | Not Started | 0% complete]\n\nSend survey to ghost drivers (inactive since Apr 15-20) to confirm rate dissatisfaction; results feed into rate restructuring",
-      "milestones": [
-        {
-          "id": "p_inactive_driver_survey_start",
-          "phase": "Start",
-          "date": "Fri Aug 07 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_license_certificate_expirati",
-      "name": "License & Certificate Expiration Tracking",
-      "owner": "Chanel / Manuel / Kirstin / Diana",
+      "id": "p3",
+      "name": "CRM migration",
+      "owner": "Operations",
       "priority": "high",
-      "notes": "[Internal | In Progress | 75% complete]\n\nAutomated Slack alerts running daily; H&B Sunnyside Surety Bond still EXPIRED as of Jul 1 (expired May 30 2026); Classic Car Service Livery Fund 12 days (Jul 15); H&B Livery Fund 12 days (Jul 15), alerts posted to #adm-doc-tracking Jul 3 tagging Kirstin; Aki Mobility General Liability Insurance 44 days flagged (tagging Diana); Gen Liability Classic Car Service and AKI Workers Comp progressing toward Jul 20/28 deadlines. Expanded scope: all companies (CR / Paisa / Sunnyside / AKI); Jul 6 alert check: Classic Car Service Livery Fund Certificate 9 days (Jul 15), Classic Car Service General Liability Insurance 14 days (Jul 20), H&B Sunnyside Livery Fund Certificate 9 days (Jul 15), AKI Workers Compensation 22 days (Jul 28), all tagged to Kirstin; H&B Sunnyside Surety Bond no longer flagged as expired, appears to have been renewed; Jul 8 alert check: Classic Car Service Livery Fund Certificate 7 days (Jul 15) and H&B Sunnyside Livery Fund Certificate 7 days (Jul 15) both URGENT tier, Classic Car Service General Liability Insurance 12 days (Jul 20) Renewal Check tier, all three posted to #adm-doc-tracking tagging Kirstin; Jul 13 alert check: Classic Car Service Livery Fund Certificate and H&B Sunnyside Livery Fund Certificate both 2 days (Jul 15) URGENT, Classic Car Service General Liability Insurance 7 days (Jul 20) URGENT, AKI Workers Compensation 15 days (Jul 28) Renewal Check tier, all posted to #adm-doc-tracking tagging Kirstin; Jul 15 alert check: Classic Car Service Livery Fund Certificate and H&B Sunnyside Livery Fund Certificate both EXPIRES TODAY, Classic Car Service General Liability Insurance 5 days (Jul 20) URGENT, AKI Workers Compensation 13 days (Jul 28) Renewal Check tier, all posted to #adm-doc-tracking tagging Kirstin",
+      "notes": "",
       "milestones": [
         {
-          "id": "p_license_certificate_expirati_due",
-          "phase": "Target completion",
-          "date": "Fri Jul 31 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "m11",
+          "phase": "Intake",
+          "date": "2026-08-01",
           "completed": true,
-          "completedAt": "Thu Jul 16 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": "Completed"
-        },
-        {
-          "id": "p_license_certificate_expirati_start",
-          "phase": "Start",
-          "date": "Fri Jun 05 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Fri Jun 05 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_company_weak_points_mapping",
-      "name": "Company Weak Points Mapping",
-      "owner": "Chanel / Manuel",
-      "priority": "medium",
-      "notes": "[Internal | Not Started | 0% complete]\n\nVisual map of company weak points: language barriers; driver retention; rates; organization; reverse-engineer solutions before Lisandro returns; Jul 9 huddle surfaced candidate weak points for this mapping: drivers not completing full assigned routes, dropping trips already on their route from the night before, and difficulty managing shared-ride scheduling on the app; still not started as a formal exercise",
-      "milestones": [
-        {
-          "id": "p_company_weak_points_mapping_start",
-          "phase": "Start",
-          "date": "Fri Jun 05 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
+          "completedAt": "2026-08-01",
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_company_weak_points_mapping_due",
-          "phase": "Target completion",
-          "date": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_limosys_network_partnership_",
-      "name": "Limosys Network Partnership System",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | Not Started | 0% complete]\n\nIntroduce CR / Paisa / Sunnyside to entire Limosys network; build A-Z workflow for voucher/cash/credit card (autopay); create branded emails and PDFs; set standards for onboarding affiliate bases",
-      "milestones": [
-        {
-          "id": "p_limosys_network_partnership__start",
-          "phase": "Start",
-          "date": "Mon Aug 17 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "m12",
+          "phase": "Definition & Planning",
+          "date": "2026-08-15",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
           "comment": ""
         },
         {
-          "id": "p_limosys_network_partnership__due",
-          "phase": "Target completion",
-          "date": "Sat Oct 31 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "m13",
+          "phase": "Execution",
+          "date": "2026-08-29",
           "completed": false,
           "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_drug_test_email_choferes_cla",
-      "name": "Drug Test Email - Choferes Classic",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | In Progress | 85% complete]\n\nEmail workflow for Classic Ryde driver drug tests; 3 Mailerlite automations drafted and saved: Automation 1 fires on Interesados status (4-email sequence with Sentry test instructions, cost $50, Brooklyn/Bronx locations, reminders every 2 days); Automation 2 fires on Test Hecho (confirmation email, results in 2-4 business days); Automation 3 fires on Aprobados Sentry (approval email granting access to 2,000+ daily MTA trips); all emails bilingual ES/EN, sender drivers@classicryde.com; separately, general Classic driver drug testing policy communication drafted Jul 1, pending date/provider/contact details and full policy document; Jul 8 Automation 1 launched, driver-facing announcement sent that morning inviting interested drivers to complete their Sentry drug test for MTA trips; Sentry instructions email redesigned the same morning per Chanel's feedback (Cost and Results split onto separate bolded lines, '2 to 4 business days' changed to '48 hours', Brooklyn location bolded as recommended, requirements changed to a bullet list including TLC License, State Driver License, and giving the company name 'Classic Car Service' at the test facility), Chanel approved all changes with checkmarks by 9:16am",
-      "milestones": [
-        {
-          "id": "p_drug_test_email_choferes_cla_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_dashboard_data_kinetic_cr_ki",
-      "name": "Dashboard - Data Kinetic (CR Kinetics)",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | In Progress | 90% complete]\n\nJun 29 dashboard run complete (0 new claims; data already in system from prior run); weekly finance report done Jun 22-28 (Op Rev $77,524; GP 20.5%; MAS 78.1% of Op Rev above 75% critical threshold; base fee file missing); weekly driver report done; daily executive briefing posted. GitHub: https://mclassicryde.github.io/cr-kinetics-data/; Jul 1 dashboard refresh complete (period Jan 1-Jun 30, 177 days); GitHub commit pushed; Cowork artifact classicryde-daily-ops updated; Jul 2 refresh complete (period Jan 1-Jul 2, 179 days, 14 weeks, 12 months 2025 comps), GitHub commit 97bcba3 pushed, artifact updated; Op Rev scope compliance audit performed Jul 2 and found a mismatch: script's OUR_ACCOUNTS filter uses ~80 hardcoded account names instead of the 5 CR-controlled accounts defined by the rule (MAS, NYC DOE, MTA, Surgery Center, Carter), so Op Rev is likely blended with unrelated accounts; broker fee logic confirmed correct (10% commission on Classic Ryde non-CR trips only, Paisa/Sunnyside flat $115/week); awaiting Manuel's decision on whether to rewrite the account filter; Jul 5 dashboard refresh complete (period Jan 1-Jul 5, 182 days, 14 weeks), GitHub push confirmed, Cowork artifact updated, broker fee logic reconfirmed compliant; Jul 5 weekly finance report flagged that the HTML generator still has not been updated to the new accounting structure (no Acct#/FOP filtering, no Op Rev/GP/Broker Fee separation), so current and prior week numbers should not be trusted until fixed; Base Fee Collection file missing again this week; Jul 7 refresh complete (period Jan 1-Jul 7, 184 days, 15 weeks), GitHub commit 094c143 pushed; accounting logic re-audited, Op Rev correctly excludes named network/affiliate accounts and broker fee commission correctly restricted to Classic Ryde drivers only; flagged that the OUR_ACCOUNTS list actually contains roughly 60 named accounts rather than the 5 in the documented accounting structure, worth Manuel confirming the list is still accurate since it drives Op Rev via name-matching rather than the documented Acct# method; Jul 12 dashboard refresh complete (period Jan 1-Jul 12, 189 days, 15 weeks), GitHub commit aa1aa2a pushed, Cowork artifact classicryde-daily-ops updated, accounting structure reconfirmed compliant with the 5 CR-controlled accounts (MAS, NYC DOE, Med Transit, Surgery Center, Carter), no blending found; Jul 13 finance_weekly_report.py and finance_weekly_report_html.py rewritten to fix the account filter flagged Jul 5-7: Operating Revenue now correctly scoped to the 5 CR account codes, Broker Fee Revenue restricted to Classic Ryde driver trips on network/affiliate accounts (Paisa/Sunnyside excluded, flat base fee only), new Total CR Profit metric added (Operating GP plus Broker Fee Revenue plus Base Fee Received); a script truncation bug in main() that would have broken the whole import chain was also found and fixed; this week's numbers reconciled correctly (Operating Revenue $74,828.52, Operating GP 22.8%, Broker Fee Revenue $2,102.55, Base Fee Received $4,760, Total CR Profit $23,913.15 at 29.3%); Jul 14 dashboard refresh complete (period Jan 1-Jul 14, 194 days, 16 weeks, plus full 2025 history), GitHub commit cd3308f pushed, Cowork artifact classicryde-daily-ops updated, accounting structure reconfirmed compliant (Op Rev scoped to 5 CR accounts, broker fee restricted to Classic Ryde drivers); Jul 14 daily finance report: Op Rev $14,206.11, GP 22.8%, Total CR Profit $3,663.22, posted to #finance-report; Jul 14 daily driver report: 594 trips, 70.5% completion (down from 74.5%), top driver Quintero Bacilio with 13 trips, posted to #driver-performance-report; Jul 15 executive briefing posted to #weekly-management-report covering Jul 14: 3 new drivers onboarded, 2 complaints (1 flagged urgent), mixed reviews, a passenger-conduct dispute and an MTA trip data-integrity issue flagged",
-      "milestones": [
-        {
-          "id": "p_dashboard_data_kinetic_cr_ki_start",
-          "phase": "Start",
-          "date": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_instructivo_para_app_chofere",
-      "name": "Instructivo para App - Choferes Classic",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | In Progress | 30% complete]\n\nDriver instructions guide for the Classic Ryde app; AKI Mobility Trip Viewer App Tutorial v2 (1080p captioned) video shared in Slack Jun 30, sourced from Francis's driver onboarding document; 10 scene screenshots extracted in high-res from PDF for HeyGen slides matching narration script Word doc; Chanel and Lisandro reviewing video Jun 30, feedback pending; next step is building the HeyGen video from slides and script; Jul 10 Francis requested the app download pin be included in the tutorial email so drivers can get on the app while waiting for her call",
-      "milestones": [
-        {
-          "id": "p_instructivo_para_app_chofere_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_campana_incentivos_dispatche",
-      "name": "Campana Incentivos Dispatchers",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | Not Started | 0% complete]\n\nIncentive campaign for dispatcher team",
-      "milestones": [
-        {
-          "id": "p_campana_incentivos_dispatche_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_estructura_de_la_empresa",
-      "name": "Estructura de la Empresa",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 40% complete]\n\nDesign complete company structure end-to-end; org chart v1.5 built and reviewed: Dispatch pillar is now fully staffed (Diana as Dispatch Lead, with Karla, Caleb, Valery, Rumaldo and Blanca as dispatchers, all reporting to Diana, who reports to Lisandro), no longer a gap; remaining open gaps shown in amber are Billing Specialist, an additional recruiter, and QA/documents support; diagram shared as Cowork artifact",
-      "milestones": [
-        {
-          "id": "p_estructura_de_la_empresa_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_aki_driver_recruitment_workf",
-      "name": "AKI Driver Recruitment Workflow",
-      "owner": "Manuel / Lisandro",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 90% complete]\n\n#recruitment5115 channel operational with Jotform + automated bot; HeyGen recruitment videos created Jun 25 (aki-recruitment-en-1/3 and aki-recruitment-es-3/4); Kirstin uploaded first video to Google Drive; avatar switched to Type V; videos need font/style refinement per Chanel; drug test follow-ups automated; test driver hired in 3.1 business days; Jul 1 pre-hiring driver candidate questionnaire drafted (11 questions covering experience, license/record, background/drug test consent, availability, customer service, GPS/dispatch comfort, transportation, work authorization, physical requirements); third recruitment video detailed outline drafted Jul 1 (day-in-the-life, pay structure, vehicle standards, schedule flexibility, growth path, expectations, CTA), pending script buildout; Jul 5 Chanel noted the driver recruitment campaign for Classic Ryde has ended and wants to restart marketing with a 5% commission structure, requested a meeting with Manuel and Lisandro on the driver questionnaire and handoff process, and wants the Driver Recruitment Workflows and team handoffs for both Classic Ryde and AKI completed this week; Jul 9 huddle mapped the onboarding workflow into automated emails (welcome, follow-up, document approval, drug test links) versus manual touchpoints (document review, WhatsApp/email), drug test status tracked manually by Francis with automated follow-up, action items to refine templates, prevent process duplication and fix email bounce-backs; Jul 10 huddle: Aki recruitment reported 90 percent complete, pending only questionnaire finalization; questionnaire refined and split into separate Aki (scheduled routes) and Classic Ride (on-demand) versions, reworded for 1099 independent contractor compliance, added driver categorization logic to auto-route answers into Aki, Classic Ride or needs-more-info buckets, all questions made mandatory, Manuel to consult Claude on contractor-safe phrasing and finalize; separately the AKI drug test reminder schedule was fixed to days 2/4/5/7 (4 emails, anti-burst logic so a driver already past day 6 only gets the day-5 email) with urgency levels low/low/mid/high, deployed as Version 16; Jul 10 Francis requested the app download pin be added to the tutorial email so drivers can get on the app while waiting for her call",
-      "milestones": [
-        {
-          "id": "p_aki_driver_recruitment_workf_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_company_systems_and_structur",
-      "name": "Company Systems and Structure",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | Not Started | 0% complete]\n\nBuild organized systems for team incentives; management meetings; reporting; oversight; company roles and training (Lisandro already ahead with Claude on training component); Jul 10 huddle: Chanel and Manuel agreed on a hybrid approach, continue current projects (Aki, Classic Ryde, dashboard) while building this organizational process framework over the next 1-2 weeks; pending items include org culture/meeting structure, a process manual, marketing/ads review, and company weakness identification; Manuel to schedule a follow-up meeting with Chanel by end of next week (target around Jul 17) to review the framework",
-      "milestones": [
-        {
-          "id": "p_company_systems_and_structur_start",
-          "phase": "Start",
-          "date": "Mon Aug 03 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_ads_management_aki_and_class",
-      "name": "Ads Management - AKI and Classic Ryde",
-      "owner": "Manuel / Kirstin",
-      "priority": "medium",
-      "notes": "[Internal | In Progress | 40% complete]\n\nMultiple AKI recruitment videos created in HeyGen Jun 25 (EN and ES versions); avatar switched to Type V; Kirstin uploaded first video to Drive; videos need font/style refinement per Chanel; HeyGen account active (media@classicryde.com)",
-      "milestones": [
-        {
-          "id": "p_ads_management_aki_and_class_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_business_development_paisa_a",
-      "name": "Business Development - Paisa and Sunnyside",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | Not Started | 0% complete]\n\nBegin driving business to Paisa and Sunnyside",
-      "milestones": [
-        {
-          "id": "p_business_development_paisa_a_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_medicaid_email_automation_nh",
-      "name": "Medicaid Email Automation - NHTD/TBI",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 10% complete]\n\nAutomate full Medicaid participant outreach: Claude drafts emails + attaches flyer + sends 5/day per facility + updates CRM; hourly scan of referrals inbox with Slack summary of emails needing reply; confidential; CRM file shared to media@classicryde.com",
-      "milestones": [
-        {
-          "id": "p_medicaid_email_automation_nh_start",
-          "phase": "Start",
-          "date": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Fri Jun 19 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_patient_eligibility_notifica",
-      "name": "Patient Eligibility Notification Automation",
-      "owner": "Manuel / Kirstin",
-      "priority": "medium",
-      "notes": "[Internal | Completed | 100% complete]\n\nAutomate ineligible patient notifications from RCM eligibility report; report generated twice per date of service; Claude to post alerts to operations Slack channel; waiting on Ned for report generation timing; Diana was checking manually; Jul 14 Chanel checked in, Kirstin confirmed complete: eligibility file is checked daily, added to a folder, read and posted to the operations chat, notifies the day before and the morning of; Monday's report isn't available until Sunday (not Friday) so Karla will run it Sundays going forward; Kirstin monitoring to confirm announcements keep firing",
-      "milestones": [
-        {
-          "id": "p_patient_eligibility_notifica_start",
-          "phase": "Start",
-          "date": "Thu Jun 25 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Thu Jun 25 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
+          "subtasks": [
+            {
+              "id": "s7",
+              "text": "Export current data",
+              "done": false
+            },
+            {
+              "id": "s8",
+              "text": "Map fields to new CRM",
+              "done": false
+            },
+            {
+              "id": "s9",
+              "text": "Validate duplicates",
+              "done": false
+            }
+          ],
           "comment": ""
         },
         {
-          "id": "p_patient_eligibility_notifica_due",
-          "phase": "Target completion",
-          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_july_2026_driver_newsletter",
-      "name": "July 2026 Driver Newsletter",
-      "owner": "Manuel / Kirstin",
-      "priority": "medium",
-      "notes": "[Internal | Completed | 100% complete]\n\nMailerLite draft (ID: 191612505871615770; subject: Drive 100 trips in July earn $100) sent Jul 1 per Manuel's Slack confirmation; strong-text CSS color fix committed to GitHub Pages to match email template (navy/gold/fraud cards); Volume Bonus promo + Independence Day ops card + Ariel Santana #752 spotlight; HTML and 11-language landing page live",
-      "milestones": [
-        {
-          "id": "p_july_2026_driver_newsletter_start",
-          "phase": "Start",
-          "date": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
+          "id": "m14",
+          "phase": "Follow-up",
+          "date": "2026-09-12",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "s10",
+              "text": "Hire Account Manager",
+              "done": false
+            }
+          ],
           "comment": ""
         },
         {
-          "id": "p_july_2026_driver_newsletter_due",
-          "phase": "Target completion",
-          "date": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Wed Jul 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_mas_fee_schedule_ratebook_re",
-      "name": "MAS Fee Schedule Ratebook Rebuild",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 20% complete]\n\nNew ratebook aligned to MAS fee schedule, separate from the Limosys v16 pilot; analysis found outer borough zones underpriced $9-16 per trip vs fee schedule (QU-QU, BK-BK, BX-BX and cross-borough pairs); Manhattan zones already exceed the basic calc due to complex modifier stacks (SC, TN, TJ, CG, TU) not yet fully priced; awaiting Manuel's decision on final zone list, which modifiers CR handles, Manhattan zone treatment, and driver commission split on new rates",
-      "milestones": [
-        {
-          "id": "p_mas_fee_schedule_ratebook_re_start",
-          "phase": "Start",
-          "date": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Mon Jun 29 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_meeting_notes_automation_not",
-      "name": "Meeting Notes Automation - Notion Sync",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | Completed | 100% complete]\n\nBackfilled 8 historical Slack huddle summaries into the Notion Meetings database (11 total meetings Mar-Jun); daily 5pm task now auto-captures new huddles going forward; Manuel raised concerns about Notion usability afterward, may need follow-up; Jul 3 daily check found no new huddle summaries in the last 24 hours, nothing to sync; Jul 6 daily check again found no new huddle summaries in the last 24 hours, nothing to sync; Jul 13 daily check again found no new huddle summaries in the last 24 hours, nothing to sync; Jul 14 daily check again found no new huddle summaries in the last 24 hours, nothing to sync",
-      "milestones": [
-        {
-          "id": "p_meeting_notes_automation_not_start",
-          "phase": "Start",
-          "date": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Tue Jun 30 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "p_meeting_notes_automation_not_done",
-          "phase": "Completed",
-          "date": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Wed Jul 15 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_affiliate_documents_backlog",
-      "name": "Affiliate Documents Backlog",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 10% complete]\n\nBacklog of documents owed to Limosys affiliate network dating to March 2026; Gallant sent emails Jul 1 requesting outstanding documents; Manuel spent Jul 1 working on gathering and sending documents",
-      "milestones": [
-        {
-          "id": "p_affiliate_documents_backlog_start",
-          "phase": "Start",
-          "date": "Sun Mar 01 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
-          "completed": true,
-          "completedAt": "Sun Mar 01 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "p_affiliate_documents_backlog_due",
-          "phase": "Target completion",
-          "date": "Thu Dec 31 2026 03:00:00 GMT-0500 (Eastern Standard Time)",
+          "id": "m15",
+          "phase": "Closeout",
+          "date": "2026-09-26",
           "completed": false,
           "completedAt": null,
           "subtasks": [],
           "comment": ""
         }
       ],
-      "subprojects": []
-    },
-    {
-      "id": "p_website_contact_form_aki_cla",
-      "name": "Website Contact Form - AKI/Classic Ryde Lead Routing",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | Not Started | 0% complete]\n\nDesign a routing system for the AKI (WordPress) and Classic Ryde (Wix) website contact forms so driver candidates are automatically screened toward the company that fits them; key differentiators identified: AKI pays a fixed $1.50/trip commission on fixed routes with high early-morning demand and low demand after 3pm, Classic Ryde has no fixed routes and drivers choose their own trips at 10% commission (temporarily 5% during the current pilot); candidates who do not qualify for the company they applied to would be redirected to the other and flagged in Slack for follow-up contact; still in design/questions phase as of Jul 8, form questions not yet finalized, no build started",
-      "milestones": [
+      "subprojects": [
         {
-          "id": "p_website_contact_form_aki_cla_start",
-          "phase": "Start",
-          "date": "Wed Jul 08 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "sp3",
+          "name": "Contacts module",
+          "dueDate": "2026-07-05",
           "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_cr_kinetics_claims_dashboard",
-      "name": "CR Kinetics Claims Dashboard - Medicaid Billing Tracker",
-      "owner": "Manuel",
-      "priority": "medium",
-      "notes": "[Internal | In Progress | 90% complete]\n\nWeekly automated merge of Medicaid professional claims CSVs into master_claims.json and republish to GitHub Pages dashboard (https://mclassicryde.github.io/cr-kinetics-data/); running since early June, master total now 20,314 claims, $1,339,891.36 billed, $1,218,592.56 paid as of the Jul 7 run; recent runs recovered claims to Paid status (909 claims / $61,476.09 on Jul 7, then 957 claims / $65,640.29 on a same-day rerun after Manuel uploaded missing June claims); one anomaly flagged Jul 7: a source export had no rows in Billed or Submitted status, new claims arrived as Approved, Rejected and Ready To Bill instead, worth checking the export process; Jul 13 run: 0 new claims added, dashboard rebuilt with today's date stamp only, no new billing CSV uploaded since the Jul 7 run",
-      "milestones": [
+          "subtasks": [
+            {
+              "id": "s11",
+              "text": "Export from old CRM",
+              "done": true
+            },
+            {
+              "id": "s12",
+              "text": "Import to new CRM",
+              "done": false
+            },
+            {
+              "id": "s13",
+              "text": "Validate duplicates",
+              "done": false
+            }
+          ],
+          "subprojects": []
+        },
         {
-          "id": "p_cr_kinetics_claims_dashboard_start",
-          "phase": "Start",
-          "date": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
-          "completed": true,
-          "completedAt": "Mon Jun 01 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "sp4",
+          "name": "Billing module",
+          "dueDate": "2026-09-15",
+          "completed": false,
           "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p_interactive_project_manageme",
-      "name": "Interactive Project Management Dashboard",
-      "owner": "Chanel / Manuel",
-      "priority": "high",
-      "notes": "[Internal | In Progress | 60% complete]\n\nNew project identified from Jul 10 huddle and Slack: Chanel wants an interactive, CRM-like visual system showing project relationships, sizes, priorities and timelines, with milestones and company goals (trip targets, hiring timelines) intersecting project timelines to connect tactical work to strategy; intended to help management (Lisandro, Kirstin) align on priorities without constant meetings; Chanel sent a visual mockup (IMG_2144.jpg) the same day and asked to try building it with Claude, noting the mockup milestones are illustrative examples only, not actual milestones; needs proper prompting of Claude to get good results; no build started yet; active build in progress as of Jul 15: working HTML prototype now has CSV export, full JSON state backup/restore, print/PDF export with a stylesheet that shows the full roadmap without zoom clipping, filters by owner/status/priority with sortable columns, a collapsible 'next steps' panel showing nearest milestones across all projects, free-text notes per project and per milestone comment, dependency-aware status (a project depending on a red one is auto-bumped to at least yellow with an explanation), and a read-only view mode; currently working through a production-architecture question with Manuel: the file uses browser localStorage so each person who opens the GitHub-hosted link has an isolated copy with no shared data; discussing a simple path (load an external datos.json as starting state, manually re-upload the updated JSON to Drive/GitHub to publish changes) versus a real multi-user path (needs an actual backend like Firebase/Supabase/Google Sheets plus auth), decision pending",
-      "milestones": [
+          "subprojects": []
+        },
         {
-          "id": "p_interactive_project_manageme_start",
-          "phase": "Start",
-          "date": "Fri Jul 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
+          "id": "sp5",
+          "name": "Reports module",
+          "dueDate": "2026-07-10",
           "completed": true,
-          "completedAt": "Fri Jul 10 2026 03:00:00 GMT-0400 (Eastern Daylight Time)",
           "subtasks": [],
-          "comment": ""
+          "subprojects": []
         }
-      ],
-      "subprojects": []
+      ]
     }
   ],
-  "dependencies": [],
+  "dependencies": [
+    {
+      "fromProjectId": "p3",
+      "fromMilestoneId": "m13",
+      "toProjectId": "p1",
+      "toMilestoneId": "m5"
+    }
+  ],
   "goals": [
     {
       "id": "g1",
