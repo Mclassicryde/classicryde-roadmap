@@ -1,175 +1,15 @@
 {
   "projects": [
     {
-      "id": "p1",
-      "name": "Driver app redesign",
-      "owner": "Manuel",
-      "priority": "high",
-      "notes": "",
+      "id": "p_8aebf1b9",
+      "name": "Ads Management - AKI and Classic Ryde",
+      "owner": "Manuel ",
+      "priority": "medium",
+      "notes": "Videos de HeyGen creados (EN/ES). Falta el refinamiento de fuente/estilo pedido por Chanel.",
       "milestones": [
         {
-          "id": "m1",
-          "phase": "Intake",
-          "date": "2026-07-01",
-          "completed": true,
-          "completedAt": "2026-07-01",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m2",
-          "phase": "Definition & Planning",
-          "date": "2026-07-15",
-          "completed": true,
-          "completedAt": "2026-07-15",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m3",
-          "phase": "Execution",
-          "date": "2026-07-29",
-          "completed": true,
-          "completedAt": "2026-07-29",
-          "subtasks": [
-            {
-              "id": "s1",
-              "text": "Update main screens",
-              "done": true
-            },
-            {
-              "id": "s2",
-              "text": "Pilot driver testing",
-              "done": false
-            }
-          ],
-          "comment": "Completed a few days late"
-        },
-        {
-          "id": "m4",
-          "phase": "Follow-up",
-          "date": "2026-08-12",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m5",
-          "phase": "Closeout",
-          "date": "2026-08-26",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": [
-        {
-          "id": "sp1",
-          "name": "iOS app",
-          "dueDate": "2026-07-01",
-          "completed": true,
-          "subtasks": [
-            {
-              "id": "s3",
-              "text": "Publish to the App Store",
-              "done": true
-            },
-            {
-              "id": "s4",
-              "text": "Final QA",
-              "done": true
-            }
-          ],
-          "subprojects": []
-        },
-        {
-          "id": "sp2",
-          "name": "Android app",
-          "dueDate": "2026-07-25",
-          "completed": false,
-          "subtasks": [
-            {
-              "id": "s5",
-              "text": "Adjust tablet UI",
-              "done": false
-            },
-            {
-              "id": "s6",
-              "text": "Performance testing",
-              "done": false
-            }
-          ],
-          "subprojects": []
-        }
-      ]
-    },
-    {
-      "id": "p2",
-      "name": "Summer campaign",
-      "owner": "Marketing",
-      "priority": "low",
-      "notes": "",
-      "milestones": [
-        {
-          "id": "m6",
-          "phase": "Intake",
-          "date": "2026-07-15",
-          "completed": true,
-          "completedAt": "2026-07-15",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m7",
-          "phase": "Definition & Planning",
-          "date": "2026-07-29",
-          "completed": true,
-          "completedAt": "2026-07-29",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m8",
-          "phase": "Execution",
-          "date": "2026-08-12",
-          "completed": true,
-          "completedAt": "2026-08-12",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m9",
-          "phase": "Follow-up",
-          "date": "2026-08-26",
-          "completed": true,
-          "completedAt": "2026-08-26",
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m10",
-          "phase": "Closeout",
-          "date": "2026-09-09",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": []
-    },
-    {
-      "id": "p3",
-      "name": "CRM migration",
-      "owner": "Operations",
-      "priority": "high",
-      "notes": "",
-      "milestones": [
-        {
-          "id": "m11",
-          "phase": "Intake",
+          "id": "p_8aebf1b9_m1",
+          "phase": "Inicio",
           "date": "2026-08-01",
           "completed": true,
           "completedAt": "2026-08-01",
@@ -177,116 +17,1055 @@
           "comment": ""
         },
         {
-          "id": "m12",
-          "phase": "Definition & Planning",
-          "date": "2026-08-15",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        },
-        {
-          "id": "m13",
-          "phase": "Execution",
-          "date": "2026-08-29",
+          "id": "p_8aebf1b9_m2",
+          "phase": "Entrega",
+          "date": "2026-07-15",
           "completed": false,
           "completedAt": null,
           "subtasks": [
             {
-              "id": "s7",
-              "text": "Export current data",
-              "done": false
-            },
-            {
-              "id": "s8",
-              "text": "Map fields to new CRM",
-              "done": false
-            },
-            {
-              "id": "s9",
-              "text": "Validate duplicates",
-              "done": false
-            }
-          ],
-          "comment": ""
-        },
-        {
-          "id": "m14",
-          "phase": "Follow-up",
-          "date": "2026-09-12",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [
-            {
-              "id": "s10",
-              "text": "Hire Account Manager",
-              "done": false
-            }
-          ],
-          "comment": ""
-        },
-        {
-          "id": "m15",
-          "phase": "Closeout",
-          "date": "2026-09-26",
-          "completed": false,
-          "completedAt": null,
-          "subtasks": [],
-          "comment": ""
-        }
-      ],
-      "subprojects": [
-        {
-          "id": "sp3",
-          "name": "Contacts module",
-          "dueDate": "2026-07-05",
-          "completed": false,
-          "subtasks": [
-            {
-              "id": "s11",
-              "text": "Export from old CRM",
+              "id": "p_8aebf1b9_s0",
+              "text": "Videos de HeyGen creados (EN/ES)",
               "done": true
             },
             {
-              "id": "s12",
-              "text": "Import to new CRM",
-              "done": false
+              "id": "p_8aebf1b9_s1",
+              "text": "Refinamiento de fuente/estilo de los videos",
+              "done": true
+            }
+          ],
+          "comment": "Videos de HeyGen creados (EN/ES). Falta el refinamiento de fuente/estilo pedido por Chanel."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_7258bedf",
+      "name": "Affiliate Documents Backlog",
+      "owner": "Manuel",
+      "priority": "high",
+      "notes": "Emails de solicitud enviados a la red de afiliados. Falta recibir y archivar los documentos pendientes.",
+      "milestones": [
+        {
+          "id": "p_7258bedf_m1",
+          "phase": "Inicio",
+          "date": "2026-08-01",
+          "completed": true,
+          "completedAt": "2026-08-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_7258bedf_m2",
+          "phase": "Entrega",
+          "date": "2026-08-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_7258bedf_s0",
+              "text": "Emails enviados solicitando documentos pendientes",
+              "done": true
             },
             {
-              "id": "s13",
-              "text": "Validate duplicates",
+              "id": "p_7258bedf_s1",
+              "text": "Recibir y archivar documentos faltantes",
               "done": false
             }
           ],
-          "subprojects": []
-        },
-        {
-          "id": "sp4",
-          "name": "Billing module",
-          "dueDate": "2026-09-15",
-          "completed": false,
-          "subtasks": [],
-          "subprojects": []
-        },
-        {
-          "id": "sp5",
-          "name": "Reports module",
-          "dueDate": "2026-07-10",
-          "completed": true,
-          "subtasks": [],
-          "subprojects": []
+          "comment": "Emails de solicitud enviados a la red de afiliados. Falta recibir y archivar los documentos pendientes."
         }
-      ]
-    }
-  ],
-  "dependencies": [
+      ],
+      "subprojects": []
+    },
     {
-      "fromProjectId": "p3",
-      "fromMilestoneId": "m13",
-      "toProjectId": "p1",
-      "toMilestoneId": "m5"
+      "id": "p_81ffa724",
+      "name": "AKI Driver Recruitment Workflow",
+      "owner": "Manuel ",
+      "priority": "high",
+      "notes": "Canal, videos, cuestionario y sistema de clasificacion de 3 niveles completos. Falta terminar la logica de mapeo a buckets y agregar la clausula anti-fraude de carpooling entre empresas pedida por Lisandro (Jul 23).",
+      "milestones": [
+        {
+          "id": "p_81ffa724_m1",
+          "phase": "Inicio",
+          "date": "2026-06-19",
+          "completed": true,
+          "completedAt": "2026-06-19",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_81ffa724_m2",
+          "phase": "Entrega",
+          "date": "2026-07-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_81ffa724_s0",
+              "text": "Canal de recruitment y bot Jotform operativo",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s1",
+              "text": "Videos de HeyGen creados y subidos (EN/ES, avatar Type V)",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s2",
+              "text": "Seguimiento de drug test automatizado",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s3",
+              "text": "Cuestionario de pre-hiring redactado (11 preguntas)",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s4",
+              "text": "Cuestionario dividido en versiones Aki y Classic Ride, reescrito para cumplimiento 1099",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s5",
+              "text": "Logica de categorizacion de driver anadida (Aki/Classic Ride/needs-more-info)",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s6",
+              "text": "Horario de recordatorio de drug test corregido y desplegado (Version 16)",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s7",
+              "text": "Cuestionario actualizado segun feedback de la reunion del 20 de julio",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s8",
+              "text": "Funciones legacy de trigger removidas y redeployadas",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s9",
+              "text": "Sistema de clasificacion de 3 niveles construido con reglas de descalificacion",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s10",
+              "text": "Pregunta de compromiso de horario reescrita",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s11",
+              "text": "Iniciar logica de mapeo de respuestas a buckets",
+              "done": true
+            },
+            {
+              "id": "p_81ffa724_s12",
+              "text": "Terminar logica de mapeo de respuestas a buckets",
+              "done": false
+            },
+            {
+              "id": "p_81ffa724_s13",
+              "text": "Agregar clausula anti-fraude sobre compartir viajes entre empresas/cuentas al onboarding de drivers (solicitado por Lisandro Jul 23)",
+              "done": false
+            }
+          ],
+          "comment": "Canal, videos, cuestionario y sistema de clasificacion de 3 niveles completos. Falta terminar la logica de mapeo a buckets y agregar la clausula anti-fraude de carpooling entre empresas pedida por Lisandro (Jul 23)."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_de1196a1",
+      "name": "Business Development - Paisa and Sunnyside",
+      "owner": "Manuel",
+      "priority": "medium",
+      "notes": "Aun no iniciado.",
+      "milestones": [
+        {
+          "id": "p_de1196a1_m1",
+          "phase": "Inicio",
+          "date": "2026-08-01",
+          "completed": true,
+          "completedAt": "2026-08-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_de1196a1_m2",
+          "phase": "Entrega",
+          "date": "2026-10-31",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_de1196a1_s0",
+              "text": "Definir estrategia para llevar negocio a Paisa y Sunnyside",
+              "done": false
+            }
+          ],
+          "comment": "Aun no iniciado."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_d71bea69",
+      "name": "Campana Incentivos Dispatchers",
+      "owner": "Manuel",
+      "priority": "medium",
+      "notes": "Aun no iniciada.",
+      "milestones": [
+        {
+          "id": "p_d71bea69_m1",
+          "phase": "Inicio",
+          "date": "2026-08-01",
+          "completed": true,
+          "completedAt": "2026-08-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_d71bea69_m2",
+          "phase": "Entrega",
+          "date": "2026-08-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_d71bea69_s0",
+              "text": "Definir estructura de incentivos",
+              "done": false
+            },
+            {
+              "id": "p_d71bea69_s1",
+              "text": "Aprobar presupuesto",
+              "done": false
+            },
+            {
+              "id": "p_d71bea69_s2",
+              "text": "Lanzar campana",
+              "done": false
+            }
+          ],
+          "comment": "Aun no iniciada."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_4a4c2215",
+      "name": "Classic Recruitment Workflow Streamlining",
+      "owner": "Manuel",
+      "priority": "high",
+      "notes": "Migracion a Apps Script completa y estable. Falta cerrar cabos sueltos: token de Slack bot, migracion de columnas Docs Rejected, webhook de recruitment y bug de reenvio de welcome emails.",
+      "milestones": [
+        {
+          "id": "p_4a4c2215_m1",
+          "phase": "Inicio",
+          "date": "2026-07-01",
+          "completed": true,
+          "completedAt": "2026-07-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_4a4c2215_m2",
+          "phase": "Entrega",
+          "date": "2026-07-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_4a4c2215_s0",
+              "text": "Corregir regex de email bounce (extrae todos los emails del cuerpo)",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s1",
+              "text": "Generar plantillas de email bilingues (Welcome/Drug Test/Activation ES+EN)",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s2",
+              "text": "Confirmar los 16 estados del pipeline",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s3",
+              "text": "Integrar tutorial de YouTube en email de Activation",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s4",
+              "text": "Migrar los 12 Zaps a Apps Script",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s5",
+              "text": "Corregir bugs de migracion (Zap 10 y Zap 11)",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s6",
+              "text": "Escribir plan de cutover Zapier-Apps Script",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s7",
+              "text": "Construir secuencia de seguimiento Call Done (dia 1/3/5 + auto-archivo)",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s8",
+              "text": "Mover verificacion de dispatcher a disparo inmediato al archivar a Hired",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s9",
+              "text": "Reescribir parser de CSV de viajes con headers reales",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s10",
+              "text": "Corregir bug de notificacion Slack de nuevo aplicante",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s11",
+              "text": "Aplicar fix permanente para mensajes #HIRED bloqueados por filtro de subtype",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s12",
+              "text": "Corregir registro puntual del driver Juana (Slack ID, Veh#, dispatcher)",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s13",
+              "text": "Reautorizar conector Mailerlite tras desconexion",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s14",
+              "text": "Corregir bug de fila duplicada en Hired (Genaro Talavera)",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s15",
+              "text": "Corregir notificacion Slack con timestamp fabricado",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s16",
+              "text": "Corregir typo de nombre de driver y reprocesar emails",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s17",
+              "text": "Reconfigurar digest diario de Aki al canal de Operations",
+              "done": true
+            },
+            {
+              "id": "p_4a4c2215_s18",
+              "text": "Cerrar cabos sueltos operativos: token de Slack bot, migracion de columnas Docs Rejected, actualizar webhook URL de recruitment y resolver bug de reenvio de welcome emails",
+              "done": false
+            }
+          ],
+          "comment": "Migracion a Apps Script completa y estable. Falta cerrar cabos sueltos: token de Slack bot, migracion de columnas Docs Rejected, webhook de recruitment y bug de reenvio de welcome emails."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_8621aa22",
+      "name": "Company Systems and Structure",
+      "owner": "Manuel",
+      "priority": "high",
+      "notes": "Enfoque hibrido acordado con Chanel (seguir proyectos actuales mientras se construye esto en paralelo). Framework organizacional aun por construir.",
+      "milestones": [
+        {
+          "id": "p_8621aa22_m1",
+          "phase": "Inicio",
+          "date": "2026-08-01",
+          "completed": true,
+          "completedAt": "2026-08-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_8621aa22_m2",
+          "phase": "Entrega",
+          "date": "2026-10-15",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_8621aa22_s0",
+              "text": "Org chart v1.5 con pillar de Dispatch completo",
+              "done": true
+            },
+            {
+              "id": "p_8621aa22_s1",
+              "text": "Cubrir vacantes: Billing Specialist, reclutador adicional, soporte QA/documentos",
+              "done": false
+            },
+            {
+              "id": "p_8621aa22_s2",
+              "text": "Definir cultura organizacional y estructura de reuniones",
+              "done": false
+            },
+            {
+              "id": "p_8621aa22_s3",
+              "text": "Escribir manual de procesos",
+              "done": false
+            },
+            {
+              "id": "p_8621aa22_s4",
+              "text": "Revisar marketing/ads",
+              "done": false
+            },
+            {
+              "id": "p_8621aa22_s5",
+              "text": "Identificar debilidades de la empresa",
+              "done": false
+            }
+          ],
+          "comment": "Enfoque hibrido acordado con Chanel (seguir proyectos actuales mientras se construye esto en paralelo). Framework organizacional aun por construir."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_7c709a90",
+      "name": "Company Weak Points Mapping",
+      "owner": "Chanel / Manuel",
+      "priority": "medium",
+      "notes": "Puntos debiles candidatos identificados en el huddle del 9 de julio. Falta formalizar el mapa visual.",
+      "milestones": [
+        {
+          "id": "p_7c709a90_m1",
+          "phase": "Inicio",
+          "date": "2026-08-01",
+          "completed": true,
+          "completedAt": "2026-08-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_7c709a90_m2",
+          "phase": "Entrega",
+          "date": "2026-09-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_7c709a90_s0",
+              "text": "Identificar puntos debiles candidatos (huddle Jul 9)",
+              "done": true
+            },
+            {
+              "id": "p_7c709a90_s1",
+              "text": "Formalizar el mapa visual",
+              "done": false
+            }
+          ],
+          "comment": "Puntos debiles candidatos identificados en el huddle del 9 de julio. Falta formalizar el mapa visual."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_4cef0f28",
+      "name": "CR Kinetics Claims Dashboard - Medicaid Billing Tracker",
+      "owner": "Manuel",
+      "priority": "medium",
+      "notes": "Nuevo CSV de 4 semanas procesado el 27 de julio (1,986 claims nuevos). Falta investigar por que llegaron sin estado Billed.",
+      "milestones": [
+        {
+          "id": "p_4cef0f28_m1",
+          "phase": "Inicio",
+          "date": "2026-06-01",
+          "completed": true,
+          "completedAt": "2026-06-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_4cef0f28_m2",
+          "phase": "Entrega",
+          "date": "2026-08-05",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_4cef0f28_s0",
+              "text": "Merge semanal automatizado funcionando",
+              "done": true
+            },
+            {
+              "id": "p_4cef0f28_s1",
+              "text": "Recuperacion de claims a estado Paid confirmada (auditorias de Jul 7 y Jul 15)",
+              "done": true
+            },
+            {
+              "id": "p_4cef0f28_s2",
+              "text": "Confirmado el manejo correcto de claims Submitted sin Reference (se dejan fuera del merge por diseno)",
+              "done": true
+            },
+            {
+              "id": "p_4cef0f28_s3",
+              "text": "Subir nuevo CSV de reclamos e implementar la actualizacion (procesado Jul 27, 1986 claims nuevos)",
+              "done": true
+            },
+            {
+              "id": "p_4cef0f28_s4",
+              "text": "Integrar con el dashboard archivo de viajes no pagados.",
+              "done": false
+            }
+          ],
+          "comment": "Nuevo CSV de 4 semanas procesado el 27 de julio (1,986 claims nuevos). Falta investigar por que llegaron sin estado Billed."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_66e03590",
+      "name": "Driver Connect - Re-engagement Campaign",
+      "owner": "Manuel",
+      "priority": "high",
+      "notes": "235 drivers activos identificados y grafica de contribucion por agente entregada a Chanel. Falta definir el estandar de seguimiento 24h y lanzar la campana de re-engagement.",
+      "milestones": [
+        {
+          "id": "p_66e03590_m1",
+          "phase": "Inicio",
+          "date": "2026-04-15",
+          "completed": true,
+          "completedAt": "2026-04-15",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_66e03590_m2",
+          "phase": "Entrega",
+          "date": "2026-07-15",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_66e03590_s0",
+              "text": "Analisis de drivers activos completado (235 identificados)",
+              "done": true
+            },
+            {
+              "id": "p_66e03590_s1",
+              "text": "Definir estandar de seguimiento 24h",
+              "done": true
+            },
+            {
+              "id": "p_66e03590_s2",
+              "text": "Ejecutar campana de re-engagement con la lista filtrada",
+              "done": true
+            }
+          ],
+          "comment": "235 drivers activos identificados y grafica de contribucion por agente entregada a Chanel. Falta definir el estandar de seguimiento 24h y lanzar la campana de re-engagement."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_6d5d6130",
+      "name": "Drug Test Email - Choferes Classic",
+      "owner": "Manuel",
+      "priority": "medium",
+      "notes": "3 automatizaciones de Mailerlite lanzadas y funcionando en produccion. Falta redactar la politica general de drug test con fecha y proveedor.",
+      "milestones": [
+        {
+          "id": "p_6d5d6130_m1",
+          "phase": "Inicio",
+          "date": "2026-06-19",
+          "completed": true,
+          "completedAt": "2026-06-19",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_6d5d6130_m2",
+          "phase": "Entrega",
+          "date": "2026-09-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_6d5d6130_s0",
+              "text": "3 automatizaciones de Mailerlite creadas y lanzadas",
+              "done": true
+            },
+            {
+              "id": "p_6d5d6130_s1",
+              "text": "Rediseno del email de instrucciones Sentry",
+              "done": true
+            },
+            {
+              "id": "p_6d5d6130_s2",
+              "text": "Redactar politica general de drug test con fecha/proveedor",
+              "done": false
+            }
+          ],
+          "comment": "3 automatizaciones de Mailerlite lanzadas y funcionando en produccion. Falta redactar la politica general de drug test con fecha y proveedor."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_ce3b73f8",
+      "name": "Interactive Project Management Dashboard",
+      "owner": "Chanel / Manuel",
+      "priority": "high",
+      "notes": "Tracker publicado en GitHub Pages. Falta construir la vista de roadmap interactiva conectada al tracker (boton pedido por Chanel para el 27 de julio) y definir fechas de inicio reales para los proyectos con fecha placeholder.",
+      "milestones": [
+        {
+          "id": "p_ce3b73f8_m1",
+          "phase": "Inicio",
+          "date": "2026-07-10",
+          "completed": true,
+          "completedAt": "2026-07-10",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_ce3b73f8_m2",
+          "phase": "Entrega",
+          "date": "2026-07-10",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_ce3b73f8_s0",
+              "text": "Prototipo HTML con export CSV/JSON/PDF",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s1",
+              "text": "Filtros y columnas ordenables funcionando",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s2",
+              "text": "Panel de proximos pasos y notas por proyecto/milestone",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s3",
+              "text": "Estado dependiente de otros proyectos (semaforo automatico)",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s4",
+              "text": "Vista de solo lectura implementada",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s5",
+              "text": "Filtro de \"ocultar proyectos completados\" publicado y activo",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s6",
+              "text": "Opciones presentadas a Manuel para las fechas de inicio placeholder",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s7",
+              "text": "Decidir arquitectura multi-usuario (resuelto: CSV canonico republicado automaticamente via GitHub Pages)",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s8",
+              "text": "Definir fechas de inicio reales para los proyectos con fecha placeholder",
+              "done": false
+            },
+            {
+              "id": "p_ce3b73f8_s9",
+              "text": "Publicar version final del dashboard una vez tomadas ambas decisiones",
+              "done": false
+            },
+            {
+              "id": "p_ce3b73f8_s10",
+              "text": "Tracker publicado en GitHub Pages (classicryde-project-tracker, index.html y data.json generados desde project_tracker.csv)",
+              "done": true
+            },
+            {
+              "id": "p_ce3b73f8_s11",
+              "text": "Construir la vista project roadmap interactiva integrada al tracker (boton que muestra conexiones y milestones entre proyectos), segun especificacion de Chanel del 25 de julio",
+              "done": false
+            }
+          ],
+          "comment": "Tracker publicado en GitHub Pages. Falta construir la vista de roadmap interactiva conectada al tracker (boton pedido por Chanel para el 27 de julio) y definir fechas de inicio reales para los proyectos con fecha placeholder."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_8da813dc",
+      "name": "License & Certificate Expiration Tracking",
+      "owner": "Chanel / Manuel / Kirstin / Diana",
+      "priority": "high",
+      "notes": "Sistema de alertas automaticas funcionando y bug del parser corregido. Renovaciones de documentos especificos (AKI General Liability, Paisa Classic Black Fund) quedan como seguimiento operativo continuo, no bloquean el cierre.",
+      "milestones": [
+        {
+          "id": "p_8da813dc_m1",
+          "phase": "Inicio",
+          "date": "2026-06-05",
+          "completed": true,
+          "completedAt": "2026-06-05",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_8da813dc_m2",
+          "phase": "Entrega",
+          "date": "2026-07-31",
+          "completed": true,
+          "completedAt": "2026-07-27",
+          "subtasks": [
+            {
+              "id": "p_8da813dc_s0",
+              "text": "Alertas automaticas diarias funcionando",
+              "done": true
+            },
+            {
+              "id": "p_8da813dc_s1",
+              "text": "Corregir bug del parser de respuestas",
+              "done": true
+            },
+            {
+              "id": "p_8da813dc_s2",
+              "text": "Sistema de monitoreo activo para todas las empresas y documentos (renovaciones de AKI General Liability y Paisa Classic Black Fund quedan como seguimiento operativo continuo, no bloquean el cierre de este proyecto)",
+              "done": true
+            }
+          ],
+          "comment": "Sistema de alertas automaticas funcionando y bug del parser corregido. Renovaciones de documentos especificos (AKI General Liability, Paisa Classic Black Fund) quedan como seguimiento operativo continuo, no bloquean el cierre."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_08657708",
+      "name": "Limosys Network Partnership System",
+      "owner": "Manuel",
+      "priority": "high",
+      "notes": "Aun no iniciado.",
+      "milestones": [
+        {
+          "id": "p_08657708_m1",
+          "phase": "Inicio",
+          "date": "2026-06-04",
+          "completed": true,
+          "completedAt": "2026-06-04",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_08657708_m2",
+          "phase": "Entrega",
+          "date": "2026-09-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_08657708_s0",
+              "text": "Disenar workflow A-Z de voucher/cash/tarjeta",
+              "done": false
+            },
+            {
+              "id": "p_08657708_s1",
+              "text": "Crear emails y PDFs de marca",
+              "done": false
+            },
+            {
+              "id": "p_08657708_s2",
+              "text": "Definir estandares de onboarding de afiliados",
+              "done": false
+            }
+          ],
+          "comment": "Aun no iniciado."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_26c7dc53",
+      "name": "Medicaid Email Automation - NHTD/TBI",
+      "owner": "Manuel",
+      "priority": "high",
+      "notes": "Aun no iniciado el flujo automatizado de emails ni el escaneo horario del inbox de referrals.",
+      "milestones": [
+        {
+          "id": "p_26c7dc53_m1",
+          "phase": "Inicio",
+          "date": "2026-06-19",
+          "completed": true,
+          "completedAt": "2026-06-19",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_26c7dc53_m2",
+          "phase": "Entrega",
+          "date": "2026-09-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_26c7dc53_s0",
+              "text": "Construir flujo de emails automatizados",
+              "done": false
+            },
+            {
+              "id": "p_26c7dc53_s1",
+              "text": "Configurar escaneo horario de inbox de referrals",
+              "done": false
+            }
+          ],
+          "comment": "Aun no iniciado el flujo automatizado de emails ni el escaneo horario del inbox de referrals."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_2a056a35",
+      "name": "Patient Eligibility Notification Automation",
+      "owner": "Manuel / Kirstin",
+      "priority": "medium",
+      "notes": "Notificaciones diarias funcionando, confirmado por Kirstin como completo.",
+      "milestones": [
+        {
+          "id": "p_2a056a35_m1",
+          "phase": "Inicio",
+          "date": "2026-06-25",
+          "completed": true,
+          "completedAt": "2026-06-25",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_2a056a35_m2",
+          "phase": "Entrega",
+          "date": "2026-07-15",
+          "completed": true,
+          "completedAt": "2026-07-15",
+          "subtasks": [
+            {
+              "id": "p_2a056a35_s0",
+              "text": "Automatizacion de notificaciones diarias funcionando",
+              "done": true
+            },
+            {
+              "id": "p_2a056a35_s1",
+              "text": "Confirmado por Kirstin como completo",
+              "done": true
+            }
+          ],
+          "comment": "Notificaciones diarias funcionando, confirmado por Kirstin como completo."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_c0d0fa39",
+      "name": "Prehiring Questions - AKI/Classic Ryde Lead Routing",
+      "owner": "Manuel",
+      "priority": "medium",
+      "notes": "Preguntas del formulario finalizadas en ambos sitios. Falta construir la logica de seleccion de buckets (AKI vs Classic Ryde vs no calificado) e integrarla en WordPress y Wix.",
+      "milestones": [
+        {
+          "id": "p_c0d0fa39_m1",
+          "phase": "Inicio",
+          "date": "2026-07-08",
+          "completed": true,
+          "completedAt": "2026-07-08",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_c0d0fa39_m2",
+          "phase": "Entrega",
+          "date": "2026-07-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [],
+          "comment": "Preguntas del formulario finalizadas en ambos sitios. Falta construir la logica de seleccion de buckets (AKI vs Classic Ryde vs no calificado) e integrarla en WordPress y Wix."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_937031cb",
+      "name": "Ratebook v16 - Rate Restructuring",
+      "owner": "Manuel",
+      "priority": "high",
+      "notes": "Piloto cerrado: tarifas corregidas y resumen final enviado a Chanel.",
+      "milestones": [
+        {
+          "id": "p_937031cb_m1",
+          "phase": "Inicio",
+          "date": "2026-06-02",
+          "completed": true,
+          "completedAt": "2026-06-02",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_937031cb_m2",
+          "phase": "Entrega",
+          "date": "2026-06-15",
+          "completed": true,
+          "completedAt": "2026-07-24",
+          "subtasks": [
+            {
+              "id": "p_937031cb_s0",
+              "text": "Piloto extendido y corridas de prueba completadas",
+              "done": true
+            },
+            {
+              "id": "p_937031cb_s1",
+              "text": "Corregir errores de calculo de tarifas",
+              "done": true
+            },
+            {
+              "id": "p_937031cb_s2",
+              "text": "Cerrar decision final del piloto y enviar resumen escrito a Chanel",
+              "done": true
+            }
+          ],
+          "comment": "Piloto cerrado: tarifas corregidas y resumen final enviado a Chanel."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_71911255",
+      "name": "Zapier Plan Renewal Decision - Reviews and Complaints Workflow",
+      "owner": "Manuel ",
+      "priority": "medium",
+      "notes": "Plan renovado el 23 de julio. Falta ejecutar las pruebas de los proyectos de Aki y Classic con la automatizacion de Recruitment.",
+      "milestones": [
+        {
+          "id": "p_71911255_m1",
+          "phase": "Inicio",
+          "date": "2026-07-15",
+          "completed": true,
+          "completedAt": "2026-07-15",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_71911255_m2",
+          "phase": "Entrega",
+          "date": "2026-07-30",
+          "completed": false,
+          "completedAt": null,
+          "subtasks": [
+            {
+              "id": "p_71911255_s0",
+              "text": "Identificado que el plan alcanzo 80% del limite de tasks",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s1",
+              "text": "Identificadas 84 tasks retenidas",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s2",
+              "text": "Decision tomada de esperar a la renovacion del 23",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s3",
+              "text": "Confirmada la renovacion del plan Zapier el 23",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s4",
+              "text": "Verificado que las tasks retenidas no eran time-sensitive",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s5",
+              "text": "Revisado el workflow de reviews de Google hacia Slack",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s6",
+              "text": "Revisado el workflow de complaints hacia Slack",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s7",
+              "text": "Confirmado que ambos workflows siguen posteando correctamente tras la renovacion",
+              "done": true
+            },
+            {
+              "id": "p_71911255_s8",
+              "text": "Ejecutar pruebas de los proyectos de Aki y Classic con la automatizacion de Recruitment",
+              "done": false
+            }
+          ],
+          "comment": "Plan renovado el 23 de julio. Falta ejecutar las pruebas de los proyectos de Aki y Classic con la automatizacion de Recruitment."
+        }
+      ],
+      "subprojects": []
+    },
+    {
+      "id": "p_df202366",
+      "name": "Driver Referral Bonus - Trip Tracking",
+      "owner": "Manuel",
+      "priority": "medium",
+      "notes": "Script de conteo diario funcionando. Reporte mensual de julio publicado; Anderson Flores alcanzo el bono de referido.",
+      "milestones": [
+        {
+          "id": "p_df202366_m1",
+          "phase": "Inicio",
+          "date": "2026-07-01",
+          "completed": true,
+          "completedAt": "2026-07-01",
+          "subtasks": [],
+          "comment": ""
+        },
+        {
+          "id": "p_df202366_m2",
+          "phase": "Entrega",
+          "date": "2026-07-01",
+          "completed": true,
+          "completedAt": "2026-07-27",
+          "subtasks": [
+            {
+              "id": "p_df202366_s0",
+              "text": "Script diario de conteo de viajes funcionando",
+              "done": true
+            },
+            {
+              "id": "p_df202366_s1",
+              "text": "Documentacion del orden de columnas corregida en el task",
+              "done": true
+            },
+            {
+              "id": "p_df202366_s2",
+              "text": "Asignacion de Vehicle# a nuevos referidos gestionada como proceso continuo (no bloquea el cierre del proyecto)",
+              "done": true
+            }
+          ],
+          "comment": "Script de conteo diario funcionando. Reporte mensual de julio publicado; Anderson Flores alcanzo el bono de referido."
+        }
+      ],
+      "subprojects": []
     }
   ],
+  "dependencies": [],
   "goals": [
     {
       "id": "g1",
