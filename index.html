@@ -3,9 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Project Roadmap</title>
+<title>Project Tracker &amp; Roadmap - ClassicRyde / AKI</title>
 <style>
-  :root {
+
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  .tabbar {
+    display: flex; gap: 6px; padding: 14px 20px 0; background: #fff; border-bottom: 2px solid #E7E9F0;
+    position: sticky; top: 0; z-index: 40;
+  }
+  .tabbar button {
+    border: none; background: none; padding: 10px 18px; font-size: 14px; font-weight: 700;
+    color: #6b7280; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+    font-family: inherit;
+  }
+  .tabbar button.active { color: #16213E; border-bottom-color: #16213E; }
+  .tabbar button:hover { color: #16213E; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+/* ---- Lista/Tracker view (scoped .app-lista) ---- */
+.app-lista { color-scheme: light; }
+.app-lista * { box-sizing: border-box; }
+.app-lista {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    color: #1f2328;
+    padding: 20px 24px 40px;
+  }
+.app-lista .wrap { max-width: 1200px; margin: 0 auto; }
+.app-lista h1 { font-size: 20px; margin: 0 0 4px 0; }
+.app-lista .sub { color: #6b7280; font-size: 13px; margin: 0 0 18px 0; }
+.app-lista .sub a { color: #2563eb; }
+.app-lista .stats { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.app-lista .stat {
+    flex: 1; min-width: 110px; border: 1px solid #e5e7eb; border-radius: 10px;
+    padding: 12px 14px; background: #fafafa; cursor: pointer;
+  }
+.app-lista .stat .n { font-size: 22px; font-weight: 700; }
+.app-lista .stat .l { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.app-lista .stat.notstarted .n { color: #6b7280; }
+.app-lista .stat.progress .n { color: #2563eb; }
+.app-lista .stat.complete .n { color: #027a48; }
+.app-lista .stat.overdue .n { color: #b42318; }
+.app-lista .toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+.app-lista .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.app-lista .filters button {
+    border: 1px solid #d0d5dd; background: #fff; border-radius: 999px; padding: 6px 14px;
+    font-size: 12px; cursor: pointer; color: #374151;
+  }
+.app-lista .filters button.active { background: #1f2328; color: #fff; border-color: #1f2328; }
+.app-lista #categoryFilter, .app-lista #searchBox {
+    border: 1px solid #d0d5dd; border-radius: 8px; padding: 6px 12px; font-size: 13px;
+  }
+.app-lista #searchBox { min-width: 220px; margin-left: auto; }
+.app-lista #categoryFilter:focus, .app-lista #searchBox:focus { outline: none; border-color: #2563eb; }
+.app-lista table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.app-lista thead th {
+    text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.02em;
+    color: #6b7280; border-bottom: 1px solid #e5e7eb; padding: 8px 10px; white-space: nowrap;
+  }
+.app-lista tbody td { padding: 10px; border-bottom: 1px solid #f2f2f2; vertical-align: top; }
+.app-lista tbody tr:hover { background: #fafafa; }
+.app-lista .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.app-lista .badge.notstarted { background: #f2f4f7; color: #475467; }
+.app-lista .badge.progress { background: #eff8ff; color: #175cd3; }
+.app-lista .badge.complete { background: #ecfdf3; color: #027a48; }
+.app-lista .badge.blocked { background: #fef3f2; color: #b42318; }
+.app-lista .badge.high { background: #fef3f2; color: #b42318; }
+.app-lista .badge.medium { background: #fffaeb; color: #b54708; }
+.app-lista .badge.low { background: #f2f4f7; color: #475467; }
+.app-lista .badge.cat-admin { background: #f4f3ff; color: #5925dc; }
+.app-lista .badge.cat-finance { background: #ecfdf3; color: #027a48; }
+.app-lista .badge.cat-ops { background: #eff8ff; color: #175cd3; }
+.app-lista .badge.cat-hr { background: #fff6ed; color: #b93815; }
+.app-lista .badge.cat-marketing { background: #fdf2fa; color: #c11574; }
+.app-lista .badge.cat-partners { background: #f0fdfa; color: #0f766e; }
+.app-lista .badge.cat-other { background: #f2f4f7; color: #475467; }
+.app-lista .pct-wrap { display: flex; align-items: center; gap: 6px; }
+.app-lista .pct-bar { width: 54px; height: 6px; border-radius: 4px; background: #eee; overflow: hidden; flex: none; }
+.app-lista .pct-fill { height: 100%; background: #2563eb; }
+.app-lista .pct-note { font-size: 10px; color: #9ca3af; }
+.app-lista .due-overdue { color: #b42318; font-weight: 600; }
+.app-lista .notes-btn {
+    border: 1px solid #d0d5dd; background: #fff; border-radius: 6px; padding: 3px 10px;
+    font-size: 12px; cursor: pointer; color: #2563eb;
+  }
+.app-lista .count-line { color: #6b7280; font-size: 12px; margin: 10px 0 4px; }
+.app-lista #notesModal {
+    display: none; position: fixed; inset: 0; background: rgba(15,17,20,0.45);
+    align-items: center; justify-content: center; z-index: 50; padding: 24px;
+  }
+.app-lista #notesModal.open { display: flex; }
+.app-lista #notesBox {
+    background: #fff; border-radius: 12px; max-width: 700px; width: 100%; max-height: 80vh;
+    overflow-y: auto; padding: 20px 22px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  }
+.app-lista #notesBox h3 { margin: 0 0 4px 0; font-size: 16px; }
+.app-lista #notesBox .meta { color: #6b7280; font-size: 12px; margin-bottom: 14px; }
+.app-lista #notesBox .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: #9ca3af; margin: 14px 0 6px; }
+.app-lista #notesBox .section-label:first-of-type { margin-top: 0; }
+.app-lista #notesBox .subtask-list { list-style: none; padding: 0; margin: 0; }
+.app-lista #notesBox .subtask-list li { font-size: 13px; padding: 3px 0; color: #374151; }
+.app-lista #notesBox .subtask-list li.done { color: #027a48; }
+.app-lista #notesBox .subtask-list li .box { display: inline-block; width: 16px; }
+.app-lista #notesBox .body { font-size: 13px; line-height: 1.55; color: #374151; white-space: pre-wrap; }
+.app-lista #notesBox .close { margin-top: 16px; border: none; background: #1f2328; color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+.app-lista .empty, .app-lista .loading { color: #9ca3af; font-size: 13px; padding: 8px 0; }
+.app-lista .show-completed-toggle {
+    display: flex; align-items: center; gap: 6px; font-size: 13px; color: #374151;
+    cursor: pointer; white-space: nowrap;
+  }
+.app-lista .show-completed-toggle input { cursor: pointer; }
+
+/* ---- Roadmap view (scoped .app-roadmap) ---- */
+.app-roadmap {
     color-scheme: light;
     --navy: #16213E;
     --ink: #10172A;
@@ -18,328 +132,328 @@
     --border: #E7E9F0;
     --bg: #F4F6FB;
   }
-  * { box-sizing: border-box; }
-  html, body { max-width: 100%; overflow-x: hidden; }
-  body {
+.app-roadmap * { box-sizing: border-box; }
+.app-roadmap, .app-roadmap { max-width: 100%; overflow-x: hidden; }
+.app-roadmap {
     margin: 0;
     font-family: -apple-system, "Segoe UI", Calibri, Arial, sans-serif;
     background: #fff;
     color: var(--ink);
   }
-  .app { padding: 22px clamp(10px, 3vw, 26px) 60px; max-width: 100%; width: 100%; }
-  h1 { font-size: clamp(18px, 3vw, 23px); color: var(--navy); margin: 0 0 4px; font-weight: 800; letter-spacing: -.01em; }
-  .subtitle { color: var(--gray); font-size: 13px; margin: 0 0 18px; }
-
-  .summary-bar {
+.app-roadmap .app { padding: 22px clamp(10px, 3vw, 26px) 60px; max-width: 100%; width: 100%; }
+.app-roadmap h1 { font-size: clamp(18px, 3vw, 23px); color: var(--navy); margin: 0 0 4px; font-weight: 800; letter-spacing: -.01em; }
+.app-roadmap .subtitle { color: var(--gray); font-size: 13px; margin: 0 0 18px; }
+.app-roadmap .summary-bar {
     display: flex; align-items: center; gap: clamp(10px, 2vw, 20px);
     background: linear-gradient(135deg, var(--navy), #24345c);
     border-radius: 14px; padding: 16px 22px; margin-bottom: 20px; flex-wrap: wrap;
     box-shadow: 0 8px 24px rgba(22,33,62,0.25);
   }
-  .summary-bar .metric { display: flex; flex-direction: column; }
-  .summary-bar .metric .num { font-size: 25px; font-weight: 800; color: #fff; }
-  .summary-bar .metric .lbl { font-size: 11px; color: #B9C2DC; text-transform: uppercase; letter-spacing: .05em; }
-  .progress-track {
+.app-roadmap .summary-bar .metric { display: flex; flex-direction: column; }
+.app-roadmap .summary-bar .metric .num { font-size: 25px; font-weight: 800; color: #fff; }
+.app-roadmap .summary-bar .metric .lbl { font-size: 11px; color: #B9C2DC; text-transform: uppercase; letter-spacing: .05em; }
+.app-roadmap .progress-track {
     flex: 1; min-width: 160px; height: 12px; background: rgba(255,255,255,0.16); border-radius: 7px; overflow: hidden;
   }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--green), #58e0ac); border-radius: 7px; transition: width .3s; }
-
-  .kpi-detail { display: none; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 4px 4px; margin: -10px 0 20px; overflow-x: auto; }
-  .kpi-detail.show { display: block; }
-  .kpi-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 560px; }
-  .kpi-table th { text-align: left; padding: 9px 12px; color: var(--gray); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; border-bottom: 2px solid var(--border); }
-  .kpi-table th.sortable { cursor: pointer; user-select: none; }
-  .kpi-table th.sortable:hover { color: var(--navy); }
-  .kpi-table th .sort-ind { font-size: 9px; }
-  .kpi-table td { padding: 8px 12px; border-bottom: 1px solid #f2f2f2; }
-  .kpi-table tr:last-child td { border-bottom: none; }
-  .kpi-table tr.kpi-row { cursor: pointer; }
-  .kpi-table tr.kpi-row:hover { background: var(--bg); }
-  .kpi-table .kpi-pill { display: inline-block; font-size: 10.5px; font-weight: 800; color: #fff; padding: 2px 9px; border-radius: 14px; }
-  .kpi-table .kpi-bar-wrap { display: flex; align-items: center; gap: 8px; }
-  .kpi-table .kpi-bar-track { flex: 1; height: 7px; background: #eee; border-radius: 4px; overflow: hidden; min-width: 60px; }
-  .kpi-table .kpi-bar-fill { height: 100%; background: var(--green); }
-  .kpi-table .kpi-atraso { color: var(--orange); font-weight: 700; }
-  .kpi-table .kpi-ok { color: var(--gray); }
-
-  /* Every control (zoom/search/legend/upcoming/filters/export/print) lives on this one row,
-     so the timeline below gets as much vertical space as possible. Wraps on narrow screens. */
-  .toolbar {
+.app-roadmap .progress-fill { height: 100%; background: linear-gradient(90deg, var(--green), #58e0ac); border-radius: 7px; transition: width .3s; }
+.app-roadmap .toolbar {
     display: flex; gap: 10px 14px; margin-bottom: 14px; align-items: center; flex-wrap: wrap;
     font-size: 12px; color: var(--gray);
   }
-  .toolbar label { display: flex; align-items: center; gap: 6px; font-weight: 700; }
-  .toolbar select { font-size: 12.5px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 7px; font-family: inherit; }
-  .toolbar .zoom-group { display: flex; align-items: center; gap: 4px; background: #fff; border: 2px solid var(--border); border-radius: 9px; padding: 3px; }
-  .toolbar .zoom-group button { padding: 5px 12px; }
-  .toolbar-sep { width: 1px; align-self: stretch; background: var(--border); margin: 0 2px; }
-  button {
+.app-roadmap .toolbar label { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+.app-roadmap .toolbar select { font-size: 12.5px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 7px; font-family: inherit; }
+.app-roadmap .toolbar .zoom-group { display: flex; align-items: center; gap: 4px; background: #fff; border: 2px solid var(--border); border-radius: 9px; padding: 3px; }
+.app-roadmap .toolbar .zoom-group button { padding: 5px 12px; }
+.app-roadmap .toolbar-sep { width: 1px; align-self: stretch; background: var(--border); margin: 0 2px; }
+.app-roadmap button {
     font-family: inherit; font-size: 13px; cursor: pointer; border-radius: 9px; border: none;
     background: var(--navy); color: #fff; padding: 9px 16px; font-weight: 700;
   }
-  button.secondary { background: #fff; color: var(--navy); border: 2px solid var(--navy); }
-  button.link { background: none; border: none; color: var(--navy); padding: 4px 6px; font-weight: 700; text-decoration: underline; }
-  button.danger { background: #fff; color: var(--red); border: 2px solid var(--red); }
-  button.small { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
-  button:hover { filter: brightness(1.08); }
-
-  .upcoming-panel { display: none; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 6px 4px; margin-bottom: 14px; }
-  .upcoming-panel.show { display: block; }
-  .upcoming-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-bottom: 1px solid #f2f2f2; cursor: pointer; font-size: 12.5px; }
-  .upcoming-row:last-child { border-bottom: none; }
-  .upcoming-row:hover { background: var(--bg); }
-  .upcoming-row .up-date { font-weight: 800; color: var(--navy); min-width: 78px; }
-  .upcoming-row .up-proj { font-weight: 700; flex: 1; }
-  .upcoming-row .up-phase { color: var(--gray); }
-  .upcoming-row .up-tag { font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 14px; color: #fff; }
-  .legend {
+.app-roadmap button.secondary { background: #fff; color: var(--navy); border: 2px solid var(--navy); }
+.app-roadmap button.link { background: none; border: none; color: var(--navy); padding: 4px 6px; font-weight: 700; text-decoration: underline; }
+.app-roadmap button.danger { background: #fff; color: var(--red); border: 2px solid var(--red); }
+.app-roadmap button.small { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
+.app-roadmap button:hover { filter: brightness(1.08); }
+.app-roadmap .upcoming-panel { display: none; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 6px 4px; margin-bottom: 14px; }
+.app-roadmap .upcoming-panel.show { display: block; }
+.app-roadmap .upcoming-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-bottom: 1px solid #f2f2f2; cursor: pointer; font-size: 12.5px; }
+.app-roadmap .upcoming-row:last-child { border-bottom: none; }
+.app-roadmap .upcoming-row:hover { background: var(--bg); }
+.app-roadmap .upcoming-row .up-date { font-weight: 800; color: var(--navy); min-width: 78px; }
+.app-roadmap .upcoming-row .up-proj { font-weight: 700; flex: 1; }
+.app-roadmap .upcoming-row .up-phase { color: var(--gray); }
+.app-roadmap .upcoming-row .up-tag { font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 14px; color: #fff; }
+.app-roadmap .legend {
     display: none; font-size: 12px; color: var(--gray); background: #fff; border: 1.5px solid var(--border);
     border-radius: 12px; padding: 12px 16px; margin-bottom: 14px;
   }
-  .legend.show { display: block; }
-  .legend-group { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; padding: 6px 0; }
-  .legend-group + .legend-group { border-top: 1px solid #f2f2f2; }
-  .legend-group-title { font-size: 10.5px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: .04em; min-width: 108px; }
-  .legend span.item { display: inline-flex; align-items: center; gap: 6px; }
-  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-  .diamond { width: 10px; height: 10px; display: inline-block; transform: rotate(45deg); background: var(--navy); }
-  .flag { font-size: 13px; display: inline-block; line-height: 1; }
-  .legend-note { padding-top: 8px; border-top: 1px solid #f2f2f2; margin-top: 2px; font-size: 12px; }
-
-  #zoom-label { font-size: 12px; font-weight: 800; color: var(--navy); min-width: 42px; text-align: center; }
-  #project-search { font-size: 13px; padding: 8px 10px; border: 2px solid var(--border); border-radius: 9px; font-family: inherit; min-width: 180px; flex: 1 1 180px; max-width: 320px; }
-  .roadmap-viewport {
+.app-roadmap .legend.show { display: block; }
+.app-roadmap .legend-group { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; padding: 6px 0; }
+.app-roadmap .legend-group + .legend-group { border-top: 1px solid #f2f2f2; }
+.app-roadmap .legend-group-title { font-size: 10.5px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: .04em; min-width: 108px; }
+.app-roadmap .legend span.item { display: inline-flex; align-items: center; gap: 6px; }
+.app-roadmap .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.app-roadmap .diamond { width: 10px; height: 10px; display: inline-block; transform: rotate(45deg); background: var(--navy); }
+.app-roadmap .flag { font-size: 13px; display: inline-block; line-height: 1; }
+.app-roadmap .legend-note { padding-top: 8px; border-top: 1px solid #f2f2f2; margin-top: 2px; font-size: 12px; }
+.app-roadmap #zoom-label { font-size: 12px; font-weight: 800; color: var(--navy); min-width: 42px; text-align: center; }
+.app-roadmap #project-search { font-size: 13px; padding: 8px 10px; border: 2px solid var(--border); border-radius: 9px; font-family: inherit; min-width: 180px; flex: 1 1 180px; max-width: 320px; }
+.app-roadmap .roadmap-viewport {
     position: relative; overflow: hidden; border-radius: 16px; background: var(--bg); width: 100%;
     height: 72vh; min-height: 460px; max-height: 760px; cursor: grab; touch-action: none;
   }
-  .roadmap-viewport.dragging { cursor: grabbing; }
-  .diagram-pan { position: absolute; left: 0; top: 0; }
-  .diagram-scale { transform-origin: 0 0; }
-  .diagram { position: relative; }
-
-  .month-band {
+.app-roadmap .roadmap-viewport.dragging { cursor: grabbing; }
+.app-roadmap .diagram-pan { position: absolute; left: 0; top: 0; }
+.app-roadmap .diagram-scale { transform-origin: 0 0; }
+.app-roadmap .diagram { position: relative; }
+.app-roadmap .month-band {
     position: absolute; top: 0; bottom: 0; border-left: 2px dashed #DCE1F0;
   }
-  .month-lbl {
+.app-roadmap .month-lbl {
     position: absolute; font-size: 12px; font-weight: 800; color: #9AA4C0; letter-spacing: .04em;
     text-transform: uppercase;
   }
-
-  .spine { position: absolute; height: 32px; border-radius: 16px; background: linear-gradient(90deg,#c9d0e6,#aab4d6); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
-
-  @keyframes pop-in {
+.app-roadmap .spine { position: absolute; height: 32px; border-radius: 16px; background: linear-gradient(90deg,#c9d0e6,#aab4d6); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
+@keyframes pop-in {
     from { opacity: 0; transform: translate(-50%,-50%) scale(.55); }
     to { opacity: 1; transform: translate(-50%,-50%) scale(1); }
   }
-
-  .deadline-node {
+.app-roadmap .deadline-node {
     position: absolute; width: 22px; height: 22px; transform: translate(-50%,-50%) rotate(45deg);
     border-radius: 5px; box-shadow: 0 5px 12px rgba(0,0,0,0.35); cursor: pointer; border: 3px solid #fff; z-index: 3;
     transition: transform .15s ease, box-shadow .15s ease;
   }
-  .deadline-node:hover { box-shadow: 0 0 0 6px rgba(0,0,0,0.14); transform: translate(-50%,-50%) rotate(45deg) scale(1.15); }
-  .deadline-tag {
+.app-roadmap .deadline-node:hover { box-shadow: 0 0 0 6px rgba(0,0,0,0.14); transform: translate(-50%,-50%) rotate(45deg) scale(1.15); }
+.app-roadmap .deadline-tag {
     position: absolute; font-size: 10.5px; font-weight: 700; color: #fff; padding: 2px 8px; border-radius: 6px;
     transform: translate(-50%, 0); white-space: nowrap; z-index: 3; box-shadow: 0 3px 8px rgba(0,0,0,0.25);
   }
-  .milestone-node {
+.app-roadmap .milestone-node {
     position: absolute; width: 15px; height: 15px; border-radius: 50%; transform: translate(-50%,-50%);
     cursor: pointer; border: 2.5px solid #fff; box-shadow: 0 3px 7px rgba(0,0,0,0.32); z-index: 3;
     transition: transform .15s ease, box-shadow .15s ease;
   }
-  .milestone-node:hover { box-shadow: 0 0 0 6px rgba(0,0,0,0.14); transform: translate(-50%,-50%) scale(1.3); }
-  .milestone-badge {
+.app-roadmap .milestone-node:hover { box-shadow: 0 0 0 6px rgba(0,0,0,0.14); transform: translate(-50%,-50%) scale(1.3); }
+.app-roadmap .milestone-badge {
     position: absolute; width: 14px; height: 14px; border-radius: 50%; background: var(--navy); color: #fff;
     font-size: 8.5px; font-weight: 800; display: flex; align-items: center; justify-content: center;
     transform: translate(-50%,-50%); pointer-events: none; z-index: 4;
   }
-
-  /* Company-wide goals: independent of any single project, sit right on the spine */
-  .goal-node {
+.app-roadmap .goal-node {
     position: absolute; width: 30px; height: 30px; transform: translate(-50%,-50%);
     background: #7C3AED; border: 3px solid #fff; border-radius: 50%; cursor: pointer;
     box-shadow: 0 6px 16px rgba(124,58,237,0.5); z-index: 5; transition: transform .15s ease;
     display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px;
     animation: pop-in .4s cubic-bezier(.34,1.56,.64,1) both;
   }
-  .goal-node:hover { transform: translate(-50%,-50%) scale(1.15); }
-  .goal-node.done { background: var(--blue); box-shadow: 0 4px 10px rgba(37,99,235,0.4); }
-  .goal-node.overdue { background: var(--orange); box-shadow: 0 4px 10px rgba(249,115,22,0.4); }
-  .goal-tag {
+.app-roadmap .goal-node:hover { transform: translate(-50%,-50%) scale(1.15); }
+.app-roadmap .goal-node.done { background: var(--blue); box-shadow: 0 4px 10px rgba(37,99,235,0.4); }
+.app-roadmap .goal-node.overdue { background: var(--orange); box-shadow: 0 4px 10px rgba(249,115,22,0.4); }
+.app-roadmap .goal-tag {
     position: absolute; font-size: 11px; font-weight: 800; color: #fff; background: #7C3AED;
     padding: 4px 10px; border-radius: 7px; transform: translate(-50%,0); white-space: nowrap; z-index: 5;
     box-shadow: 0 3px 8px rgba(0,0,0,0.18);
   }
-  .goal-tag.done { background: var(--blue); }
-  .goal-tag.overdue { background: var(--orange); }
-  .goal-stem { position: absolute; width: 2px; background: #7C3AED; z-index: 4; }
-
-  .bubble {
+.app-roadmap .goal-tag.done { background: var(--blue); }
+.app-roadmap .goal-tag.overdue { background: var(--orange); }
+.app-roadmap .goal-stem { position: absolute; width: 2px; background: #7C3AED; z-index: 4; }
+.app-roadmap .bubble {
     position: absolute; transform: translate(-50%,-50%); width: 200px; border-radius: 20px;
     padding: 15px 17px; cursor: pointer; color: #fff; box-shadow: 0 14px 34px rgba(0,0,0,0.32);
     transition: transform .15s ease, box-shadow .15s ease; animation: pop-in .4s cubic-bezier(.34,1.56,.64,1) both;
   }
-  .bubble:hover { transform: translate(-50%,-50%) scale(1.06); box-shadow: 0 18px 40px rgba(0,0,0,0.4); }
-  .bubble .bname { font-size: 15px; font-weight: 800; line-height: 1.2; text-align: center; }
-  .bubble .bmeta { font-size: 11px; opacity: .92; margin-top: 3px; font-weight: 600; text-align: center; }
-  .bubble .bphases { display: flex; gap: 4px; margin-top: 9px; justify-content: center; }
-  .bubble .bphases i { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.28); display: block; }
-  .bubble .bphases i.done { background: #fff; }
-  .bubble .btasks {
+.app-roadmap .bubble:hover { transform: translate(-50%,-50%) scale(1.06); box-shadow: 0 18px 40px rgba(0,0,0,0.4); }
+.app-roadmap .bubble .bname { font-size: 15px; font-weight: 800; line-height: 1.2; text-align: center; }
+.app-roadmap .bubble .bmeta { font-size: 11px; opacity: .92; margin-top: 3px; font-weight: 600; text-align: center; }
+.app-roadmap .bubble .bphases { display: flex; gap: 4px; margin-top: 9px; justify-content: center; }
+.app-roadmap .bubble .bphases i { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.28); display: block; }
+.app-roadmap .bubble .bphases i.done { background: #fff; }
+.app-roadmap .bubble .btasks {
     position: absolute; top: -10px; right: -10px; background: #fff; color: var(--navy); font-size: 10.5px;
     font-weight: 800; border-radius: 20px; padding: 3px 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.2);
   }
-  .bubble .bbadges { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
-  .bubble .bpriority, .bubble .bstatus {
+.app-roadmap .bubble .bbadges { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+.app-roadmap .bubble .bpriority, .app-roadmap .bubble .bstatus {
     display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: .03em;
     padding: 2px 8px; border-radius: 20px; color: #fff; text-transform: uppercase;
   }
-  .bubble .bstatus { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-  @keyframes pulse-overdue {
+.app-roadmap .bubble .bstatus { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+@keyframes pulse-overdue {
     0% { box-shadow: 0 0 0 0 rgba(249,115,22,0.55); }
     70% { box-shadow: 0 0 0 9px rgba(249,115,22,0); }
     100% { box-shadow: 0 0 0 0 rgba(249,115,22,0); }
   }
-  .bubble .boverdue {
+.app-roadmap .bubble .boverdue {
     position: absolute; top: -10px; left: -10px; background: var(--orange); color: #fff; font-size: 10.5px;
     font-weight: 800; border-radius: 20px; padding: 3px 9px; animation: pulse-overdue 1.8s infinite;
   }
-
-  .today-marker { position: absolute; top: 0; width: 2px; z-index: 2;
+.app-roadmap .today-marker { position: absolute; top: 0; width: 2px; z-index: 2;
     background: repeating-linear-gradient(180deg, #16213E, #16213E 6px, transparent 6px, transparent 11px); }
-  .today-lbl { position: absolute; font-size: 10.5px; font-weight: 800; color: var(--navy); background: #fff;
+.app-roadmap .today-lbl { position: absolute; font-size: 10.5px; font-weight: 800; color: var(--navy); background: #fff;
     padding: 2px 7px; border-radius: 5px; border: 1.5px solid var(--navy); transform: translate(-50%,0); white-space: nowrap; }
-
-  .overdue-banner {
+.app-roadmap .overdue-banner {
     display: none; background: #FFF7ED; border: 1.5px solid #FDBA74; color: #9A3412; border-radius: 10px;
-    padding: 10px 16px; margin-bottom: 14px; font-size: 13px; line-height: 1.5;
+    padding: 12px 16px; margin-bottom: 14px; font-size: 13px; line-height: 1.5;
   }
-  .overdue-banner.show { display: block; }
-  .overdue-banner .ov-link { cursor: pointer; text-decoration: underline; font-weight: 700; }
-
-  .empty-note { padding: 30px; text-align: center; color: var(--gray); font-size: 13px; }
-
-  /* Modal */
-  .overlay {
+.app-roadmap .overdue-banner.show { display: block; }
+.app-roadmap .overdue-banner .ov-header { font-weight: 800; margin-bottom: 6px; }
+.app-roadmap .overdue-banner .ov-list { margin: 0; padding-left: 20px; }
+.app-roadmap .overdue-banner .ov-list li { padding: 3px 0; }
+.app-roadmap .overdue-banner .ov-link { cursor: pointer; font-weight: 700; text-decoration: underline; }
+.app-roadmap .overdue-banner .ov-detail { font-weight: 400; text-decoration: none; color: #9A3412; opacity: 0.85; }
+.app-roadmap .empty-note { padding: 30px; text-align: center; color: var(--gray); font-size: 13px; }
+.app-roadmap .overlay {
     display: none; position: fixed; inset: 0; background: rgba(16,23,42,0.55); z-index: 50;
     align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto;
   }
-  .overlay.open { display: flex; }
-  .modal {
+.app-roadmap .overlay.open { display: flex; }
+.app-roadmap .modal {
     background: #fff; border-radius: 16px; width: 100%; max-width: 580px; padding: 22px 24px 24px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   }
-  .modal h2 { font-size: 17px; color: var(--navy); margin: 0 0 14px; font-weight: 800; }
-  .modal .close-x { float: right; background: none; border: none; color: var(--gray); font-size: 18px; font-weight: 400; padding: 0 4px; }
-  .field { margin-bottom: 12px; }
-  .field label { display: block; font-size: 12px; font-weight: 700; color: #444; margin-bottom: 4px; }
-  .field input[type=text], .field input[type=date], .field select, .field textarea {
+.app-roadmap .modal h2 { font-size: 17px; color: var(--navy); margin: 0 0 14px; font-weight: 800; }
+.app-roadmap .modal .close-x { float: right; background: none; border: none; color: var(--gray); font-size: 18px; font-weight: 400; padding: 0 4px; }
+.app-roadmap .field { margin-bottom: 12px; }
+.app-roadmap .field label { display: block; font-size: 12px; font-weight: 700; color: #444; margin-bottom: 4px; }
+.app-roadmap .field input[type=text], .app-roadmap .field input[type=date], .app-roadmap .field select, .app-roadmap .field textarea {
     width: 100%; padding: 8px 10px; border: 2px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit;
   }
-  .field textarea { resize: vertical; min-height: 44px; }
-  .row2 { display: flex; gap: 10px; }
-  .row2 > div { flex: 1; }
-  .phase-block { padding: 9px 0; border-bottom: 1px solid #f0f0f0; }
-  .phase-item { display: flex; align-items: center; gap: 8px; }
-  .phase-item input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; }
-  .phase-item .pinfo { flex: 1; }
-  .phase-item .pinfo input.ms-name { font-size: 13px; font-weight: 700; border: 1px solid transparent; background: transparent; padding: 3px 4px; border-radius: 5px; width: 100%; font-family: inherit; }
-  .phase-item .pinfo input.ms-name:hover, .phase-item .pinfo input.ms-name:focus { border-color: var(--border); background: #fff; outline: none; }
-  .phase-item input[type=date] { width: 132px; }
-  .phase-item .ms-remove { background: none; border: none; color: #c62828; font-size: 15px; padding: 2px 5px; cursor: pointer; font-weight: 700; }
-  .add-milestone-row { margin-top: 10px; }
-  .subproj-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
-  .subproj-row input[type=text] { flex: 1; font-size: 13px; font-weight: 600; border: 1px solid transparent; background: transparent; padding: 5px 6px; border-radius: 5px; font-family: inherit; }
-  .subproj-row input[type=text]:hover, .subproj-row input[type=text]:focus { border-color: var(--border); background: #fff; outline: none; }
-  .subproj-row select { font-size: 12px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; }
-  .subproj-row input[type=date] { font-size: 12px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; width: 138px; flex: none; }
-  .subproj-row .dot { flex-shrink: 0; }
-  .subproj-row label.chk { display: flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--gray); white-space: nowrap; }
-  .subproj-row.subproj-row-nested { margin-left: 26px; border-left: 2px solid var(--border); padding-left: 10px; }
-  .subproj-nested-wrap { margin-bottom: 4px; }
-
-  /* sub-projects: round bubbles (name + status inside, like a mini version of the parent
-     bubble) connected back to it by a line */
-  .subproj-circle {
+.app-roadmap .field textarea { resize: vertical; min-height: 44px; }
+.app-roadmap .row2 { display: flex; gap: 10px; }
+.app-roadmap .row2 > div { flex: 1; }
+.app-roadmap .phase-block { padding: 9px 0; border-bottom: 1px solid #f0f0f0; }
+.app-roadmap .phase-item { display: flex; align-items: center; gap: 8px; }
+.app-roadmap .phase-item input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; }
+.app-roadmap .phase-item .pinfo { flex: 1; }
+.app-roadmap .phase-item .pinfo input.ms-name { font-size: 13px; font-weight: 700; border: 1px solid transparent; background: transparent; padding: 3px 4px; border-radius: 5px; width: 100%; font-family: inherit; }
+.app-roadmap .phase-item .pinfo input.ms-name:hover, .app-roadmap .phase-item .pinfo input.ms-name:focus { border-color: var(--border); background: #fff; outline: none; }
+.app-roadmap .phase-item input[type=date] { width: 132px; }
+.app-roadmap .phase-item .ms-remove { background: none; border: none; color: #c62828; font-size: 15px; padding: 2px 5px; cursor: pointer; font-weight: 700; }
+.app-roadmap .add-milestone-row { margin-top: 10px; }
+.app-roadmap .subproj-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
+.app-roadmap .subproj-row input[type=text] { flex: 1; font-size: 13px; font-weight: 600; border: 1px solid transparent; background: transparent; padding: 5px 6px; border-radius: 5px; font-family: inherit; }
+.app-roadmap .subproj-row input[type=text]:hover, .app-roadmap .subproj-row input[type=text]:focus { border-color: var(--border); background: #fff; outline: none; }
+.app-roadmap .subproj-row select { font-size: 12px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; }
+.app-roadmap .subproj-row input[type=date] { font-size: 12px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; width: 138px; flex: none; }
+.app-roadmap .subproj-row .dot { flex-shrink: 0; }
+.app-roadmap .subproj-row label.chk { display: flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--gray); white-space: nowrap; }
+.app-roadmap .subproj-row.subproj-row-nested { margin-left: 26px; border-left: 2px solid var(--border); padding-left: 10px; }
+.app-roadmap .subproj-nested-wrap { margin-bottom: 4px; }
+.app-roadmap .subproj-circle {
     position: absolute; width: 104px; height: 104px; cursor: pointer;
     transform: translate(-50%,-50%); z-index: 6; transition: transform .15s ease;
     animation: pop-in .4s cubic-bezier(.34,1.56,.64,1) both;
   }
-  .subproj-circle:hover { transform: translate(-50%,-50%) scale(1.09); }
-  .subproj-face {
+.app-roadmap .subproj-circle:hover { transform: translate(-50%,-50%) scale(1.09); }
+.app-roadmap .subproj-face {
     width: 100%; height: 100%; border-radius: 50%; border: 3px solid #fff;
     box-shadow: 0 10px 22px rgba(0,0,0,0.38); display: flex; flex-direction: column; align-items: center;
     justify-content: center; text-align: center; padding: 8px; color: #fff; overflow: hidden;
   }
-  .subproj-circle .spn-name { font-size: 12px; font-weight: 800; line-height: 1.2; text-align: center; }
-  .subproj-circle .spn-status { font-size: 9px; font-weight: 700; opacity: .85; text-transform: uppercase; letter-spacing: .03em; margin-top: 3px; text-align: center; }
-  .subproj-circle.subproj-circle-nested .spn-status { font-size: 8px; margin-top: 2px; }
-  .subproj-circle .sp-tasks {
+.app-roadmap .subproj-circle .spn-name { font-size: 12px; font-weight: 800; line-height: 1.2; text-align: center; }
+.app-roadmap .subproj-circle .spn-status { font-size: 9px; font-weight: 700; opacity: .85; text-transform: uppercase; letter-spacing: .03em; margin-top: 3px; text-align: center; }
+.app-roadmap .subproj-circle.subproj-circle-nested .spn-status { font-size: 8px; margin-top: 2px; }
+.app-roadmap .subproj-circle .sp-tasks {
     position: absolute; top: -8px; right: -8px; background: #fff; color: var(--navy); font-size: 9.5px;
     font-weight: 800; border-radius: 20px; padding: 2px 7px; box-shadow: 0 3px 8px rgba(0,0,0,0.2);
   }
-  /* second-level subprojects (subprojects of a subproject): a bit smaller, so the hierarchy
-     reads at a glance without needing a label to explain it. */
-  .subproj-circle.subproj-circle-nested { width: 78px; height: 78px; }
-  .subproj-circle.subproj-circle-nested .spn-name { font-size: 10px; }
-  .subtask-wrap { margin: 6px 0 0 28px; }
-  .subtask-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 12px; }
-  .subtask-row input[type=checkbox] { width: 14px; height: 14px; }
-  .subtask-row .stxt { flex: 1; }
-  .subtask-row .stxt.done { text-decoration: line-through; color: #999; }
-  .subtask-add { display: flex; gap: 6px; margin-top: 5px; }
-  .subtask-add input { flex: 1; font-size: 12px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 6px; font-family: inherit; }
-
-  .dep-list { font-size: 12px; margin: 6px 0 10px; }
-  .dep-list .dep-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px dashed #eee; }
-  .modal-actions { display: flex; justify-content: space-between; margin-top: 18px; }
-  small.hint { color: var(--gray); font-size: 11px; display:block; margin-top:2px; }
-
-  /* Read-only info modal */
-  .info-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-  .info-pill { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; color: #fff; }
-  .info-meta { color: var(--gray); font-size: 12.5px; margin-bottom: 14px; }
-  .info-phase-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f2f2f2; }
-  .info-phase-row .ic { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; font-weight: 800; }
-  .info-phase-row .ic.pending { background: #E7E9F0; color: #9AA4C0; }
-  .info-phase-row .txt { flex: 1; font-size: 13px; font-weight: 600; }
-  .info-phase-row .dt { font-size: 11.5px; color: var(--gray); }
-  .info-sub-list { margin: 2px 0 0 30px; }
-  .info-sub-row { font-size: 12px; color: #555; padding: 2px 0; }
-  .info-sub-row.done { text-decoration: line-through; color: #aaa; }
-  .info-empty { color: #999; font-size: 12px; }
-
-  /* Print / Save as PDF: the full diagram is unrolled (no zoom clipping), and everything
-     that doesn't help a printed report is hidden (buttons, modals, controls). */
-  @media print {
-    .toolbar, .legend, .overlay { display: none !important; }
-    .kpi-detail { display: block !important; overflow: visible !important; }
-    .roadmap-viewport { height: auto !important; max-height: none !important; overflow: visible !important; border: none; }
-    .diagram-pan { position: static !important; transform: none !important; }
-    .diagram-scale { transform: none !important; }
-    body { background: #fff; }
-    .app { padding: 0; }
-  }
-
-  /* Small screens: tighten spacing and let controls wrap/shrink instead of overflowing */
-  @media (max-width: 640px) {
-    .app { padding: 14px 10px 40px; }
-    .summary-bar { padding: 12px 14px; gap: 10px 16px; }
-    .summary-bar .metric .num { font-size: 20px; }
-    .toolbar { gap: 8px; }
-    #project-search { min-width: 0; flex: 1 1 120px; max-width: none; }
-    .kpi-table { min-width: 460px; }
-    button { padding: 8px 12px; font-size: 12.5px; }
-    button.small { padding: 6px 10px; font-size: 11.5px; }
-    .modal { padding: 18px 16px 20px; }
-    .row2 { flex-wrap: wrap; }
-  }
+.app-roadmap .subproj-circle.subproj-circle-nested { width: 78px; height: 78px; }
+.app-roadmap .subproj-circle.subproj-circle-nested .spn-name { font-size: 10px; }
+.app-roadmap .subtask-wrap { margin: 6px 0 0 28px; }
+.app-roadmap .subtask-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 12px; }
+.app-roadmap .subtask-row input[type=checkbox] { width: 14px; height: 14px; }
+.app-roadmap .subtask-row .stxt { flex: 1; }
+.app-roadmap .subtask-row .stxt.done { text-decoration: line-through; color: #999; }
+.app-roadmap .subtask-add { display: flex; gap: 6px; margin-top: 5px; }
+.app-roadmap .subtask-add input { flex: 1; font-size: 12px; padding: 5px 8px; border: 2px solid var(--border); border-radius: 6px; font-family: inherit; }
+.app-roadmap .dep-list { font-size: 12px; margin: 6px 0 10px; }
+.app-roadmap .dep-list .dep-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px dashed #eee; }
+.app-roadmap .modal-actions { display: flex; justify-content: space-between; margin-top: 18px; }
+.app-roadmap small.hint { color: var(--gray); font-size: 11px; display:block; margin-top:2px; }
+.app-roadmap .info-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.app-roadmap .info-pill { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; color: #fff; }
+.app-roadmap .info-meta { color: var(--gray); font-size: 12.5px; margin-bottom: 14px; }
+.app-roadmap .info-phase-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f2f2f2; }
+.app-roadmap .info-phase-row .ic { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; font-weight: 800; }
+.app-roadmap .info-phase-row .ic.pending { background: #E7E9F0; color: #9AA4C0; }
+.app-roadmap .info-phase-row .txt { flex: 1; font-size: 13px; font-weight: 600; }
+.app-roadmap .info-phase-row .dt { font-size: 11.5px; color: var(--gray); }
+.app-roadmap .info-sub-list { margin: 2px 0 0 30px; }
+.app-roadmap .info-sub-row { font-size: 12px; color: #555; padding: 2px 0; }
+.app-roadmap .info-sub-row.done { text-decoration: line-through; color: #aaa; }
+.app-roadmap .info-empty { color: #999; font-size: 12px; }
+@media print {
+.app-roadmap .toolbar, .app-roadmap .legend, .app-roadmap .overlay { display: none !important; }
+.app-roadmap .roadmap-viewport { height: auto !important; max-height: none !important; overflow: visible !important; border: none; }
+.app-roadmap .diagram-pan { position: static !important; transform: none !important; }
+.app-roadmap .diagram-scale { transform: none !important; }
+.app-roadmap { background: #fff; }
+.app-roadmap .app { padding: 0; }
+}
+@media (max-width: 640px) {
+.app-roadmap .app { padding: 14px 10px 40px; }
+.app-roadmap .summary-bar { padding: 12px 14px; gap: 10px 16px; }
+.app-roadmap .summary-bar .metric .num { font-size: 20px; }
+.app-roadmap .toolbar { gap: 8px; }
+.app-roadmap #project-search { min-width: 0; flex: 1 1 120px; max-width: none; }
+.app-roadmap button { padding: 8px 12px; font-size: 12.5px; }
+.app-roadmap button.small { padding: 6px 10px; font-size: 11.5px; }
+.app-roadmap .modal { padding: 18px 16px 20px; }
+.app-roadmap .row2 { flex-wrap: wrap; }
+}
 </style>
 </head>
 <body>
+
+<div class="tabbar">
+  <button type="button" id="tab-btn-lista" class="active">Lista</button>
+  <button type="button" id="tab-btn-roadmap">Roadmap</button>
+</div>
+
+<div id="view-lista" class="view active app-lista">
+<div class="wrap">
+  <h1>Project Tracker &mdash; ClassicRyde / AKI</h1>
+  <p class="sub" id="subLine">Cargando...</p>
+
+  <div class="stats" id="stats">
+    <div class="stat notstarted" data-f="Not Started"><div class="n" id="statNotStarted">-</div><div class="l">No iniciados</div></div>
+    <div class="stat progress" data-f="In Progress"><div class="n" id="statProgress">-</div><div class="l">En progreso</div></div>
+    <div class="stat complete" data-f="Completed"><div class="n" id="statComplete">-</div><div class="l">Completados</div></div>
+    <div class="stat overdue" data-f="__overdue__"><div class="n" id="statOverdue">-</div><div class="l">Vencidos y activos</div></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="filters" id="filters">
+      <button data-f="all" class="active" type="button">Todos</button>
+      <button data-f="Not Started" type="button">No iniciados</button>
+      <button data-f="In Progress" type="button">En progreso</button>
+      <button data-f="Completed" type="button">Completados</button>
+    </div>
+    <select id="categoryFilter"><option value="all">Todas las categorias</option></select>
+    <input id="searchBox" type="text" placeholder="Buscar proyecto, owner o nota...">
+    <label class="show-completed-toggle"><input type="checkbox" id="lista-show-completed"> Mostrar completados</label>
+  </div>
+
+  <div class="count-line" id="countLine"></div>
+  <div id="tableWrap" class="loading">Cargando data-tracker.json...</div>
+</div>
+
+<div id="notesModal">
+  <div id="notesBox">
+    <h3 id="notesTitle"></h3>
+    <div class="meta" id="notesMeta"></div>
+    <div id="subtaskSection"></div>
+    <div class="section-label" id="notesLabel" style="display:none;">Notas</div>
+    <div class="body" id="notesBody"></div>
+    <button class="close" type="button" onclick="closeNotes()">Cerrar</button>
+  </div>
+</div>
+</div>
+
+<div id="view-roadmap" class="view app-roadmap">
 <div class="app">
   <h1>Project Roadmap</h1>
-  <p class="subtitle">Each project is a bubble connected to its deadline on the timeline, with arrows showing what each one depends on.</p>
+  <p class="subtitle">Datos en vivo del Project Tracker: cada proyecto es una burbuja con su fecha de Inicio y Entrega en la linea de tiempo. Solo lectura — para actualizar un proyecto, usa el Project Tracker.</p>
 
   <div class="summary-bar">
     <div class="metric"><span class="num" id="sum-pct">0%</span><span class="lbl">Company progress</span></div>
@@ -348,23 +462,6 @@
     <div class="metric"><span class="num" id="sum-ontime">—</span><span class="lbl">On-time deliveries</span></div>
     <div class="metric"><span class="num" id="sum-goals">0/0</span><span class="lbl">Company goals</span></div>
     <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-    <button class="secondary small" id="btn-toggle-kpi-detail" style="background:transparent;border-color:rgba(255,255,255,0.5);color:#fff;">View project detail ▾</button>
-  </div>
-
-  <div class="kpi-detail" id="kpi-detail">
-    <table class="kpi-table">
-      <thead>
-        <tr>
-          <th class="sortable" data-col="name">Project <span class="sort-ind"></span></th>
-          <th class="sortable" data-col="status">Status <span class="sort-ind"></span></th>
-          <th class="sortable" data-col="priority">Priority <span class="sort-ind"></span></th>
-          <th class="sortable" data-col="pct">Progress <span class="sort-ind"></span></th>
-          <th class="sortable" data-col="deadline">Deadline <span class="sort-ind"></span></th>
-          <th class="sortable" data-col="overdue">Overdue <span class="sort-ind"></span></th>
-        </tr>
-      </thead>
-      <tbody id="kpi-detail-body"></tbody>
-    </table>
   </div>
 
   <div class="overdue-banner" id="overdue-banner"></div>
@@ -504,59 +601,6 @@
     <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Dependencies</h3>
     <div id="info-dep-list" style="font-size:12.5px;"></div>
 
-    <div class="modal-actions">
-      <span></span>
-      <button id="btn-edit-project" class="edit-only">Edit project</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal: project detail / edit -->
-<div class="overlay" id="overlay-detail">
-  <div class="modal">
-    <button class="close-x" data-close="overlay-detail">✕</button>
-    <h2 id="detail-title">Project</h2>
-    <div class="row2">
-      <div class="field"><label>Name</label><input type="text" id="d-name"></div>
-      <div class="field"><label>Owner / requester</label><input type="text" id="d-owner"></div>
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>Status (automatic)</label>
-        <div><span class="info-pill" id="d-status-readout" style="display:inline-block;">Green</span></div>
-        <small class="hint">Calculated automatically from milestone dates. Change dates or mark milestones complete to move it.</small>
-      </div>
-      <div class="field">
-        <label>Priority</label>
-        <select id="d-priority">
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field"><label>Project notes</label><textarea id="d-notes" placeholder="Blockers, decisions, context for the team..."></textarea></div>
-
-    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Milestones & tasks</h3>
-    <div id="phase-list"></div>
-    <div class="add-milestone-row"><button class="secondary small" id="btn-add-milestone">+ Add milestone</button></div>
-
-    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Subprojects</h3>
-    <div id="subproj-list"></div>
-    <div class="add-milestone-row"><button class="secondary small" id="btn-add-subproject">+ Add subproject</button></div>
-
-    <h3 style="font-size:13px;color:var(--navy);margin:16px 0 4px;">Dependencies (this project depends on)</h3>
-    <div class="dep-list" id="dep-list"></div>
-    <div class="row2">
-      <div class="field" style="flex:2"><label>Add dependency</label><select id="dep-select"></select></div>
-      <div class="field" style="flex:0 0 auto; align-self:flex-end;"><button class="secondary" id="btn-add-dep" style="margin-bottom:12px;">Add</button></div>
-    </div>
-
-    <div class="modal-actions">
-      <button class="danger" id="btn-delete-project">Delete project</button>
-      <button id="btn-save-project">Save changes</button>
-    </div>
   </div>
 </div>
 
@@ -581,20 +625,266 @@
     </div>
   </div>
 </div>
+</div>
 
 <script>
+(function(){
+let allRows = [];
+let currentFilter = "all";
+let currentCategory = "all";
+let searchTerm = "";
+let listaShowCompleted = false;
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Subtareas column format: "[x] item one; [ ] item two; [x] item three"
+function parseSubtasks(s) {
+  if (!s || !s.trim()) return [];
+  return s.split(';').map(part => part.trim()).filter(Boolean).map(part => {
+    const done = /^\[x\]/i.test(part);
+    const text = part.replace(/^\[[ xX]\]\s*/, '');
+    return { done, text };
+  });
+}
+
+function pctFromSubtasks(items) {
+  if (!items.length) return null;
+  const done = items.filter(i => i.done).length;
+  return Math.round((done / items.length) * 100);
+}
+
+function effectivePct(r) {
+  const items = parseSubtasks(r.Subtareas);
+  const fromSub = pctFromSubtasks(items);
+  if (fromSub !== null) return fromSub;
+  return parseInt(r['% Complete'] || '0', 10) || 0;
+}
+
+function statusClass(s) {
+  if (s === 'Completed') return 'complete';
+  if (s === 'In Progress') return 'progress';
+  if (s === 'Blocked') return 'blocked';
+  return 'notstarted';
+}
+function statusLabel(s) {
+  if (s === 'Not Started') return 'No iniciado';
+  if (s === 'In Progress') return 'En progreso';
+  if (s === 'Completed') return 'Completado';
+  return s || 'Sin estatus';
+}
+function prioClass(p) {
+  if (p === 'High') return 'high';
+  if (p === 'Medium') return 'medium';
+  return 'low';
+}
+const CATEGORY_CLASS = {
+  'Administration': 'cat-admin',
+  'Finance': 'cat-finance',
+  'Operations': 'cat-ops',
+  'Recruitment & HR': 'cat-hr',
+  'Marketing': 'cat-marketing',
+  'Partnerships & Compliance': 'cat-partners'
+};
+function catClass(c) {
+  return CATEGORY_CLASS[c] || 'cat-other';
+}
+function isOverdue(r, today) {
+  return r.Status !== 'Completed' && r['Due Date'] && r['Due Date'] < today;
+}
+
+function computeStats(rows) {
+  const today = new Date().toISOString().slice(0,10);
+  const notStarted = rows.filter(r => r.Status === 'Not Started').length;
+  const prog = rows.filter(r => r.Status === 'In Progress').length;
+  const comp = rows.filter(r => r.Status === 'Completed').length;
+  const overdue = rows.filter(r => isOverdue(r, today)).length;
+  document.getElementById('statNotStarted').textContent = notStarted;
+  document.getElementById('statProgress').textContent = prog;
+  document.getElementById('statComplete').textContent = comp;
+  document.getElementById('statOverdue').textContent = overdue;
+}
+
+function populateCategoryFilter(rows) {
+  const sel = document.getElementById('categoryFilter');
+  const cats = Array.from(new Set(rows.map(r => r.Category).filter(Boolean))).sort();
+  cats.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
+
+window.showNotes = function(id) {
+  const r = allRows.find(x => x.__id === id);
+  if (!r) return;
+  const items = parseSubtasks(r.Subtareas);
+  const pct = effectivePct(r);
+  document.getElementById('notesTitle').textContent = r['Project Name'];
+  document.getElementById('notesMeta').textContent =
+    statusLabel(r.Status) + ' · ' + (r.Category || 'Sin categoria') + ' · ' + pct + '% · Owner: ' + (r.Owner || '-') + ' · Ultima actualizacion: ' + (r['Last Updated'] || '-');
+
+  const subSection = document.getElementById('subtaskSection');
+  if (items.length) {
+    subSection.innerHTML = '<div class="section-label">Subtareas (' + items.filter(i=>i.done).length + '/' + items.length + ')</div>' +
+      '<ul class="subtask-list">' + items.map(it =>
+        '<li class="' + (it.done ? 'done' : '') + '"><span class="box">' + (it.done ? '☑' : '☐') + '</span>' + escapeHtml(it.text) + '</li>'
+      ).join('') + '</ul>';
+  } else {
+    subSection.innerHTML = '';
+  }
+  document.getElementById('notesLabel').style.display = r.Notes ? 'block' : 'none';
+  document.getElementById('notesBody').textContent = r.Notes || (items.length ? '' : 'Sin notas.');
+  document.getElementById('notesModal').classList.add('open');
+};
+window.closeNotes = function() {
+  document.getElementById('notesModal').classList.remove('open');
+};
+
+function getFilteredRows() {
+  const today = new Date().toISOString().slice(0,10);
+  let rows = allRows;
+  if (currentFilter === '__overdue__') {
+    rows = rows.filter(r => isOverdue(r, today));
+  } else if (currentFilter !== 'all') {
+    rows = rows.filter(r => r.Status === currentFilter);
+  }
+  if (!listaShowCompleted && currentFilter !== 'Completed') {
+    rows = rows.filter(r => r.Status !== 'Completed');
+  }
+  if (currentCategory !== 'all') {
+    rows = rows.filter(r => r.Category === currentCategory);
+  }
+  if (searchTerm) {
+    const t = searchTerm.toLowerCase();
+    rows = rows.filter(r =>
+      (r['Project Name'] || '').toLowerCase().includes(t) ||
+      (r.Owner || '').toLowerCase().includes(t) ||
+      (r.Notes || '').toLowerCase().includes(t) ||
+      (r.Category || '').toLowerCase().includes(t)
+    );
+  }
+  return rows;
+}
+
+function renderTable() {
+  const wrap = document.getElementById('tableWrap');
+  const today = new Date().toISOString().slice(0,10);
+  const rows = getFilteredRows();
+
+  const hiddenCompleted = (!listaShowCompleted && currentFilter !== 'Completed')
+    ? allRows.filter(r => r.Status === 'Completed').length : 0;
+  document.getElementById('countLine').textContent =
+    rows.length + ' de ' + allRows.length + ' proyectos' +
+    (hiddenCompleted ? ' (' + hiddenCompleted + ' completados ocultos)' : '');
+
+  if (!rows.length) {
+    wrap.innerHTML = '<div class="empty">No hay proyectos que coincidan con este filtro.</div>';
+    return;
+  }
+
+  const trs = rows.map(r => {
+    const pct = effectivePct(r);
+    const subCount = parseSubtasks(r.Subtareas).length;
+    const overdue = isOverdue(r, today);
+    const due = r['Due Date'] ? escapeHtml(r['Due Date']) : 'Sin fecha';
+    return '<tr>' +
+      '<td><strong>' + escapeHtml(r['Project Name']) + '</strong></td>' +
+      '<td><span class="badge ' + catClass(r.Category) + '">' + escapeHtml(r.Category || 'Sin categoria') + '</span></td>' +
+      '<td><span class="badge ' + statusClass(r.Status) + '">' + escapeHtml(statusLabel(r.Status)) + '</span></td>' +
+      '<td><span class="badge ' + prioClass(r.Priority) + '">' + escapeHtml(r.Priority || '—') + '</span></td>' +
+      '<td>' + escapeHtml(r.Owner || '—') + '</td>' +
+      '<td><div class="pct-wrap"><div class="pct-bar"><div class="pct-fill" style="width:' + pct + '%"></div></div><span>' + pct + '%</span></div>' +
+        (subCount ? '<div class="pct-note">' + subCount + ' subtareas</div>' : '') + '</td>' +
+      '<td class="' + (overdue ? 'due-overdue' : '') + '">' + due + '</td>' +
+      '<td><button type="button" class="notes-btn" data-notes-id="' + r.__id + '">Ver detalle</button></td>' +
+    '</tr>';
+  }).join('');
+
+  wrap.innerHTML =
+    '<table><thead><tr>' +
+    '<th>Proyecto</th><th>Categoria</th><th>Estatus</th><th>Prioridad</th><th>Owner</th><th>% Completado</th><th>Fecha limite</th><th>Detalle</th>' +
+    '</tr></thead><tbody>' + trs + '</tbody></table>';
+
+  wrap.querySelectorAll('[data-notes-id]').forEach(btn => {
+    btn.addEventListener('click', () => showNotes(parseInt(btn.getAttribute('data-notes-id'), 10)));
+  });
+}
+
+document.getElementById('filters').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-f]');
+  if (!btn) return;
+  document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = btn.getAttribute('data-f');
+  renderTable();
+});
+
+document.getElementById('stats').addEventListener('click', (e) => {
+  const card = e.target.closest('.stat[data-f]');
+  if (!card) return;
+  const f = card.getAttribute('data-f');
+  const matchingBtn = document.querySelector('#filters button[data-f="' + f + '"]');
+  document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+  if (matchingBtn) matchingBtn.classList.add('active');
+  currentFilter = f;
+  renderTable();
+});
+
+document.getElementById('categoryFilter').addEventListener('change', (e) => {
+  currentCategory = e.target.value;
+  renderTable();
+});
+
+document.getElementById('searchBox').addEventListener('input', (e) => {
+  searchTerm = e.target.value.trim();
+  renderTable();
+});
+
+document.getElementById('lista-show-completed').addEventListener('change', (e) => {
+  listaShowCompleted = e.target.checked;
+  renderTable();
+});
+
+async function init() {
+  try {
+    const res = await fetch('data-tracker.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    allRows = (data.projects || []).map((r, i) => Object.assign({ __id: i }, r));
+    const genAt = data.generated_at ? new Date(data.generated_at) : null;
+    document.getElementById('subLine').textContent = genAt
+      ? 'Publicado automaticamente cada manana entre semana. Ultima actualizacion: ' + genAt.toLocaleString()
+      : 'Publicado automaticamente cada manana entre semana.';
+    populateCategoryFilter(allRows);
+    computeStats(allRows);
+    renderTable();
+  } catch (e) {
+    document.getElementById('tableWrap').innerHTML = '<div class="empty">Error cargando data-tracker.json: ' + escapeHtml(String((e && e.message) || e)) + '</div>';
+  }
+}
+window.__initLista = init;
+
+})();
+</script>
+
+<script>
+(function(){
+
 const PHASES = ["Intake", "Definition & Planning", "Execution", "Follow-up", "Closeout"];
 const STORAGE_KEY = "roadmapData_v2";
 let state = null;
 let editingProjectId = null;
 let editingGoalId = null;
 
-// ---- Live sync to the Google Sheet (optional; no-ops until configured) ----
-// Fill these in after deploying the Apps Script web app (see apps_script_code.gs.txt
-// and APPS_SCRIPT_SETUP.md in the same Drive folder). Leave SYNC_URL empty to keep
-// the dashboard fully local -- edits still save to this browser, they just won't be
-// written back to the Sheet or republished for everyone else.
-const SYNC_URL = "https://script.google.com/a/macros/classicryde.com/s/AKfycbyDTaQLTvBaqYZGuI753iSrzStTz-5iziXdOBzPovgZUDCqaLeS5ZVXIrcZatdAkK3b/exec";
+// ---- Live sync to the Google Sheet (deprecated 2026-07-27: the Roadmap Proyectos sheet
+// has been retired. Manuel decided the Project Tracker is now the single source of truth
+// for this roadmap, so this webhook is disabled to avoid writing to a sheet no one maintains
+// anymore. Edits made in this browser stay local only; to actually update a project, use the
+// Project Tracker artifact (chat-based updates) instead. ----
+const SYNC_URL = "";
 const SYNC_SECRET = "media2026";
 function syncToSheet(opOrOps) {
   if (!SYNC_URL) return;
@@ -608,10 +898,9 @@ function syncToSheet(opOrOps) {
   }).catch(() => { /* offline or unreachable -- the local copy is already saved via save() */ });
 }
 
-// ---- Filters (owner / status / priority / hide completed) and KPI table sort order ----
+// ---- Filters (owner / status / priority / hide completed) ----
 let filterOwner = "", filterStatus = "", filterPriority = "";
 let hideCompleted = true;
-let kpiSort = { col: null, dir: 1 };
 function isProjectFullyCompleted(proj) {
   return (proj.milestones || []).length > 0 && proj.milestones.every(m => m.completed);
 }
@@ -752,15 +1041,13 @@ function migrate(data) {
   return data;
 }
 
-// On load we always try "data.json" first (the published snapshot that sits next to the
-// HTML on GitHub/Drive) as the official version. If it doesn't exist or can't be read
-// (e.g. opening the file directly from disk, without a server), we fall back to whatever
-// is in this browser (localStorage) and, if there's nothing there either, sample data.
-// Changes you make in the browser stay local to your session until data.json is
-// republished with them.
+// On load we always try "data-roadmap.json" first (the published snapshot that sits next
+// to the HTML on GitHub Pages) as the official version. If it doesn't exist or can't be read,
+// we fall back to whatever is in this browser (localStorage) and, if there's nothing there
+// either, sample data.
 async function load() {
   try {
-    const res = await fetch("data.json", { cache: "no-store" });
+    const res = await fetch("data-roadmap.json", { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data.projects)) {
@@ -769,7 +1056,7 @@ async function load() {
         return;
       }
     }
-  } catch (e) { /* no data.json available (e.g. local file without a server): fall back to localStorage */ }
+  } catch (e) { /* no data-roadmap.json available: fall back to localStorage */ }
 
   const raw = localStorage.getItem(STORAGE_KEY);
   if (raw) { try { state = migrate(JSON.parse(raw)); return; } catch (e) {} }
@@ -862,6 +1149,17 @@ function allMilestones() {
   return list;
 }
 
+// Only the deadline (Entrega) milestone per project -- used for stats and for the
+// timeline's date range. "Inicio" (Start Date) isn't drawn on the roadmap and isn't
+// reliable enough in the Tracker to factor into progress stats or the visible date span;
+// counting it would double the milestone total with a date that always auto-completes.
+function deadlineMilestones() {
+  return state.projects.map(p => {
+    const ordered = sortedMs(p);
+    return { ...ordered[ordered.length - 1], projectId: p.id };
+  });
+}
+
 // Milestones can now be added/removed freely (not just the original 5 phases), so always
 // read/draw them in chronological order regardless of the order they were created in.
 function sortedMs(proj) {
@@ -871,7 +1169,7 @@ function sortedMs(proj) {
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 
 function renderSummary() {
-  const ms = allMilestones();
+  const ms = deadlineMilestones();
   const done = ms.filter(m => m.completed).length;
   const total = ms.length || 1;
   const pct = Math.round((done / total) * 100);
@@ -889,7 +1187,7 @@ function renderSummary() {
   document.getElementById("sum-goals").textContent = goalsDone + "/" + goals.length;
 
   renderOverdueBanner();
-  renderKpiDetailTable();
+  populateOwnerFilter();
   renderUpcoming();
 }
 
@@ -935,75 +1233,6 @@ document.getElementById("btn-toggle-upcoming").addEventListener("click", () => {
   btn.textContent = showing ? "Hide upcoming steps ▴" : "View upcoming steps ▾";
 });
 
-function renderKpiDetailTable() {
-  const body = document.getElementById("kpi-detail-body");
-  if (!body) return;
-  const today = todayISO();
-  body.innerHTML = "";
-
-  populateOwnerFilter();
-
-  if (state.projects.length === 0) {
-    body.innerHTML = '<tr><td colspan="6" class="info-empty">No projects yet.</td></tr>';
-    return;
-  }
-  let rows = getVisibleProjects().map(proj => {
-    const ordered = sortedMs(proj);
-    const deadline = ordered[ordered.length - 1];
-    const doneCount = proj.milestones.filter(m => m.completed).length;
-    const pct = Math.round((doneCount / proj.milestones.length) * 100);
-    const overdueCount = proj.milestones.filter(m => !m.completed && m.date < today).length;
-    return { proj, deadline: deadline.date, doneCount, pct, overdueCount };
-  });
-  if (rows.length === 0) {
-    body.innerHTML = '<tr><td colspan="6" class="info-empty">No projects match the filter.</td></tr>';
-    return;
-  }
-
-  const statusRank = { green: 0, yellow: 1, red: 2 };
-  const priorityRank = { high: 0, medium: 1, low: 2 };
-  if (kpiSort.col) {
-    const col = kpiSort.col, dir = kpiSort.dir;
-    rows.sort((a, b) => {
-      let av, bv;
-      switch (col) {
-        case "name": av = a.proj.name.toLowerCase(); bv = b.proj.name.toLowerCase(); break;
-        case "status": av = statusRank[getProjectStatus(a.proj)]; bv = statusRank[getProjectStatus(b.proj)]; break;
-        case "priority": av = priorityRank[a.proj.priority]; bv = priorityRank[b.proj.priority]; break;
-        case "pct": av = a.pct; bv = b.pct; break;
-        case "deadline": av = a.deadline; bv = b.deadline; break;
-        case "overdue": av = a.overdueCount; bv = b.overdueCount; break;
-        default: av = 0; bv = 0;
-      }
-      if (av < bv) return -1 * dir;
-      if (av > bv) return 1 * dir;
-      return 0;
-    });
-  }
-
-  rows.forEach(r => {
-    const proj = r.proj;
-    const row = document.createElement("tr");
-    row.className = "kpi-row";
-    row.innerHTML = `
-      <td><strong>${escapeHtml(proj.name)}</strong><div style="color:var(--gray);font-size:11px;">${escapeHtml(proj.owner || "")}</div></td>
-      <td><span class="kpi-pill" style="background:${statusColor(getProjectStatus(proj))}">${statusLabel(getProjectStatus(proj))}</span>${getDependencyEscalation(proj) ? ' <span title="At risk due to dependency">🔗⚠</span>' : ""}</td>
-      <td><span class="kpi-pill" style="background:${priorityColor(proj.priority)};color:${priorityTextColor(proj.priority)}">${priorityLabel(proj.priority)}</span></td>
-      <td><div class="kpi-bar-wrap"><div class="kpi-bar-track"><div class="kpi-bar-fill" style="width:${r.pct}%;background:${statusColor(getProjectStatus(proj))}"></div></div><span>${r.pct}% (${r.doneCount}/${proj.milestones.length})</span></div></td>
-      <td>${r.deadline}</td>
-      <td>${r.overdueCount > 0 ? `<span class="kpi-atraso">⚠ ${r.overdueCount}</span>` : `<span class="kpi-ok">Up to date</span>`}</td>
-    `;
-    row.addEventListener("click", () => openInfo(proj.id));
-    body.appendChild(row);
-  });
-
-  document.querySelectorAll(".kpi-table th.sortable .sort-ind").forEach(ind => ind.textContent = "");
-  if (kpiSort.col) {
-    const th = document.querySelector('.kpi-table th[data-col="' + kpiSort.col + '"] .sort-ind');
-    if (th) th.textContent = kpiSort.dir === 1 ? "▲" : "▼";
-  }
-}
-
 function populateOwnerFilter() {
   const sel = document.getElementById("filter-owner");
   if (!sel) return;
@@ -1012,15 +1241,6 @@ function populateOwnerFilter() {
   sel.innerHTML = '<option value="">All</option>' + owners.map(o => `<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join("");
   sel.value = owners.includes(current) ? current : "";
 }
-
-document.querySelectorAll(".kpi-table th.sortable").forEach(th => {
-  th.addEventListener("click", () => {
-    const col = th.dataset.col;
-    if (kpiSort.col === col) kpiSort.dir *= -1;
-    else { kpiSort.col = col; kpiSort.dir = 1; }
-    renderKpiDetailTable();
-  });
-});
 
 document.getElementById("filter-owner").addEventListener("change", e => { filterOwner = e.target.value; render(); });
 document.getElementById("filter-status").addEventListener("change", e => { filterStatus = e.target.value; render(); });
@@ -1042,13 +1262,6 @@ document.getElementById("btn-toggle-legend").addEventListener("click", () => {
   btn.textContent = showing ? "Hide color legend ▴" : "View color legend ▾";
 });
 
-document.getElementById("btn-toggle-kpi-detail").addEventListener("click", () => {
-  const box = document.getElementById("kpi-detail");
-  const btn = document.getElementById("btn-toggle-kpi-detail");
-  const showing = box.classList.toggle("show");
-  btn.textContent = showing ? "Hide project detail ▴" : "View project detail ▾";
-});
-
 function renderOverdueBanner() {
   const banner = document.getElementById("overdue-banner");
   const today = todayISO();
@@ -1066,8 +1279,11 @@ function renderOverdueBanner() {
     return;
   }
   banner.classList.add("show");
-  banner.innerHTML = "⚠ <strong>" + items.length + " item(s) overdue today:</strong> " +
-    items.map(it => `<span class="ov-link" data-type="${it.type}" data-id="${it.id}">${escapeHtml(it.label)}${it.phase ? ` (${it.count} overdue, since "${escapeHtml(it.phase)}")` : " (company goal)"}</span>`).join(", ");
+  banner.innerHTML =
+    '<div class="ov-header">⚠ ' + items.length + " item(s) overdue today</div>" +
+    '<ol class="ov-list">' +
+    items.map(it => `<li class="ov-link" data-type="${it.type}" data-id="${it.id}">${escapeHtml(it.label)}${it.phase ? ` <span class="ov-detail">(${it.count} overdue, since "${escapeHtml(it.phase)}")</span>` : ' <span class="ov-detail">(company goal)</span>'}</li>`).join("") +
+    "</ol>";
   banner.querySelectorAll(".ov-link").forEach(el => {
     el.addEventListener("click", () => {
       if (el.dataset.type === "goal") openGoalInfo(el.dataset.id);
@@ -1137,7 +1353,9 @@ function render() {
   const PX_PER_DAY = 9;
   const H_PAD = 140;
   const TIER_BASE = 165;
-  const TIER_STEP = 110;
+  const TIER_STEP = 150; // must clear the bubble's full ~124px height (plus the badges that
+                          // poke a bit past its edges) so bubbles stacked on adjacent tiers,
+                          // close together in x, don't overlap at the corners.
   const MIN_GAP = 260; // min horizontal distance between bubbles sharing a side+tier (wider than
                         // before so two adjacent projects' subproject fans have room not to collide)
   const GOAL_TAG_DIST = 78; // how far a goal's name tag sits from the spine (inside the TIER_BASE buffer)
@@ -1148,7 +1366,10 @@ function render() {
   const SUBPROJ_R = 52;      // half of .subproj-circle's 104px, used the same way
   const SUBPROJ_R_NESTED = 39; // half of .subproj-circle-nested's 78px
 
-  const ms = allMilestones();
+  // Only deadline dates set the visible date range -- Start Date/Inicio isn't drawn and
+  // isn't reliable in the Tracker, so a stray bad value there should never stretch or skew
+  // the timeline.
+  const ms = deadlineMilestones();
   const todayT = new Date(todayISO() + "T00:00:00").getTime();
   const goalDates = (state.goals || []).map(g => new Date(g.date + "T00:00:00").getTime());
   const dates = [...ms.map(m => new Date(m.date + "T00:00:00").getTime()), ...goalDates, todayT];
@@ -1163,21 +1384,41 @@ function render() {
     return H_PAD + ((t - minD) / (maxD - minD)) * timelineW;
   }
 
-  // Pass 1: assign each project a side (above/below, alternating) and a tier
-  // (stacking outward whenever it would overlap another bubble already placed on that side/tier).
+  // Pass 1: assign each project a side (above/below) and a tier (stacking outward whenever
+  // it would overlap another bubble already placed on that side/tier).
   const placed = { above: [], below: [] };
   const posOf = {}; // projectId -> {x, side, tier, deadlineX}
   let maxTierAbove = 0, maxTierBelow = 0;
 
+  function tierNeeded(side, bx) {
+    let tier = 0;
+    while (placed[side].some(p => p.tier === tier && Math.abs(p.x - bx) < MIN_GAP)) tier++;
+    return tier;
+  }
+
   projects.forEach((proj, i) => {
-    const side = i % 2 === 0 ? "above" : "below";
     const ordered = sortedMs(proj);
     const deadline = ordered[ordered.length - 1];
     const deadlineX = dateToX(deadline.date);
-    const startX = dateToX(ordered[0].date);
-    const bx = (deadlineX + startX) / 2;
-    let tier = 0;
-    while (placed[side].some(p => p.tier === tier && Math.abs(p.x - bx) < MIN_GAP)) tier++;
+    // The bubble sits directly above/below its own deadline (Entrega), not at the midpoint
+    // with the earliest milestone (Inicio). For Tracker-sourced projects, Inicio just mirrors
+    // Start Date -- often stale or not meaningful -- so averaging it in was dragging every
+    // bubble away from its real due date and toward wherever Start Date happened to fall,
+    // clumping everything near the middle of the timeline instead of spreading by deadline.
+    const bx = deadlineX;
+
+    // Pick whichever side is less crowded at this x (needs a lower tier), instead of
+    // alternating strictly by list order. Alternating by index could land several projects
+    // with nearby deadlines on the same side purely by coincidence of position in the list,
+    // forcing them into unnecessarily tall stacks while the other side had room. Ties (both
+    // sides equally free) still alternate by index so the diagram stays visually balanced.
+    const tAbove = tierNeeded("above", bx);
+    const tBelow = tierNeeded("below", bx);
+    let side, tier;
+    if (tAbove < tBelow) { side = "above"; tier = tAbove; }
+    else if (tBelow < tAbove) { side = "below"; tier = tBelow; }
+    else { side = i % 2 === 0 ? "above" : "below"; tier = tAbove; }
+
     placed[side].push({ x: bx, tier });
     if (side === "above") maxTierAbove = Math.max(maxTierAbove, tier); else maxTierBelow = Math.max(maxTierBelow, tier);
     posOf[proj.id] = { x: bx, side, tier, deadlineX };
@@ -1268,22 +1509,21 @@ function render() {
   svg.appendChild(defs);
   diagram.appendChild(svg);
 
-  // connector from the bubble to EVERY one of its milestones on the spine (not just the deadline)
+  // connector from the bubble to its deadline (Entrega) on the spine. Inicio isn't drawn here
+  // at all -- its date is often stale/unreliable in the Tracker and wasn't adding anything a
+  // user could act on, just an extra line and dot next to the one that actually matters.
   projects.forEach(proj => {
     const p = posOf[proj.id];
-    sortedMs(proj).forEach(m => {
-      const mx = dateToX(m.date);
-      const endY = p.trackY;
-      const line = document.createElementNS(svgNS, "path");
-      line.setAttribute("d", `M ${p.x} ${p.y} L ${mx} ${endY}`);
-      line.setAttribute("stroke", statusColor(getProjectStatus(proj)));
-      line.setAttribute("stroke-width", mx === p.deadlineX ? "2.5" : "1.4");
-      line.setAttribute("stroke-dasharray", "1,6");
-      line.setAttribute("stroke-linecap", "round");
-      line.setAttribute("fill", "none");
-      line.setAttribute("opacity", mx === p.deadlineX ? "0.85" : "0.5");
-      svg.appendChild(line);
-    });
+    const mx = p.deadlineX;
+    const line = document.createElementNS(svgNS, "path");
+    line.setAttribute("d", `M ${p.x} ${p.y} L ${mx} ${p.trackY}`);
+    line.setAttribute("stroke", statusColor(getProjectStatus(proj)));
+    line.setAttribute("stroke-width", "2.5");
+    line.setAttribute("stroke-dasharray", "1,6");
+    line.setAttribute("stroke-linecap", "round");
+    line.setAttribute("fill", "none");
+    line.setAttribute("opacity", "0.85");
+    svg.appendChild(line);
   });
 
   // dependency arrows between bubbles
@@ -1301,56 +1541,47 @@ function render() {
     svg.appendChild(path);
   });
 
-  // every milestone gets its own marker directly on the spine (deadline = big diamond, rest = small dots)
+  // Only the deadline (Entrega) gets a marker on the spine -- one diamond per project, no
+  // separate dot/line for Inicio. Its Start Date is still visible in the detail modal on
+  // click, it's just not reliable or useful enough to earn its own mark on the timeline.
   const todayForMarkers = todayISO();
   projects.forEach(proj => {
     const p = posOf[proj.id];
     const ordered = sortedMs(proj);
-    ordered.forEach((m, mi) => {
-      const isDeadline = mi === ordered.length - 1;
-      const mx = dateToX(m.date);
-      const overdue = !m.completed && m.date < todayForMarkers;
+    const m = ordered[ordered.length - 1];
+    const mx = p.deadlineX;
+    const overdue = !m.completed && m.date < todayForMarkers;
 
-      const node = document.createElement("div");
-      node.className = isDeadline ? "deadline-node" : "milestone-node";
-      node.style.left = mx + "px";
-      node.style.top = p.trackY + "px";
-      node.style.background = m.completed ? statusColor(getProjectStatus(proj)) : (overdue ? "#F97316" : "#fff");
-      if (!m.completed && !overdue) node.style.border = "2.5px solid " + statusColor(getProjectStatus(proj));
-      node.title = proj.name + " — " + m.phase + " (" + m.date + ")" + (m.completed ? " — completed" : overdue ? " — overdue" : " — pending");
-      node.addEventListener("click", () => openInfo(proj.id));
-      diagram.appendChild(node);
+    const node = document.createElement("div");
+    node.className = "deadline-node";
+    node.style.left = mx + "px";
+    node.style.top = p.trackY + "px";
+    node.style.background = m.completed ? statusColor(getProjectStatus(proj)) : (overdue ? "#F97316" : "#fff");
+    if (!m.completed && !overdue) node.style.border = "2.5px solid " + statusColor(getProjectStatus(proj));
+    node.title = proj.name + " — " + m.phase + " (" + m.date + ")" + (m.completed ? " — completed" : overdue ? " — overdue" : " — pending");
+    node.addEventListener("click", () => openInfo(proj.id));
+    diagram.appendChild(node);
 
-      // subtask counter only for the deadline (the one milestone that already gets a permanent label);
-      // intermediate milestones keep their count in the hover tooltip instead of another floating box.
-      if ((m.subtasks || []).length > 0 && isDeadline) {
-        const badge = document.createElement("div");
-        badge.className = "milestone-badge";
-        badge.style.left = (mx + 12) + "px";
-        badge.style.top = (p.trackY - 12) + "px";
-        badge.textContent = m.subtasks.filter(s => s.done).length + "/" + m.subtasks.length;
-        diagram.appendChild(badge);
-      } else if ((m.subtasks || []).length > 0) {
-        const doneS = m.subtasks.filter(s => s.done).length;
-        node.title += " — " + doneS + "/" + m.subtasks.length + " tasks";
-      }
+    // Subtask counts are never drawn as a floating marker on the spine itself -- with one
+    // diamond per project deadline plus its date tag already crowding that area, an extra
+    // numeric badge on every marker made the timeline unreadable. The count still shows on
+    // the bubble's corner badge and in the hover tooltip / detail modal, just not here.
+    if ((m.subtasks || []).length > 0) {
+      const doneS = m.subtasks.filter(s => s.done).length;
+      node.title += " — " + doneS + "/" + m.subtasks.length + " tasks";
+    }
 
-      if (isDeadline) {
-        const tag = document.createElement("div");
-        tag.className = "deadline-tag";
-        tag.style.left = mx + "px";
-        // the tag must sit further AWAY from the spine than the dot itself, never toward it
-        // (toward it is where the month/date axis lives, which is what was overlapping before).
-        tag.style.top = (p.side === "above" ? p.trackY - 34 : p.trackY + 14) + "px";
-        tag.style.background = statusColor(getProjectStatus(proj));
-        tag.textContent = m.date;
-        tag.style.cursor = "pointer";
-        tag.addEventListener("click", () => openInfo(proj.id));
-        diagram.appendChild(tag);
-      }
-      // intermediate milestones show only the dot on the timeline; their name/date/tasks are in the
-      // hover tooltip (set above) and in the full detail, to keep the timeline readable.
-    });
+    const tag = document.createElement("div");
+    tag.className = "deadline-tag";
+    tag.style.left = mx + "px";
+    // the tag must sit further AWAY from the spine than the dot itself, never toward it
+    // (toward it is where the month/date axis lives, which is what was overlapping before).
+    tag.style.top = (p.side === "above" ? p.trackY - 34 : p.trackY + 14) + "px";
+    tag.style.background = statusColor(getProjectStatus(proj));
+    tag.textContent = m.date;
+    tag.style.cursor = "pointer";
+    tag.addEventListener("click", () => openInfo(proj.id));
+    diagram.appendChild(tag);
   });
 
   // project bubbles (on top)
@@ -1808,381 +2039,6 @@ function openInfo(projectId) {
   document.getElementById("overlay-info").classList.add("open");
 }
 
-document.getElementById("btn-edit-project").addEventListener("click", () => {
-  document.getElementById("overlay-info").classList.remove("open");
-  openDetail(editingProjectId);
-});
-
-// ---- Detail modal (edit) ----
-function openDetail(projectId) {
-  editingProjectId = projectId;
-  const proj = state.projects.find(p => p.id === projectId);
-  document.getElementById("detail-title").textContent = "Project: " + proj.name;
-  document.getElementById("d-name").value = proj.name;
-  document.getElementById("d-owner").value = proj.owner || "";
-  const dStatus = getProjectStatus(proj);
-  const dReadout = document.getElementById("d-status-readout");
-  dReadout.textContent = statusLabel(dStatus).toUpperCase();
-  dReadout.style.background = statusColor(dStatus);
-  document.getElementById("d-priority").value = proj.priority || "medium";
-  document.getElementById("d-notes").value = proj.notes || "";
-
-  renderPhaseList(proj);
-  renderSubprojList(proj);
-  renderDepList(proj);
-  renderDepSelect(proj);
-
-  document.getElementById("overlay-detail").classList.add("open");
-}
-
-function renderPhaseList(proj) {
-  const list = document.getElementById("phase-list");
-  list.innerHTML = "";
-  sortedMs(proj).forEach(m => {
-    const block = document.createElement("div");
-    block.className = "phase-block";
-
-    const row = document.createElement("div");
-    row.className = "phase-item";
-    row.innerHTML = `
-      <input type="checkbox" ${m.completed ? "checked" : ""} data-mid="${m.id}" class="ms-check">
-      <div class="pinfo"><input type="text" class="ms-name" data-mid="${m.id}" value="${escapeHtml(m.phase)}" placeholder="Milestone name"></div>
-      <input type="date" class="ms-date" data-mid="${m.id}" value="${m.date}">
-      <button type="button" class="ms-remove" data-mid="${m.id}" title="Delete milestone">✕</button>
-    `;
-    row.querySelector(".ms-remove").addEventListener("click", () => {
-      if (proj.milestones.length <= 1) { alert("A project needs at least one milestone."); return; }
-      if (!confirm('Delete milestone "' + m.phase + '"? Its tasks will also be deleted.')) return;
-      proj.milestones = proj.milestones.filter(x => x.id !== m.id);
-      state.dependencies = (state.dependencies || []).filter(d => d.fromMilestoneId !== m.id && d.toMilestoneId !== m.id);
-      save();
-      syncToSheet({ type: "deleteMilestone", id: m.id });
-      const p2 = state.projects.find(p => p.id === editingProjectId);
-      renderPhaseList(p2);
-      renderDepList(p2);
-      renderDepSelect(p2);
-    });
-    block.appendChild(row);
-
-    const subWrap = document.createElement("div");
-    subWrap.className = "subtask-wrap";
-    (m.subtasks || []).forEach(s => {
-      const srow = document.createElement("div");
-      srow.className = "subtask-row";
-      srow.innerHTML = `<input type="checkbox" ${s.done ? "checked" : ""}>
-        <span class="stxt ${s.done ? "done" : ""}">${escapeHtml(s.text)}</span>
-        <button class="link" style="text-decoration:none;color:#c62828;">✕</button>`;
-      const cb = srow.querySelector("input");
-      cb.addEventListener("change", () => {
-        s.done = cb.checked;
-        save();
-        syncToSheet({ type: "upsertSubtask", id: s.id, parentType: "milestone", parentId: m.id, text: s.text, done: s.done });
-        const p2 = state.projects.find(p => p.id === editingProjectId);
-        renderPhaseList(p2);
-      });
-      srow.querySelector("button").addEventListener("click", () => {
-        m.subtasks = m.subtasks.filter(x => x !== s);
-        save();
-        syncToSheet({ type: "deleteSubtask", id: s.id });
-        const p2 = state.projects.find(p => p.id === editingProjectId);
-        renderPhaseList(p2);
-      });
-      subWrap.appendChild(srow);
-    });
-
-    const addRow = document.createElement("div");
-    addRow.className = "subtask-add";
-    addRow.innerHTML = `<input type="text" placeholder="Add a task for this milestone...">
-      <button class="secondary small">Add</button>`;
-    const input = addRow.querySelector("input");
-    const addBtn = addRow.querySelector("button");
-    const doAdd = () => {
-      const text = input.value.trim();
-      if (!text) return;
-      m.subtasks = m.subtasks || [];
-      const newSubtask = { id: uid("s"), text, done: false };
-      m.subtasks.push(newSubtask);
-      save();
-      syncToSheet({ type: "upsertSubtask", id: newSubtask.id, parentType: "milestone", parentId: m.id, text: newSubtask.text, done: false });
-      const p2 = state.projects.find(p => p.id === editingProjectId);
-      renderPhaseList(p2);
-    };
-    addBtn.addEventListener("click", doAdd);
-    input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); doAdd(); } });
-    subWrap.appendChild(addRow);
-
-    const commentWrap = document.createElement("div");
-    commentWrap.style.margin = "6px 0 0 28px";
-    commentWrap.innerHTML = `<textarea class="ms-comment" placeholder="Comment on this milestone (blockers, context...)" style="width:100%;min-height:34px;font-size:12px;padding:6px 8px;border:2px solid var(--border);border-radius:6px;font-family:inherit;">${escapeHtml(m.comment || "")}</textarea>`;
-    const commentArea = commentWrap.querySelector("textarea");
-    commentArea.addEventListener("change", () => {
-      m.comment = commentArea.value.trim();
-      save();
-      syncToSheet({ type: "upsertMilestone", id: m.id, projectId: proj.id, name: m.phase, date: m.date, completed: m.completed, completedAt: m.completedAt, comment: m.comment });
-    });
-    block.appendChild(commentWrap);
-
-    block.appendChild(subWrap);
-    list.appendChild(block);
-  });
-}
-
-// Shared by both levels of subprojects: renders the checklist under a subproject row and
-// wires up add/toggle/delete, all synced with parentType "subproject" (subtasks always hang
-// off a subproject regardless of which level that subproject itself is at).
-function renderSubprojSubtaskWrap(container, owner, onChange) {
-  owner.subtasks = owner.subtasks || [];
-  const subWrap = document.createElement("div");
-  subWrap.className = "subtask-wrap";
-  owner.subtasks.forEach(t => {
-    const srow = document.createElement("div");
-    srow.className = "subtask-row";
-    srow.innerHTML = `<input type="checkbox" ${t.done ? "checked" : ""}>
-      <span class="stxt ${t.done ? "done" : ""}">${escapeHtml(t.text)}</span>
-      <button class="link" style="text-decoration:none;color:#c62828;">✕</button>`;
-    const cb = srow.querySelector("input");
-    cb.addEventListener("change", () => {
-      t.done = cb.checked;
-      save();
-      syncToSheet({ type: "upsertSubtask", id: t.id, parentType: "subproject", parentId: owner.id, text: t.text, done: t.done });
-      onChange();
-    });
-    srow.querySelector("button").addEventListener("click", () => {
-      owner.subtasks = owner.subtasks.filter(x => x !== t);
-      save();
-      syncToSheet({ type: "deleteSubtask", id: t.id });
-      onChange();
-    });
-    subWrap.appendChild(srow);
-  });
-  const addRow = document.createElement("div");
-  addRow.className = "subtask-add";
-  addRow.innerHTML = `<input type="text" placeholder="Add a task for this subproject...">
-    <button class="secondary small">Add</button>`;
-  const input = addRow.querySelector("input");
-  const addBtn = addRow.querySelector("button");
-  const doAdd = () => {
-    const text = input.value.trim();
-    if (!text) return;
-    const newSubtask = { id: uid("s"), text, done: false };
-    owner.subtasks.push(newSubtask);
-    save();
-    syncToSheet({ type: "upsertSubtask", id: newSubtask.id, parentType: "subproject", parentId: owner.id, text: newSubtask.text, done: false });
-    onChange();
-  };
-  addBtn.addEventListener("click", doAdd);
-  input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); doAdd(); } });
-  subWrap.appendChild(addRow);
-  container.appendChild(subWrap);
-}
-
-function renderSubprojList(proj) {
-  const list = document.getElementById("subproj-list");
-  list.innerHTML = "";
-  proj.subprojects = proj.subprojects || [];
-  if (proj.subprojects.length === 0) {
-    list.innerHTML = '<div style="color:#999;font-size:12px;padding:4px 0;">No subprojects yet.</div>';
-  }
-  const refresh = () => renderSubprojList(state.projects.find(p => p.id === editingProjectId));
-
-  proj.subprojects.forEach(sp => {
-    sp.subtasks = sp.subtasks || [];
-    sp.subprojects = sp.subprojects || [];
-    const row = document.createElement("div");
-    row.className = "subproj-row";
-    const spStatus = getSubprojStatus(sp);
-    row.innerHTML = `
-      <input type="text" class="sp-name" value="${escapeHtml(sp.name)}" placeholder="Subproject name">
-      <input type="date" class="sp-duedate" value="${sp.dueDate || ""}" title="Target date">
-      <span class="dot" style="background:${statusColor(spStatus)}" title="Automatic status: ${statusLabel(spStatus)}"></span>
-      <label class="chk"><input type="checkbox" class="sp-completed" ${sp.completed ? "checked" : ""}> Completed</label>
-      <button type="button" class="link sp-add-child" style="text-decoration:none;white-space:nowrap;" title="Add a subproject nested under this one">+ Sub</button>
-      <button type="button" class="ms-remove" title="Delete subproject">✕</button>
-    `;
-    const syncSubproj = () => syncToSheet({ type: "upsertSubproject", id: sp.id, parentType: "project", parentId: proj.id, name: sp.name, dueDate: sp.dueDate, completed: sp.completed });
-    row.querySelector(".sp-name").addEventListener("change", e => { sp.name = e.target.value.trim() || sp.name; save(); syncSubproj(); });
-    row.querySelector(".sp-duedate").addEventListener("change", e => { sp.dueDate = e.target.value || null; save(); syncSubproj(); refresh(); });
-    row.querySelector(".sp-completed").addEventListener("change", e => { sp.completed = e.target.checked; save(); syncSubproj(); refresh(); });
-    row.querySelector(".sp-add-child").addEventListener("click", () => {
-      const newChild = { id: uid("sp"), name: "New subproject", dueDate: sp.dueDate || null, completed: false, subtasks: [] };
-      sp.subprojects.push(newChild);
-      save();
-      syncToSheet({ type: "upsertSubproject", id: newChild.id, parentType: "subproject", parentId: sp.id, name: newChild.name, dueDate: newChild.dueDate, completed: false });
-      refresh();
-    });
-    row.querySelector(".ms-remove").addEventListener("click", () => {
-      if (!confirm('Delete subproject "' + sp.name + '"' + (sp.subprojects.length ? " and its nested subprojects" : "") + '?')) return;
-      proj.subprojects = proj.subprojects.filter(x => x.id !== sp.id);
-      save();
-      syncToSheet({ type: "deleteSubproject", id: sp.id });
-      refresh();
-    });
-    list.appendChild(row);
-    renderSubprojSubtaskWrap(list, sp, refresh);
-
-    // nested subprojects (last level -- no further "+ Sub" button on these)
-    if (sp.subprojects.length) {
-      const nestedWrap = document.createElement("div");
-      nestedWrap.className = "subproj-nested-wrap";
-      sp.subprojects.forEach(child => {
-        child.subtasks = child.subtasks || [];
-        const crow = document.createElement("div");
-        crow.className = "subproj-row subproj-row-nested";
-        const cStatus = getSubprojStatus(child);
-        crow.innerHTML = `
-          <input type="text" class="sp-name" value="${escapeHtml(child.name)}" placeholder="Nested subproject name">
-          <input type="date" class="sp-duedate" value="${child.dueDate || ""}" title="Target date">
-          <span class="dot" style="background:${statusColor(cStatus)}" title="Automatic status: ${statusLabel(cStatus)}"></span>
-          <label class="chk"><input type="checkbox" class="sp-completed" ${child.completed ? "checked" : ""}> Completed</label>
-          <button type="button" class="ms-remove" title="Delete nested subproject">✕</button>
-        `;
-        const syncChild = () => syncToSheet({ type: "upsertSubproject", id: child.id, parentType: "subproject", parentId: sp.id, name: child.name, dueDate: child.dueDate, completed: child.completed });
-        crow.querySelector(".sp-name").addEventListener("change", e => { child.name = e.target.value.trim() || child.name; save(); syncChild(); });
-        crow.querySelector(".sp-duedate").addEventListener("change", e => { child.dueDate = e.target.value || null; save(); syncChild(); refresh(); });
-        crow.querySelector(".sp-completed").addEventListener("change", e => { child.completed = e.target.checked; save(); syncChild(); refresh(); });
-        crow.querySelector(".ms-remove").addEventListener("click", () => {
-          if (!confirm('Delete nested subproject "' + child.name + '"?')) return;
-          sp.subprojects = sp.subprojects.filter(x => x.id !== child.id);
-          save();
-          syncToSheet({ type: "deleteSubproject", id: child.id });
-          refresh();
-        });
-        nestedWrap.appendChild(crow);
-        renderSubprojSubtaskWrap(nestedWrap, child, refresh);
-      });
-      list.appendChild(nestedWrap);
-    }
-  });
-}
-
-document.getElementById("btn-add-subproject").addEventListener("click", () => {
-  const proj = state.projects.find(p => p.id === editingProjectId);
-  if (!proj) return;
-  proj.subprojects = proj.subprojects || [];
-  const ord = sortedMs(proj);
-  const defaultDue = ord.length ? ord[ord.length - 1].date : null;
-  const newSubproj = { id: uid("sp"), name: "New subproject", dueDate: defaultDue, completed: false, subtasks: [], subprojects: [] };
-  proj.subprojects.push(newSubproj);
-  save();
-  syncToSheet({ type: "upsertSubproject", id: newSubproj.id, parentType: "project", parentId: proj.id, name: newSubproj.name, dueDate: newSubproj.dueDate, completed: false });
-  renderSubprojList(proj);
-});
-
-function renderDepList(proj) {
-  const depBox = document.getElementById("dep-list");
-  const deps = (state.dependencies || []).filter(d => d.fromProjectId === proj.id);
-  if (deps.length === 0) {
-    depBox.innerHTML = '<div style="color:#999;">No dependencies recorded.</div>';
-    return;
-  }
-  depBox.innerHTML = "";
-  deps.forEach(d => {
-    const toProj = state.projects.find(p => p.id === d.toProjectId);
-    const toMs = toProj ? toProj.milestones.find(m => m.id === d.toMilestoneId) : null;
-    const row = document.createElement("div");
-    row.className = "dep-row";
-    row.innerHTML = `<span>Depends on: <strong>${escapeHtml(toProj ? toProj.name : "?")}</strong> — ${escapeHtml(toMs ? toMs.phase : "?")}</span>`;
-    const rm = document.createElement("button");
-    rm.className = "link"; rm.textContent = "Remove";
-    rm.addEventListener("click", () => {
-      state.dependencies = state.dependencies.filter(x => x !== d);
-      save();
-      syncToSheet({ type: "deleteDependency", fromProjectId: d.fromProjectId, fromMilestoneId: d.fromMilestoneId, toProjectId: d.toProjectId, toMilestoneId: d.toMilestoneId });
-      renderDepList(proj);
-    });
-    row.appendChild(rm);
-    depBox.appendChild(row);
-  });
-}
-
-function renderDepSelect(proj) {
-  const sel = document.getElementById("dep-select");
-  sel.innerHTML = "";
-  state.projects.filter(p => p.id !== proj.id).forEach(p => {
-    sortedMs(p).forEach(m => {
-      const opt = document.createElement("option");
-      opt.value = p.id + "::" + m.id;
-      opt.textContent = p.name + " — " + m.phase;
-      sel.appendChild(opt);
-    });
-  });
-}
-
-document.getElementById("btn-add-milestone").addEventListener("click", () => {
-  const proj = state.projects.find(p => p.id === editingProjectId);
-  if (!proj) return;
-  const ordered = sortedMs(proj);
-  const last = ordered[ordered.length - 1];
-  const d = new Date(last.date + "T00:00:00");
-  d.setDate(d.getDate() + 14);
-  const newMilestone = { id: uid("m"), phase: "New milestone", date: d.toISOString().slice(0, 10), completed: false, completedAt: null, subtasks: [], comment: "" };
-  proj.milestones.push(newMilestone);
-  save();
-  syncToSheet({ type: "upsertMilestone", id: newMilestone.id, projectId: proj.id, name: newMilestone.phase, date: newMilestone.date, completed: false, completedAt: null, comment: "" });
-  renderPhaseList(proj);
-  renderDepSelect(proj);
-});
-
-document.getElementById("btn-add-dep").addEventListener("click", () => {
-  const sel = document.getElementById("dep-select");
-  if (!sel.value) return;
-  const [toProjectId, toMilestoneId] = sel.value.split("::");
-  const fromMilestoneId = getFirstIncompleteOrLastMilestone(editingProjectId);
-  state.dependencies = state.dependencies || [];
-  state.dependencies.push({ fromProjectId: editingProjectId, fromMilestoneId, toProjectId, toMilestoneId });
-  save();
-  syncToSheet({ type: "addDependency", fromProjectId: editingProjectId, fromMilestoneId, toProjectId, toMilestoneId });
-  const proj = state.projects.find(p => p.id === editingProjectId);
-  renderDepList(proj);
-});
-
-function getFirstIncompleteOrLastMilestone(projectId) {
-  const proj = state.projects.find(p => p.id === projectId);
-  const incomplete = proj.milestones.find(m => !m.completed);
-  return (incomplete || proj.milestones[proj.milestones.length - 1]).id;
-}
-
-document.getElementById("btn-save-project").addEventListener("click", () => {
-  const proj = state.projects.find(p => p.id === editingProjectId);
-  proj.name = document.getElementById("d-name").value.trim() || proj.name;
-  proj.owner = document.getElementById("d-owner").value.trim();
-  proj.priority = document.getElementById("d-priority").value;
-  proj.notes = document.getElementById("d-notes").value.trim();
-  document.querySelectorAll(".ms-check").forEach(cb => {
-    const m = proj.milestones.find(x => x.id === cb.dataset.mid);
-    if (m) {
-      const wasCompleted = m.completed;
-      m.completed = cb.checked;
-      if (m.completed && !wasCompleted) m.completedAt = todayISO();
-      else if (!m.completed) m.completedAt = null;
-    }
-  });
-  document.querySelectorAll(".ms-date").forEach(inp => {
-    const m = proj.milestones.find(x => x.id === inp.dataset.mid);
-    if (m && inp.value) m.date = inp.value;
-  });
-  document.querySelectorAll(".ms-name").forEach(inp => {
-    const m = proj.milestones.find(x => x.id === inp.dataset.mid);
-    if (m) m.phase = inp.value.trim() || m.phase;
-  });
-  save();
-  const ops = [{ type: "upsertProject", id: proj.id, name: proj.name, owner: proj.owner, priority: proj.priority, notes: proj.notes }];
-  proj.milestones.forEach(m => ops.push({
-    type: "upsertMilestone", id: m.id, projectId: proj.id, name: m.phase, date: m.date,
-    completed: m.completed, completedAt: m.completedAt, comment: m.comment
-  }));
-  syncToSheet(ops);
-  document.getElementById("overlay-detail").classList.remove("open");
-});
-
-document.getElementById("btn-delete-project").addEventListener("click", () => {
-  if (!confirm("Delete this project and its milestones? This action cannot be undone.")) return;
-  state.projects = state.projects.filter(p => p.id !== editingProjectId);
-  state.dependencies = (state.dependencies || []).filter(d => d.fromProjectId !== editingProjectId && d.toProjectId !== editingProjectId);
-  save();
-  syncToSheet({ type: "deleteProject", id: editingProjectId });
-  document.getElementById("overlay-detail").classList.remove("open");
-});
 
 
 document.getElementById("btn-create-project").addEventListener("click", () => {
@@ -2309,8 +2165,26 @@ document.getElementById("btn-export-csv").addEventListener("click", () => {
 
 // ---- Print / PDF: uses the browser's native dialog with a print stylesheet ----
 document.getElementById("btn-print").addEventListener("click", () => window.print());
-
-load().then(render);
+window.__initRoadmap = function() { load().then(render); };
+})();
 </script>
+
+<script>
+(function(){
+  var listaInited = false, roadmapInited = false;
+  function showTab(tab) {
+    document.getElementById('tab-btn-lista').classList.toggle('active', tab === 'lista');
+    document.getElementById('tab-btn-roadmap').classList.toggle('active', tab === 'roadmap');
+    document.getElementById('view-lista').classList.toggle('active', tab === 'lista');
+    document.getElementById('view-roadmap').classList.toggle('active', tab === 'roadmap');
+    if (tab === 'lista' && !listaInited) { listaInited = true; window.__initLista(); }
+    if (tab === 'roadmap' && !roadmapInited) { roadmapInited = true; window.__initRoadmap(); }
+  }
+  document.getElementById('tab-btn-lista').addEventListener('click', function(){ showTab('lista'); });
+  document.getElementById('tab-btn-roadmap').addEventListener('click', function(){ showTab('roadmap'); });
+  showTab('lista');
+})();
+</script>
+
 </body>
 </html>
