@@ -10,9 +10,9 @@
         {
           "id": "p_8aebf1b9_m1",
           "phase": "Inicio",
-          "date": "2026-08-01",
+          "date": "2026-06-01",
           "completed": true,
-          "completedAt": "2026-08-01",
+          "completedAt": "2026-06-01",
           "subtasks": [],
           "comment": ""
         },
@@ -638,7 +638,7 @@
         {
           "id": "p_ce3b73f8_m2",
           "phase": "Entrega",
-          "date": "2026-07-10",
+          "date": "2026-08-10",
           "completed": false,
           "completedAt": null,
           "subtasks": [
@@ -956,9 +956,9 @@
         {
           "id": "p_71911255_m1",
           "phase": "Inicio",
-          "date": "2026-07-15",
+          "date": "2026-07-05",
           "completed": true,
-          "completedAt": "2026-07-15",
+          "completedAt": "2026-07-05",
           "subtasks": [],
           "comment": ""
         },
@@ -1039,7 +1039,7 @@
         {
           "id": "p_df202366_m2",
           "phase": "Entrega",
-          "date": "2026-07-01",
+          "date": "2026-07-30",
           "completed": true,
           "completedAt": "2026-07-27",
           "subtasks": [
