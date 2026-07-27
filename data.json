@@ -20,8 +20,8 @@
           "id": "p_8aebf1b9_m2",
           "phase": "Entrega",
           "date": "2026-07-15",
-          "completed": false,
-          "completedAt": null,
+          "completed": true,
+          "completedAt": "2026-06-26",
           "subtasks": [
             {
               "id": "p_8aebf1b9_s0",
@@ -551,8 +551,8 @@
           "id": "p_66e03590_m2",
           "phase": "Entrega",
           "date": "2026-07-15",
-          "completed": false,
-          "completedAt": null,
+          "completed": true,
+          "completedAt": "2026-07-27",
           "subtasks": [
             {
               "id": "p_66e03590_s0",
