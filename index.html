@@ -229,7 +229,13 @@
 .app-roadmap .deadline-tag {
     position: absolute; font-size: 10.5px; font-weight: 700; color: #fff; padding: 2px 8px; border-radius: 6px;
     transform: translate(-50%, 0); white-space: nowrap; z-index: 3; box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    opacity: 0; pointer-events: none; transition: opacity .12s ease;
   }
+/* Date tags stay hidden until you hover (or tap, on touch) the diamond they belong to -- with
+   many projects due around the same time, having every date label permanently on screen was
+   the main source of clutter. The exact date is always in the tooltip/detail modal too. */
+.app-roadmap .deadline-node:hover + .deadline-tag,
+.app-roadmap .deadline-tag.show { opacity: 1; pointer-events: auto; }
 .app-roadmap .milestone-node {
     position: absolute; width: 15px; height: 15px; border-radius: 50%; transform: translate(-50%,-50%);
     cursor: pointer; border: 2.5px solid #fff; box-shadow: 0 3px 7px rgba(0,0,0,0.32); z-index: 3;
@@ -1452,6 +1458,12 @@ function render() {
     // bar), offset a little more by tier so two concurrent projects don't draw dots on top of each other.
     const trackDist = 26 + p.tier * 28;
     p.trackY = p.side === "above" ? SPINE_Y - trackDist : SPINE_Y + trackDist;
+    // When several projects share the same (or a very close) deadline, their dots would
+    // otherwise stack in a perfectly straight vertical line above/below each other -- hard to
+    // tell apart even though each sits on its own track. A small horizontal nudge per tier
+    // turns that straight stack into a gentle staircase instead, which reads much more clearly.
+    // The tag text always shows the real date regardless, so nothing is misrepresented.
+    p.dotX = p.deadlineX + p.tier * 11;
   });
 
   diagram.style.width = totalW + "px";
@@ -1522,7 +1534,7 @@ function render() {
   // user could act on, just an extra line and dot next to the one that actually matters.
   projects.forEach(proj => {
     const p = posOf[proj.id];
-    const mx = p.deadlineX;
+    const mx = p.dotX;
     const line = document.createElementNS(svgNS, "path");
     line.setAttribute("d", `M ${p.x} ${p.y} L ${mx} ${p.trackY}`);
     line.setAttribute("stroke", statusColor(getProjectStatus(proj)));
@@ -1557,7 +1569,7 @@ function render() {
     const p = posOf[proj.id];
     const ordered = sortedMs(proj);
     const m = ordered[ordered.length - 1];
-    const mx = p.deadlineX;
+    const mx = p.dotX;
     const overdue = !m.completed && m.date < todayForMarkers;
 
     const node = document.createElement("div");
