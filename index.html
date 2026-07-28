@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Project Tracker &amp; Roadmap - ClassicRyde / AKI</title>
+<title>Project Tracker - Classic Ryde</title>
 <style>
 
   :root { color-scheme: light; }
@@ -66,7 +66,9 @@
     color: #6b7280; border-bottom: 1px solid #e5e7eb; padding: 8px 10px; white-space: nowrap;
   }
 .app-lista tbody td { padding: 10px; border-bottom: 1px solid #f2f2f2; vertical-align: top; }
+.app-lista tbody tr { cursor: pointer; }
 .app-lista tbody tr:hover { background: #fafafa; }
+.app-lista tbody tr:focus { outline: 2px solid #2563eb; outline-offset: -2px; background: #fafafa; }
 .app-lista .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .app-lista .badge.notstarted { background: #f2f4f7; color: #475467; }
 .app-lista .badge.progress { background: #eff8ff; color: #175cd3; }
@@ -263,7 +265,7 @@
     transition: transform .15s ease, box-shadow .15s ease; animation: pop-in .4s cubic-bezier(.34,1.56,.64,1) both;
   }
 .app-roadmap .bubble:hover { transform: translate(-50%,-50%) scale(1.06); box-shadow: 0 18px 40px rgba(0,0,0,0.4); }
-.app-roadmap .bubble .bname { font-size: 15px; font-weight: 800; line-height: 1.2; text-align: center; }
+.app-roadmap .bubble .bname { font-size: 15px; font-weight: 800; line-height: 1.2; text-align: center; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .app-roadmap .bubble .bmeta { font-size: 11px; opacity: .92; margin-top: 3px; font-weight: 600; text-align: center; }
 .app-roadmap .bubble .bphases { display: flex; gap: 4px; margin-top: 9px; justify-content: center; }
 .app-roadmap .bubble .bphases i { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.28); display: block; }
@@ -412,7 +414,7 @@
 
 <div id="view-lista" class="view active app-lista">
 <div class="wrap">
-  <h1>Project Tracker &mdash; ClassicRyde / AKI</h1>
+  <h1>Project Tracker - Classic Ryde</h1>
   <p class="sub" id="subLine">Cargando...</p>
 
   <div class="stats" id="stats">
@@ -790,7 +792,7 @@ function renderTable() {
     const subCount = parseSubtasks(r.Subtareas).length;
     const overdue = isOverdue(r, today);
     const due = r['Due Date'] ? escapeHtml(r['Due Date']) : 'Sin fecha';
-    return '<tr>' +
+    return '<tr data-notes-id="' + r.__id + '" tabindex="0" role="button">' +
       '<td><strong>' + escapeHtml(r['Project Name']) + '</strong></td>' +
       '<td><span class="badge ' + catClass(r.Category) + '">' + escapeHtml(r.Category || 'Sin categoria') + '</span></td>' +
       '<td><span class="badge ' + statusClass(r.Status) + '">' + escapeHtml(statusLabel(r.Status)) + '</span></td>' +
@@ -799,17 +801,22 @@ function renderTable() {
       '<td><div class="pct-wrap"><div class="pct-bar"><div class="pct-fill" style="width:' + pct + '%"></div></div><span>' + pct + '%</span></div>' +
         (subCount ? '<div class="pct-note">' + subCount + ' subtareas</div>' : '') + '</td>' +
       '<td class="' + (overdue ? 'due-overdue' : '') + '">' + due + '</td>' +
-      '<td><button type="button" class="notes-btn" data-notes-id="' + r.__id + '">Ver detalle</button></td>' +
     '</tr>';
   }).join('');
 
   wrap.innerHTML =
     '<table><thead><tr>' +
-    '<th>Proyecto</th><th>Categoria</th><th>Estatus</th><th>Prioridad</th><th>Owner</th><th>% Completado</th><th>Fecha limite</th><th>Detalle</th>' +
+    '<th>Proyecto</th><th>Categoria</th><th>Estatus</th><th>Prioridad</th><th>Owner</th><th>% Completado</th><th>Fecha limite</th>' +
     '</tr></thead><tbody>' + trs + '</tbody></table>';
 
-  wrap.querySelectorAll('[data-notes-id]').forEach(btn => {
-    btn.addEventListener('click', () => showNotes(parseInt(btn.getAttribute('data-notes-id'), 10)));
+  wrap.querySelectorAll('tr[data-notes-id]').forEach(tr => {
+    tr.addEventListener('click', () => showNotes(parseInt(tr.getAttribute('data-notes-id'), 10)));
+    tr.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        showNotes(parseInt(tr.getAttribute('data-notes-id'), 10));
+      }
+    });
   });
 }
 
@@ -1353,9 +1360,10 @@ function render() {
   const PX_PER_DAY = 9;
   const H_PAD = 140;
   const TIER_BASE = 165;
-  const TIER_STEP = 150; // must clear the bubble's full ~124px height (plus the badges that
-                          // poke a bit past its edges) so bubbles stacked on adjacent tiers,
-                          // close together in x, don't overlap at the corners.
+  const TIER_STEP = 195; // must clear the bubble's full height (name is clamped to 2 lines,
+                          // plus meta/phases/badges, plus the badges that poke a bit past its
+                          // edges) so bubbles stacked on adjacent tiers, close together in x,
+                          // don't overlap at the corners even with a long project name.
   const MIN_GAP = 260; // min horizontal distance between bubbles sharing a side+tier (wider than
                         // before so two adjacent projects' subproject fans have room not to collide)
   const GOAL_TAG_DIST = 78; // how far a goal's name tag sits from the spine (inside the TIER_BASE buffer)
@@ -1442,7 +1450,7 @@ function render() {
     p.y = p.side === "above" ? SPINE_Y - dist : SPINE_Y + dist;
     // each project's milestones ride a thin track hugging the spine (just outside its thick
     // bar), offset a little more by tier so two concurrent projects don't draw dots on top of each other.
-    const trackDist = 22 + p.tier * 16;
+    const trackDist = 26 + p.tier * 28;
     p.trackY = p.side === "above" ? SPINE_Y - trackDist : SPINE_Y + trackDist;
   });
 
